@@ -1,6 +1,6 @@
 Spécifications :
 
--réseau :
+- réseau :
  - Client / serveur
  - peer to peer ?
  
