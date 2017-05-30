@@ -28,18 +28,19 @@ Spécifications :
     
 - misc : 
 
-- les regles du jeu:
+- Les rêgles du jeu:
     - Pour commencer, il faut décider du nombre maximum de manches à jouer.  
-    - Un joueur (le codeur) commence par placer son choix de pions sans qu'ils soient vus de l'autre joueur (decodeur) à l'arrière d'un cache qui les masquera de la vue de celui-ci jusqu'à la fin de la manche.
-    - Le decodeur doit trouver quels sont les quatre pions, c'est-à-dire leurs couleurs et positions.
-    - Pour cela, à chaque tour, le decodeur a 1 minute pour se servir des pions et remplir une rangée selon l'idée qu'il se fait des pions dissimulés.
+    - Un joueur (le codeur) commence par placer ses pions. Ceux-ci ne doivent pas être vus de l'autre joueur (le décodeur).
+    - Le decodeur doit trouver la combinaison du codeur.
+    - Il est interdit de placer deux fois le même pion dans une combinaison.
+    - Pour cela, à chaque tour, le decodeur a 1 minute pour créer une combinaison.
     - Une fois les pions placés, la correction sera automatiquement faite avec : 
         * un pion blanc pour indiquer que la couleur est bien placée.
         * un pion noir pour indiquer que la couleur n'est pas bien placée.
         * rien si la couleur ne fait pas partie de la combinaison cachée.
-    - Le decodeur continue ainsi en proposant sur la seconde ligne une autre combinaison, en prenant en compte les indications des languettes noires et blanches. Il a droit à 12 propositions pour déchiffrer le code.
-    - Le decodeur aura un nombre de point ajouter, à son score, égale au nombre d'essais pour trouver la combinaisant secrete ,s'il ne trouve pas la combinaisont, la valeur ajoutée à son score  est de 20 point et le codeur aura -5 point à son score.
+    - Le decodeur continue ainsi en proposant sur la seconde ligne une autre combinaison, en prenant en compte les indications des languettes noires et blanches. Il a le droit à 12 essais pour déchiffrer le code.
+    - Le nombre d'essais est ajouté au score du décodeur courant. Si le décodeur n'a pas réussi à trouver le code, celui-ci se voit ajouter 20 points au lieu de douze, et le codeur se voir retirer 5 points.
     - Les rôles sont alors inversés et le jeu recommence.
-    - la seconde manche commence après que les deux joueurs passent par les deux rôles.
+    - La seconde manche commence après que les deux joueurs soient passés par les deux rôles.
     - Le gagnant d’une partie de Mastermind est celui qui a le moins de points à la fin de toutes les manches.
     
