@@ -23,9 +23,7 @@ Spécifications :
         * cli
         * gui
     
-    
-    
-    
+        
 - misc : 
 
 - Les rêgles du jeu:
