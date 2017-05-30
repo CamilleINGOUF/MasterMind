@@ -26,5 +26,8 @@ Spécifications :
     
     
     
-- misc :
+- misc : 
+- les regles du jeux:
+    * but du Mastermind:
+            .Le but du Mastermind est de gagner un maximum de manches.
  
