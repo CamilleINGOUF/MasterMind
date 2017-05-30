@@ -13,8 +13,8 @@ Spécifications :
  - 8 couleurs
  - 12 essais
  - correcteur :
-        * blanc -> bien placé
-        * noir -> mal placé
+        * noir -> bien placé
+        * blanc -> mal placé
         * vide -> couleur pas présente
  - calcule points
         * Nombre d'essais
