@@ -28,6 +28,5 @@ Spécifications :
     
 - misc : 
 - les regles du jeux:
-    * but du Mastermind:
-            .Le but du Mastermind est de gagner un maximum de manches.
+    * but du Mastermind: Un joueur commence par placer son choix de pions sans qu'ils soient vus de l'autre joueur à l'arrière d'un cache qui les masquera à la vue de celui-ci jusqu'à la fin de la manche.
  
