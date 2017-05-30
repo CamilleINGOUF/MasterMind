@@ -27,6 +27,8 @@ Spécifications :
 - misc : 
 
 
+
+
 - les règles du jeux:
     - Pour commencer, il faut décider du nombre maximum de manches à jouer.  
     - Un joueur (le codeur) commence par placer son choix de pions sans qu'ils soient vus de l'autre joueur (decodeur) à l'arrière d'un cache qui les masquera de la vue de celui-ci jusqu'à la fin de la manche.
