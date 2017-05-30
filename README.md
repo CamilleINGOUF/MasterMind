@@ -36,8 +36,9 @@ Spécifications :
     - Une fois les pions placés, le codeur indique : 
         * le nombre de pions de la bonne couleur bien placés en utilisant le même nombre de pions blanc.
         * le nombre de pions de la bonne couleur, mais mal placés, avec les pions noir.
-    - Le decodeur continue ainsi en proposant sur la seconde ligne une autre proposition, en prenant bien entendu en compte les indications des languettes rouges et blanches. Il a droit a 12 propositions pour déchiffrer le code.
-    - Le decodeur gagne cette manche s'il donne la bonne combinaison de pions sur la dernière rangée ou avant sinon le codeur gagne.
-    - Les rôles sont alors inversés et la seconde manche peut ainsi commencer.
-    - Le gagnant d’une partie de Mastermind est celui qui a gagné le plus de manches selon le nombre préalablement établis.
+    - Le decodeur continue ainsi en proposant sur la seconde ligne une autre proposition, en prenant bien entendu en compte les indications des languettes noir et blanches. Il a droit a 12 propositions pour déchiffrer le code.
+    - Le decodeur aura un nombre de point ajouter un son score egale au nombre d'essai avant de trouver la combinaisant secrete ,si il ne trouve pas la combinaisant la valeur ajoute a son score  est +20 et le codeur aura -5 point ajouter a son score.
+    - Les rôles sont alors inversés et le jeu recomence.
+    - la seconde manche commence apres que les deux joueur passe par les deux role.
+    - Le gagnant d’une partie de Mastermind est celui qui a le moins de point.
     
