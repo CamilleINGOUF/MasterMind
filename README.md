@@ -34,8 +34,8 @@ Spécifications :
     - Le decodeur doit trouver quels sont les quatre pions, c'est-à-dire leurs couleurs et positions.
     - Pour cela, à chaque tour, le decodeur doit se servir de pions pour remplir une rangée selon l'idée qu'il se fait des pions dissimulés.
     - Une fois les pions placés, le codeur indique : 
-        * le nombre de pions de la bonne couleur bien placés en utilisant le même nombre de pions rouges.
-        * le nombre de pions de la bonne couleur, mais mal placés, avec les pions blancs.
+        * le nombre de pions de la bonne couleur bien placés en utilisant le même nombre de pions blanc.
+        * le nombre de pions de la bonne couleur, mais mal placés, avec les pions noir.
     - Le decodeur continue ainsi en proposant sur la seconde ligne une autre proposition, en prenant bien entendu en compte les indications des languettes rouges et blanches. Il a droit a 12 propositions pour déchiffrer le code.
     - Le decodeur gagne cette manche s'il donne la bonne combinaison de pions sur la dernière rangée ou avant sinon le codeur gagne.
     - Les rôles sont alors inversés et la seconde manche peut ainsi commencer.
