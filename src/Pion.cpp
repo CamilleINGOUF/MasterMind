@@ -1,0 +1,21 @@
+/////////////////////////////////////////////////////////////
+// Headers
+/////////////////////////////////////////////////////////////
+#include "Pion.hpp"
+
+////////////////////////////////////////////////////////////
+Pion::Pion() : _couleur(Blanc){}
+
+Pion::Pion(Couleur couleur) : _couleur(couleur){}
+
+Pion::~Pion(){}
+
+Couleur Pion::getPion() const
+{
+  return _couleur;
+}
+
+void Pion::setPion(const Couleur couleur)
+{
+  _couleur = couleur;
+}
