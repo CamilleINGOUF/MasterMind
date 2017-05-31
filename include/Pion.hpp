@@ -1,6 +1,8 @@
 #ifndef PION_HPP
 #define PION_HPP
 
+#include <iostream>
+
 enum Couleur
   {
     rouge,
@@ -18,7 +20,7 @@ class Pion
 private:
   Couleur _couleur;
 public:
-  Pion() = default;
+  Pion();
   Pion(Couleur couleur);
   ~Pion();
   Couleur getCouleur() const;
