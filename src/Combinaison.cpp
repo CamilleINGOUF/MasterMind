@@ -29,7 +29,8 @@ bool Combinaison::operator==(Combinaison & that)
     return toReturn;
 }
 
-std::istream& operator >>(std::istream& is, Combinaison& c) {
+std::istream& operator >>(std::istream& is, Combinaison& c)
+{
 
   std::locale vieuxLoc = std::locale::global(std::locale("fr_FR.UTF-8"));  
 
@@ -50,7 +51,8 @@ std::istream& operator >>(std::istream& is, Combinaison& c) {
   return is;
 }
 
-std::ostream& operator <<(std::ostream& os, const Combinaison& c) {
+std::ostream& operator <<(std::ostream& os, const Combinaison& c)
+{
 	std::locale vieuxLoc = std::locale::global(std::locale("fr_FR.UTF-8"));
 
 	std::vector<char> pionsChar;

@@ -1,5 +1,5 @@
 #include "mastermind.hpp"
-#include "Combinaison.hpp"
+#include "Plateau.hpp"
 
 int main()
 {
@@ -7,8 +7,16 @@ int main()
   //mm.run();
 
   Combinaison c;
+  Combinaison c1;
+  Combinaison c2;
   std::cin >> c;
+  std::cin >> c1;
+  std::cin >> c2;
 
-  std::cout << c << std::endl;
+  Plateau p({c,c1,c2});
+  
+  p.setCombinaisons({c,c1,c2});
+  std::cout << "\n" << p << std::endl;
+  
   return 0;
 }
