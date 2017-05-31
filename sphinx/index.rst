@@ -2,24 +2,24 @@
    sphinx-quickstart on Tue May 30 11:39:47 2017.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
+==============================================
+Bienvenu dans la documentation du MasterMind !
+==============================================
 
-Welcome to Master Mind's documentation!
-=======================================
-
-Contents:
-
+Le MasterMind
+=============
 .. toctree::
    :maxdepth: 2
 
-   test
- 
-	   
+   regles
+   astuces
+	      
+Comment jouer à l'application MasterMind ?
+==========================================
+.. toctree::
+   :maxdepth: 2
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+   jouer
+   heberger
+   rejoindre
+	      
