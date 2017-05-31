@@ -36,3 +36,10 @@
 *~
 *#
 #*
+
+# Images
+*.jpg
+*.jpeg
+*.png
+*.bmp
+*.svg
