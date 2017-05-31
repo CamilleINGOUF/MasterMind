@@ -69,7 +69,8 @@ include_directories ( "${CMAKE_SOURCE_DIR}/include" )
 # Éxécutable
 add_executable( mastermind.out src/main.cpp
   src/mastermind.cpp
-  src/Pion.cpp)
+  src/Pion.cpp
+  src/Combinaison.cpp)
 
 # Édition des liens
 target_link_libraries( mastermind.out ${PKG_LIBRARIES} )
