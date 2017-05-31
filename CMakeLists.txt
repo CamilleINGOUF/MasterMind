@@ -70,7 +70,6 @@ include_directories ( "${CMAKE_SOURCE_DIR}/include" )
 add_executable( server.out src/server.cpp )
 add_executable( client.out src/client.cpp )
 add_executable( mastermind.out src/main.cpp
-  src/mastermind.cpp
   src/Pion.cpp
   src/Combinaison.cpp
   src/Plateau.cpp)

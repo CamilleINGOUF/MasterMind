@@ -1,11 +1,7 @@
-#include "mastermind.hpp"
 #include "Plateau.hpp"
 
 int main()
 {
-  //MasterMind mm;
-  //mm.run();
-
   Combinaison c;
   Combinaison c1;
   Combinaison c2;
