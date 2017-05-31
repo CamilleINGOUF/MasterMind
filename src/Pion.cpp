@@ -1,12 +1,11 @@
 /////////////////////////////////////////////////////////////
 // Headers
 /////////////////////////////////////////////////////////////
-#include "Pion.hpp"
 
+#include "Pion.hpp"
 #include <locale>
 #include <string>
 
-////////////////////////////////////////////////////////////
 Pion::Pion() : _couleur(blanc){}
 
 Pion::Pion(Couleur couleur) : _couleur(couleur){}
@@ -24,6 +23,7 @@ void Pion::setCouleur(const Couleur couleur)
 }
 
 std::istream& operator >>(std::istream& is, Pion& p) {
+
   std::locale vieuxLoc = std::locale::global(std::locale("fr_FR.UTF-8"));
 
   std::string buffer;
