@@ -1,0 +1,69 @@
+#ifndef PION_HPP
+#define PION_HPP
+#include <iostream>
+
+///////////////////////////////////////
+/// \brief La classe Pion permet de donner une couleur à un pion.
+/// \file      Pion.hpp
+/// \author    Axel segard
+/// \version   0.1
+/// \date 31 mai 2017
+///////////////////////////////////////
+
+enum Couleur
+  {
+    rouge,
+    vert,
+    bleu,
+    marron,
+    orange,
+    jaune,
+    noir,
+    blanc
+  };
+
+////////////////////////////////////////////////////////////
+/// \brief class pour le Pion
+////////////////////////////////////////////////////////////
+class Pion
+{
+private:
+  Couleur _couleur;
+public:
+////////////////////////////////////////////////////////////
+/// \brief constructeur de Pion
+////////////////////////////////////////////////////////////
+  Pion();
+  Pion(Couleur couleur);
+  //////////////////////////////////////////////////////////
+  /// \brief destructeur de pion
+  //////////////////////////////////////////////////////////
+  ~Pion();
+  /////////////////////////////////////////////
+  /// \fn Accesseurs pour récupérer la couleur du Pion
+  /// \return Une couleur
+  /////////////////////////////////////////////
+  Couleur getCouleur() const;
+  /////////////////////////////////////////////
+  /// \fn Accesseurs pour assigner une couleur au Pion
+  /// \param couleur la couleur à assigner
+  /////////////////////////////////////////////
+  void setCouleur(const Couleur couleur);
+
+  bool operator==(const Pion & p2);
+};
+
+/////////////////////////////////////////////
+/// \fn Cet opérateur permet de lire un pion
+/// \param Pion Le pion qui sera utilisé
+/// \e j donnera jaune, r donnera rouge
+/////////////////////////////////////////////
+std::istream & operator>>(std::istream & is, Pion & p);
+
+////////////////////////////////////////
+/// \fn Cet opérateur permet de d'écrire un pion
+/// \param Pion Le pion qui sera utilisé
+////////////////////////////////////////
+std::ostream & operator<<(std::ostream & os, const Pion & p);
+
+#endif
