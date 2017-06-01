@@ -3,6 +3,7 @@
 ////////////////////////////////////////////////////////////
 #include "server.hpp"
 #include "Plateau.hpp"
+#include "Combinaison.hpp"
 #include <iostream>
 #include <stdlib.h>
 
@@ -68,9 +69,18 @@ void Server::run()
   std::cout << "Saisir la combinaison: " << std::endl;
   Combinaison combinaison;
   std::cin >> combinaison;
+  std::cout << combinaison << std::endl;
 
   // Envoi de la confirmation
   sf::Packet packet;
+  packet << 1;
+
+  if (_pSocket->send(packet) != sf::Socket::Done)
+  {
+    throw std::string("Impossible d'envoyer la confirmation");
+  }
+
+  
 }
 
 ////////////////////////////////////////////////////////////

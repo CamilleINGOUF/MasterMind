@@ -17,7 +17,6 @@
 #include <string>
 
 typedef std::unique_ptr<sf::TcpSocket> PtrSocket;
-typedef std::unique_ptr<sf::TcpListener> PtrListener;
 
 
 ////////////////////////////////////////////////////////////
@@ -50,9 +49,8 @@ private:
   ////////////////////////////////////////////////////////////
   /// Données membres
   ////////////////////////////////////////////////////////////
-  PtrSocket _pSocket;
-  PtrListener _pListener;
-  std::string _nameClient;
+  PtrSocket _pSocket;      ///< Lien entre le serveur et le client
+  std::string _nameClient; ///< Le pseudo du client
   
 };
 

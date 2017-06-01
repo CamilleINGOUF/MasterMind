@@ -9,8 +9,7 @@
 
 ////////////////////////////////////////////////////////////
 Client::Client() :
-  _pSocket(nullptr),
-  _pListener(nullptr)
+  _pSocket(nullptr)
 {
   
 }
@@ -54,7 +53,11 @@ void Client::run()
   std::cout << "En attente de la combinaison..." << std::endl;
 
   sf::Packet packet;
-  
+
+  if (_pSocket->receive(packet) != sf::Socket::Done)
+  {
+    throw std::string("Impossible de recevoir le paquet de confirmation");
+  }
 }
 
 

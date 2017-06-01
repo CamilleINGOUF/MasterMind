@@ -67,8 +67,14 @@ include_directories( ${PKG_INCLUDE_DIRS} )
 include_directories ( "${CMAKE_SOURCE_DIR}/include" )
 
 # Éxécutable
-add_executable( server.out src/server.cpp )
-add_executable( client.out src/client.cpp )
+add_executable( server.out src/server.cpp
+  src/Pion.cpp
+  src/Combinaison.cpp
+  src/Plateau.cpp)
+add_executable( client.out src/client.cpp
+  src/Pion.cpp
+  src/Combinaison.cpp
+  src/Plateau.cpp)
 add_executable( mastermind.out src/main.cpp
   src/Pion.cpp
   src/Combinaison.cpp
