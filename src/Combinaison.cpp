@@ -18,6 +18,26 @@ void Combinaison::setPions(const std::vector<Pion> pions)
   _pions = pions;
 }
 
+void Combinaison::setPions(const std::string str)
+{
+  std::vector<Pion> p;
+  for(std::string::size_type i = 0; i < str.size(); i++)
+    {
+      if(i >= 8) break;
+      if(str[i] == 'r') p.push_back(rouge);
+      if(str[i] == 'v') p.push_back(vert);
+      if(str[i] == 'b') p.push_back(bleu);
+      if(str[i] == 'm') p.push_back(marron);
+      if(str[i] == 'o') p.push_back(orange);
+      if(str[i] == 'j') p.push_back(jaune);
+      if(str[i] == 'n') p.push_back(noir);
+      if(str[i] == 'B') p.push_back(blanc);
+      if(str[i] == '\n') break;
+    }
+
+  setPions(p);
+}
+
 bool Combinaison::operator==(Combinaison & that)
 {
    bool toReturn = true;
@@ -45,7 +65,8 @@ std::istream& operator >>(std::istream& is, Combinaison& c)
 
   Pion p;
   std::vector<Pion> pions;
-  is.ignore();
+  
+  //is.ignore();
 
   while(is >> p)
     {

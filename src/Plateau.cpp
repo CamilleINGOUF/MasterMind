@@ -23,16 +23,23 @@ Combinaison Plateau::getLastCombinaison() const
 {
   return _combinaisons.back();
 }
-  
+
+//dans le cli, la combinaison la plus récente se trouvera en bas du plateau
 void Plateau::addCombinaison(const Combinaison combinaison)
 {
   if(_combinaisons.size() < 12)
-    _combinaisons.push_back(combinaison);
+    {
+      std::cout << "ajout de " << combinaison << std::endl;
+      
+      _combinaisons.push_back(combinaison);
+      
+    }
 }
 
 std::ostream & operator<<(std::ostream & os, const Plateau & p)
 {
-  for(int i = 0; i < 12 - p.getCombinaisons().size(); i++)
+  std::cout << "size : " << p.getCombinaisons().size() << std::endl;
+  for(int i = 0; i < (12 - p.getCombinaisons().size()); i++)
     {
       for(int j = 0; j < 4; j++)
 	{

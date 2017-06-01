@@ -3,6 +3,7 @@
 
 #include "Pion.hpp"
 #include <vector>
+#include <string>
 
 class Combinaison
 {  
@@ -10,11 +11,14 @@ private:
   std::vector<Pion> _pions;
 public:
   Combinaison();
+  //Combinaison(std::string str);
   Combinaison(std::vector<Pion> pions);
   ~Combinaison();
 
   std::vector<Pion> getPions() const;
   void setPions(const std::vector<Pion> pions);
+
+  void setPions(const std::string str);
 
   bool operator==(Combinaison & that);
    Combinaison & operator=(const Combinaison & c);
