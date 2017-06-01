@@ -17,6 +17,7 @@ public:
   void setPions(const std::vector<Pion> pions);
 
   bool operator==(Combinaison & that);
+   Combinaison & operator=(const Combinaison & c);
 };
 
 std::ostream & operator<<(std::ostream & os, const Combinaison & c);

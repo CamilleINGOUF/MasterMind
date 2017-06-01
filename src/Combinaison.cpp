@@ -29,6 +29,15 @@ bool Combinaison::operator==(Combinaison & that)
     return toReturn;
 }
 
+Combinaison & Combinaison::operator=(const Combinaison & c) {
+    if (this != &c)
+      {
+	//std::cout << c << std::endl;
+	_pions = c._pions;
+      }
+    return *this;
+}
+
 std::istream& operator >>(std::istream& is, Combinaison& c)
 {
 
@@ -36,10 +45,11 @@ std::istream& operator >>(std::istream& is, Combinaison& c)
 
   Pion p;
   std::vector<Pion> pions;
+  is.ignore();
 
   while(is >> p)
     {
-      //std::cout << "Pion : "<< p.getCouleur() << std::endl;
+      //std::cout << "Pion : "<< p << std::endl;
       
       pions.push_back(p);
       if(is.get() == '\n')

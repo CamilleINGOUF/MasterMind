@@ -32,6 +32,14 @@ void Plateau::addCombinaison(const Combinaison combinaison)
 
 std::ostream & operator<<(std::ostream & os, const Plateau & p)
 {
+  for(int i = 0; i < 12 - p.getCombinaisons().size(); i++)
+    {
+      for(int j = 0; j < 4; j++)
+	{
+	  std::cout << ". ";
+	}
+      std::cout << std::endl;
+    }
   for(int i = 0; i < p.getCombinaisons().size(); i++)
     {
       //std::cout << i << std::endl;

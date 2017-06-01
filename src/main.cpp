@@ -1,22 +1,32 @@
 #include "mastermind.hpp"
-#include "Plateau.hpp"
 
 int main()
 {
-  //MasterMind mm;
-  //mm.run();
-
-  Combinaison c;
-  Combinaison c1;
-  Combinaison c2;
-  std::cin >> c;
-  std::cin >> c1;
-  std::cin >> c2;
-
-  Plateau p({c,c1,c2});
+  Mastermind mm;
+  std::string pseudo;
+  Combinaison codeSecret;
+  Combinaison codeAjouter;
   
-  p.setCombinaisons({c,c1,c2});
-  std::cout << "\n" << p << std::endl;
+  std::cout << "Donner votre nom : ";
+  std::cin >> pseudo;
+  
+  std::cout << "Vous êtes le codeur, créer un code secret : ";
+  std::cin >> codeSecret;
+
+  mm.setCodeSecret(codeSecret);
+  mm.setNomJoueurServeur(pseudo);
+  std::cout << "Code secret : " << mm.getCodeSecret() << std::endl;
+
+  Combinaison c({blanc,bleu,orange,marron});
+  Combinaison c2({jaune,vert,rouge,noir});
+
+  Plateau p({c,c2});
+
+  mm.setPlateau(p);
+  std::cout << mm.getPlateau() << std::endl;
+
+  std::cout << "Combinaison à ajouter : ";
+  std::cin >> codeAjouter;
   
   return 0;
 }

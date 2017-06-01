@@ -13,13 +13,13 @@ enum Joueur
 ////////////////////////////////////////////////////////////
 /// \brief La classe du jeu de base
 ////////////////////////////////////////////////////////////
-class MasterMind
+class Mastermind
 {
 public:
   ////////////////////////////////////////////////////////////
   /// \brief Constructeur par défaut
   ////////////////////////////////////////////////////////////
-  MasterMind();
+  Mastermind();
 
   int getNbManches() const;
   void setNbManches(const int v);
@@ -35,6 +35,9 @@ public:
   std::string getGagnant() const;
   void setGagnant(const std::string nom);
 
+  Combinaison getCodeSecret() const;
+  void setCodeSecret(const Combinaison combinaison);
+
   ////////////////////////////////////////////////////////////
   /// \brief Lance le jeu
   ////////////////////////////////////////////////////////////
@@ -49,7 +52,7 @@ public:
   bool gameIsOver();
 private:
   int _nbManches;
-  Plateau plateau;
+  Plateau _plateau;
 
   Combinaison _codeSecret;
 
