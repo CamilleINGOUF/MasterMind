@@ -52,20 +52,27 @@ public:
   /// \param couleur la couleur à assigner
   //////////////////////////////////////////////////////////
   void setCouleur(const Couleur couleur);
+////////////////////////////////////////////////////////////
+/// \brief Cet opérateur permet de lire un pion
+/// \param p2 Le pion qui sera utilisé
+/// \e j donnera jaune, r donnera rouge
+/// \return True or False
+////////////////////////////////////////////////////////////
 
   bool operator==(const Pion & p2);
 };
 
 ////////////////////////////////////////////////////////////
 /// \brief Cet opérateur permet de lire un pion
-/// \param Pion Le pion qui sera utilisé
-/// \e j donnera jaune, r donnera rouge
+/// \param p Le pion qui sera utilisé
+/// \param is flux d'entrée
 ////////////////////////////////////////////////////////////
 std::istream & operator>>(std::istream & is, Pion & p);
 
 ////////////////////////////////////////////////////////////
 /// \brief Cet opérateur permet de d'écrire un pion
-/// \param Pion Le pion qui sera utilisé
+/// \param p Le pion qui sera utilisé
+/// \param os flux de sortie
 ////////////////////////////////////////////////////////////
 std::ostream & operator<<(std::ostream & os, const Pion & p);
 
