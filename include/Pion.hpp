@@ -68,7 +68,7 @@ public:
 
   bool operator==(const Pion & p2);
   
-  Pion  & operator=(const Pion & p);
+  //Pion  & operator=(const Pion & p);
 };
 
 ////////////////////////////////////////////////////////////
