@@ -1,18 +1,47 @@
-#include "Plateau.hpp"
+#include "mastermind.hpp"
 
 int main()
 {
-  Combinaison c;
-  Combinaison c1;
-  Combinaison c2;
-  std::cin >> c;
-  std::cin >> c1;
-  std::cin >> c2;
+  Mastermind mm;
+  std::string pseudo;
 
-  Plateau p({c,c1,c2});
+  std::string codeSecretString;
+  Combinaison codeSecret;
   
-  p.setCombinaisons({c,c1,c2});
-  std::cout << "\n" << p << std::endl;
+  std::cout << "Donner votre nom : ";
+  std::cin >> pseudo;
+  
+  std::cout << "Vous êtes le codeur, créer un code secret : ";
+  std::cin >> codeSecretString;
+  codeSecret.setPions(codeSecretString);
+
+  mm.setCodeSecret(codeSecret);
+  mm.setNomJoueurServeur(pseudo);
+  std::cout << "Code secret : " << mm.getCodeSecret() << std::endl;
+
+  Combinaison c({blanc,bleu,orange,marron});
+  Combinaison c2({jaune,vert,rouge,noir});
+
+  Plateau p({c,c2});
+
+  mm.setPlateau(p);
+  std::cout << mm.getPlateau() << std::endl;
+
+  //std::cin.ignore();
+
+  
+  Combinaison codeAjouter;
+  std::string codeString;
+  std::cout << "Combinaison à ajouter : ";
+  std::cin >> codeString;
+  codeAjouter.setPions(codeString);
+
+  Plateau pTemp;
+  pTemp = mm.getPlateau();
+  pTemp.addCombinaison(codeAjouter);
+  mm.setPlateau(pTemp);
+  
+  std::cout << mm.getPlateau() << std::endl;
   
   return 0;
 }

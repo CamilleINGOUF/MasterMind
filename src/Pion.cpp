@@ -27,6 +27,12 @@ bool Pion::operator==(const Pion & p2)
   return p2._couleur == _couleur;
 }
 
+Pion & Pion::operator=(const Pion & p)
+{
+  //std::cout << this << std::endl;
+  _couleur = p._couleur;
+}
+
 std::istream& operator >>(std::istream& is, Pion& p) {
 
   std::locale vieuxLoc = std::locale::global(std::locale("fr_FR.UTF-8"));
