@@ -6,7 +6,7 @@
 /// \brief La classe Pion permet de donner une couleur à un pion.
 /// \file      Pion.hpp
 /// \author    Axel segard
-/// \version   1.1
+/// \version   1.2
 /// \date 31 mai 2017
 //////////////////////////////////////////////////////////////////
 
@@ -55,7 +55,14 @@ public:
 ////////////////////////////////////////////////////////////
 /// \brief Cet opérateur permet de lire un pion
 /// \param p2 Le pion qui sera utilisé
-/// \e j donnera jaune, r donnera rouge
+/// \note j donnera jaune
+/// \note r donnera rouge
+/// \note v donnera vert
+/// \note b donnera bleu
+/// \note o donnera orange
+/// \note B donnera blanc
+/// \note m donnera marron
+/// \note n donnera noir
 /// \return True or False
 ////////////////////////////////////////////////////////////
 
