@@ -43,7 +43,12 @@ public:
   std::string getGagnant() const;
   void setGagnant(const std::string nom);
 
-  Combinaison getCodeSecret() const;
+  int getScoreServeur() const;
+  void setScoreServeur(const int v);
+  int getScoreClient() const;
+  void setScoreClient(const int v);
+
+  const Combinaison getCodeSecret();
   void setCodeSecret(const Combinaison combinaison);
 
   ////////////////////////////////////////////////////////////
@@ -69,6 +74,9 @@ private:
 
   Joueur _codeur;
   Joueur _decodeur;
+
+  int _scoreServeur;
+  int _scoreClient;
 
   std::string _gagnant;
 };

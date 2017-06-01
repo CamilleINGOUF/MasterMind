@@ -38,9 +38,9 @@ void Combinaison::setPions(const std::string str)
   setPions(p);
 }
 
-bool Combinaison::operator==(Combinaison & that)
+bool Combinaison::operator==(const  Combinaison & that) const
 {
-   bool toReturn = true;
+  bool toReturn = true;
   for(int i = 0; i < that._pions.size(); i++)
     {
       if(!(that._pions[i] == _pions[i]))

@@ -66,7 +66,7 @@ public:
 /// \return True or False
 ////////////////////////////////////////////////////////////
 
-  bool operator==(const Pion & p2);
+  bool operator==(const Pion & p2) const;
   
   //Pion  & operator=(const Pion & p);
 };

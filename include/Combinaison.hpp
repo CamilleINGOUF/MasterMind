@@ -20,7 +20,7 @@ public:
 
   void setPions(const std::string str);
 
-  bool operator==(Combinaison & that);
+  bool operator==(const Combinaison & that)const ;
    Combinaison & operator=(const Combinaison & c);
 };
 

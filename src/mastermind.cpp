@@ -51,12 +51,32 @@ std::string Mastermind::getGagnant() const
   return _gagnant;
 }
 
+int Mastermind::getScoreServeur() const
+{
+  return _scoreServeur;
+}
+
+void Mastermind::setScoreServeur(const int v)
+{
+  _scoreServeur = v;
+}
+
+int Mastermind::getScoreClient() const
+{
+  return _scoreClient;
+}
+
+void Mastermind::setScoreClient(const int v)
+{
+  _scoreClient = v;
+}
+
 void Mastermind::setGagnant(const std::string nom)
 {
   _gagnant = nom;
 }
 
-Combinaison Mastermind::getCodeSecret() const
+const Combinaison Mastermind::getCodeSecret()
 {
   return _codeSecret;
 }
