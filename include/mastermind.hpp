@@ -1,7 +1,14 @@
 #ifndef MASTERMIND_HPP
 #define MASTERMIND_HPP
 
-#include <SFML/Graphics.hpp>
+#include "Plateau.hpp"
+#include <string>
+
+enum Joueur
+  {
+    Client,
+    Serveur
+  };
 
 ////////////////////////////////////////////////////////////
 /// \brief La classe du jeu de base
@@ -14,19 +21,45 @@ public:
   ////////////////////////////////////////////////////////////
   MasterMind();
 
+  int getNbManches() const;
+  void setNbManches(const int v);
+
+  Plateau getPlateau() const;
+  void setPlateau(const Plateau plateau);
+
+  std::string getNomJoueurServeur() const;
+  std::string getNomJoueurClient() const;
+  void setNomJoueurServeur(const std::string nom);
+  void setNomJoueurClient(const std::string nom);
+
+  std::string getGagnant() const;
+  void setGagnant(const std::string nom);
+
   ////////////////////////////////////////////////////////////
   /// \brief Lance le jeu
   ////////////////////////////////////////////////////////////
   void run();
 
-  ////////////////////////////////////////////////////////////
-  /// \brief Lance le jeu
-  /// \param a un a
-  /// \return True or false
-  ////////////////////////////////////////////////////////////
-  bool foo(int a);
+  void inverserRoles();
+  
+  void nouvelleManche();
+
+  void ajoutPoints();
+
+  bool gameIsOver();
 private:
-  sf::RenderWindow _window;
+  int _nbManches;
+  Plateau plateau;
+
+  Combinaison _codeSecret;
+
+  std::string _nomJoueurServeur;
+  std::string _nomJoueurClient;
+
+  Joueur _codeur;
+  Joueur _decodeur;
+
+  std::string _gagnant;
 };
 
 #endif
