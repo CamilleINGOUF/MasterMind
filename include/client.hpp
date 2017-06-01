@@ -51,6 +51,7 @@ private:
   ////////////////////////////////////////////////////////////
   PtrSocket _pSocket;      ///< Lien entre le serveur et le client
   std::string _nameClient; ///< Le pseudo du client
+  std::string _nameHost;   ///< Le pseudo de l'hôte
   
 };
 

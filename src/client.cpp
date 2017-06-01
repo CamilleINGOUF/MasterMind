@@ -28,18 +28,44 @@ void Client::run()
   // TODO: Check des inputs
   // Saisie de l'IP du serveur
   std::string ip;
-  std::cout << "Adresse IP du serveur: ";
-  std::cin >> ip;
+  do
+  {
+    std::cout << "Adresse IP du serveur: ";
+    std::getline(std::cin, ip);
+  }
+  while (ip.empty());
 
   // Saisie du port
-  unsigned port;
-  std::cout << "Port du serveur: ";
-  std::cin >> port;
+  int port(-1);
+  std::string input;
+  
+  do
+  {
+    std::cout << "Port du serveur: ";
+    std::getline(std::cin, input);
 
+    try
+    {
+      port = std::stoi(input);
+    }
+    catch (const std::invalid_argument& err)
+    {
+      continue;
+    }
+    catch (const std::out_of_range& err)
+    {
+      continue;
+    }
+  }
+  while (input.empty() || port <= 0);
+  
   // Saisie du nom
-  std::string name;
-  std::cout << "Pseudo: ";
-  std::cin >> _nameClient;
+  do
+  {
+    std::cout << "Pseudo: ";
+    std::getline(std::cin, _nameClient);
+  }
+  while (_nameClient.empty());
 
   // Connexion au serveur
   _pSocket = std::make_unique<sf::TcpSocket>();
@@ -57,6 +83,23 @@ void Client::run()
   if (_pSocket->receive(packet) != sf::Socket::Done)
   {
     throw std::string("Impossible de recevoir le paquet de confirmation");
+  }
+
+  packet >>_nameHost;
+  std::cout << _nameHost << " a choisit sa combinaison" << std::endl;
+
+  // Saisie de la combinaison
+  // Tant que la partie n'est pas finie
+  while (true)
+  {
+    std::cout << "Saisie de la combinaison: " << std::endl;
+
+    // Envoi du paquet
+    packet.clear();
+    // Réponse du serveur
+    _pSocket->send(packet);
+    // Continuer la partie ?
+    
   }
 }
 
