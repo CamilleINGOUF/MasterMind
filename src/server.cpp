@@ -2,10 +2,46 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include "server.hpp"
+#include "Plateau.hpp"
+#include <iostream>
+#include <stdlib.h>
 
+
+////////////////////////////////////////////////////////////
+Server::Server(unsigned port) :
+  _port(port),
+  _pSocket(nullptr),
+  _pListener(nullptr)
+{
+
+}
+
+
+////////////////////////////////////////////////////////////
+Server::~Server()
+{
+}
+
+
+////////////////////////////////////////////////////////////
+void Server::run()
+{
+
+}
 
 ////////////////////////////////////////////////////////////
 int main(int argc, char** argv)
 {
+  // Saisie du port
+  if (argc != 2)
+  {
+    std::cerr << "Utilisation: ./server.out <port>" << std::endl;
+    exit(-1);
+  }
+  
+  unsigned port = atoi(argv[1]);
+  Server serveur(port);
+  serveur.run();
+  
   return 0;
 }
