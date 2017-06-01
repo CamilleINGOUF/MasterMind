@@ -76,6 +76,7 @@ add_executable( client.out src/client.cpp
   src/Combinaison.cpp
   src/Plateau.cpp)
 add_executable( mastermind.out src/main.cpp
+  src/mastermind.cpp
   src/Pion.cpp
   src/Combinaison.cpp
   src/Plateau.cpp)

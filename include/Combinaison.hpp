@@ -46,6 +46,8 @@ public:
   ////////////////////////////////////////////////////////////
   void setPions(const std::vector<Pion> pions);
 
+  void setPions(const std::string pions);
+  
   bool operator==(Combinaison & that);
   Combinaison & operator=(const Combinaison & c);
 private:
