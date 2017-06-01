@@ -15,6 +15,7 @@
 #include <SFML/Network.hpp>
 #include <memory>
 #include <string>
+#include "mastermind.hpp"
 
 typedef std::unique_ptr<sf::TcpSocket> PtrSocket;
 typedef std::unique_ptr<sf::TcpListener> PtrListener;
@@ -71,6 +72,7 @@ private:
   std::string _nameHost;   ///< Le pseudo de l'hôte
   std::string _nameClient; ///< Le pseudo du client
   int         _nbManches;  ///< Le nombre total de manches
+  Mastermind  _game;       ///< L'instance de jeu
 };
 
 #endif // SERVER_HPP_

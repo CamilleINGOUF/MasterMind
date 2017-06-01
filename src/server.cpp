@@ -38,13 +38,28 @@ void Server::run()
 {
   priv_getSettings();
   priv_initServer();
+
+  // Tant que le nb de manches < nbTotal de manches
+  // Si Codeur
+  // Choisir le code secret
+  // Attendre que le joueur trouve
+  // Refresh affichage
+  // Si Décodeur
+  // Choisir une combinaison
+  // Trouve ou pas
+  // Refresh des affichages
+  // Passe au tour / Manche suivante
+  // Update des scores
+  // Fin de la partie afficher le vainqueur
+  // Fin du programme
   
   // TODO: Check validité de la combinaison
   // Saisie de la combinaison
   std::cout << "Saisir la combinaison: " << std::endl;
   Combinaison combinaison;
   std::cin >> combinaison;
-  std::cout << combinaison << std::endl;
+
+  _game.setCodeSecret(combinaison);
 
   // Envoi de la confirmation
   sf::Packet packet;
@@ -100,6 +115,10 @@ void Server::priv_getSettings()
 ////////////////////////////////////////////////////////////
 void Server::priv_initServer()
 {
+  // Préparation du jeu
+  _game.setNbManches(_nbManches);
+  _game.setNomJoueurServeur(_nameHost);
+  
   // Affichage de l'IP du serveur
   sf::IpAddress localIP  = sf::IpAddress::getLocalAddress();
   sf::IpAddress publicIP = sf::IpAddress::getPublicAddress(sf::seconds(5));

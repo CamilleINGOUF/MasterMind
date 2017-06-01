@@ -112,7 +112,7 @@ void Client::priv_getSettings(std::string& ip, int& port)
 
 
 ////////////////////////////////////////////////////////////
-int main(int argc, char** argv)
+int main()
 {
   Client client;
 

@@ -38,6 +38,7 @@ void Combinaison::setPions(const std::vector<Pion> pions)
   _pions = pions;
 }
 
+
 ////////////////////////////////////////////////////////////
 void Combinaison::setPions(const std::string str)
 {
@@ -59,6 +60,8 @@ void Combinaison::setPions(const std::string str)
   setPions(p);
 }
 
+
+////////////////////////////////////////////////////////////
 bool Combinaison::operator==(Combinaison & that)
 {
   bool toReturn = true;
@@ -74,13 +77,15 @@ bool Combinaison::operator==(Combinaison & that)
 ////////////////////////////////////////////////////////////
 Combinaison & Combinaison::operator=(const Combinaison & c) {
     if (this != &c)
-      {
-	//std::cout << c << std::endl;
-	_pions = c._pions;
-      }
-    return *this;
-}
+    {
+      //std::cout << c << std::endl;
+      _pions = c._pions;
+    }
+    return *this; // T'es sérieux là ? WTF IS THIS !
+ }
 
+
+////////////////////////////////////////////////////////////
 std::istream& operator >>(std::istream& is, Combinaison& c)
 {
 
