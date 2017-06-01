@@ -47,6 +47,15 @@ public:
 private:
 
   ////////////////////////////////////////////////////////////
+  /// \brief Récupère les données pour rejoindre une partie
+  ///
+  /// \param ip l'adresse ip du serveur
+  /// \param port le port du serveur
+  ///
+  ////////////////////////////////////////////////////////////
+  void priv_getSettings(std::string& ip, int& port);
+
+  ////////////////////////////////////////////////////////////
   /// Données membres
   ////////////////////////////////////////////////////////////
   PtrSocket _pSocket;      ///< Lien entre le serveur et le client
@@ -55,4 +64,4 @@ private:
   
 };
 
-#endif
+#endif // CLIENT_HPP_

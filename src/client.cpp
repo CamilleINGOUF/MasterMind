@@ -25,48 +25,10 @@ Client::~Client()
 ////////////////////////////////////////////////////////////
 void Client::run()
 {
-  // TODO: Check des inputs
-  // Saisie de l'IP du serveur
   std::string ip;
-  do
-  {
-    std::cout << "Adresse IP du serveur: ";
-    std::getline(std::cin, ip);
-  }
-  while (ip.empty());
-
-  // Saisie du port
   int port(-1);
-  std::string input;
+  priv_getSettings(ip, port);
   
-  do
-  {
-    std::cout << "Port du serveur: ";
-    std::getline(std::cin, input);
-
-    try
-    {
-      port = std::stoi(input);
-    }
-    catch (const std::invalid_argument& err)
-    {
-      continue;
-    }
-    catch (const std::out_of_range& err)
-    {
-      continue;
-    }
-  }
-  while (input.empty() || port <= 0);
-  
-  // Saisie du nom
-  do
-  {
-    std::cout << "Pseudo: ";
-    std::getline(std::cin, _nameClient);
-  }
-  while (_nameClient.empty());
-
   // Connexion au serveur
   _pSocket = std::make_unique<sf::TcpSocket>();
   if (_pSocket->connect(ip, port) != sf::Socket::Done)
@@ -101,6 +63,51 @@ void Client::run()
     // Continuer la partie ?
     
   }
+}
+
+
+////////////////////////////////////////////////////////////
+void Client::priv_getSettings(std::string& ip, int& port)
+{
+  
+  // Saisie de l'IP du serveur
+  do
+  {
+    std::cout << "Adresse IP du serveur: ";
+    std::getline(std::cin, ip);
+  }
+  while (ip.empty());
+
+  // Saisie du port
+  std::string input;
+  
+  do
+  {
+    std::cout << "Port du serveur: ";
+    std::getline(std::cin, input);
+
+    try
+    {
+      port = std::stoi(input);
+    }
+    catch (const std::invalid_argument& err)
+    {
+      continue;
+    }
+    catch (const std::out_of_range& err)
+    {
+      continue;
+    }
+  }
+  while (input.empty() || port <= 0);
+  
+  // Saisie du nom
+  do
+  {
+    std::cout << "Pseudo: ";
+    std::getline(std::cin, _nameClient);
+  }
+  while (_nameClient.empty());
 }
 
 

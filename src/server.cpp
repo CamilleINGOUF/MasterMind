@@ -1,4 +1,12 @@
 ////////////////////////////////////////////////////////////
+//
+// Mastermind
+// Copyright (C) 2017 - CAFA
+//
+////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
 #include "server.hpp"
@@ -28,16 +36,70 @@ Server::~Server()
 ////////////////////////////////////////////////////////////
 void Server::run()
 {
+  priv_getSettings();
+  priv_initServer();
+  
+  // TODO: Check validité de la combinaison
+  // Saisie de la combinaison
+  std::cout << "Saisir la combinaison: " << std::endl;
+  Combinaison combinaison;
+  std::cin >> combinaison;
+  std::cout << combinaison << std::endl;
+
+  // Envoi de la confirmation
+  sf::Packet packet;
+  packet << 1;
+
+  if (_pSocket->send(packet) != sf::Socket::Done)
+  {
+    throw std::string("Impossible d'envoyer la confirmation");
+  }
+
+  
+  packet.clear();
+}
+
+
+////////////////////////////////////////////////////////////
+void Server::priv_getSettings()
+{
   // Saisie du nombre de manches
-  // TODO: check erreur (saisie incorrecte / <= 0)
-  std::cout << "Nombre de manches: ";
-  std::cin >> _nbManches;
+  std::string input;
+  
+  do
+  {
+    std::cout << "Nombre de manches: ";
+    std::getline(std::cin, input);
+
+    try
+    {
+      _nbManches = std::stoi(input);
+    }
+    catch (const std::invalid_argument& err)
+    {
+      continue;
+    }
+    catch (const std::out_of_range& err)
+    {
+      continue;
+    }
+  }
+  while (input.empty() || _nbManches <= 0);
+  
   
   // Saisie du pseudo
-  std::cout << "Pseudo: ";
-  // TODO: check pseudo invalide ?
-  std::cin >> _nameHost;
+  do
+  {
+    std::cout << "Pseudo: ";
+    std::getline(std::cin, _nameClient);
+  }
+  while (_nameClient.empty());  
+}
 
+
+////////////////////////////////////////////////////////////
+void Server::priv_initServer()
+{
   // Affichage de l'IP du serveur
   sf::IpAddress localIP  = sf::IpAddress::getLocalAddress();
   sf::IpAddress publicIP = sf::IpAddress::getPublicAddress(sf::seconds(5));
@@ -60,29 +122,9 @@ void Server::run()
   {
     throw std::string("Impossible d'accepter une connexion");
   }
-
+  
   std::cout << "Le client (" << _pSocket->getRemoteAddress().toString()
 	    << ") a rejoint le serveur" << std::endl;
-
-  // TODO: Check validité de la combinaison
-  // Saisie de la combinaison
-  std::cout << "Saisir la combinaison: " << std::endl;
-  Combinaison combinaison;
-  std::cin >> combinaison;
-  std::cout << combinaison << std::endl;
-
-  // Envoi de la confirmation
-  sf::Packet packet;
-  packet << 1;
-
-  if (_pSocket->send(packet) != sf::Socket::Done)
-  {
-    throw std::string("Impossible d'envoyer la confirmation");
-  }
-
-  
-  packet.clear();
-  
 }
 
 ////////////////////////////////////////////////////////////
