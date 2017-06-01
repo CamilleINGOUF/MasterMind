@@ -31,6 +31,7 @@ public:
   /// \brief Constructeur du serveur
   ///
   /// \param port le port du serveur
+  ///
   ////////////////////////////////////////////////////////////
   Server(unsigned port);
 
@@ -45,6 +46,7 @@ public:
   ///
   ////////////////////////////////////////////////////////////
   void run();
+  
 private:
   
   ////////////////////////////////////////////////////////////
@@ -55,7 +57,7 @@ private:
   PtrListener _pListener;  ///< Le listener pour attendre la connexion du client
   std::string _nameHost;   ///< Le pseudo de l'hôte
   std::string _nameClient; ///< Le pseudo du client
-  
+  int         _nbManches;  ///< Le nombre total de manches
 };
 
 #endif
