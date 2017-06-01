@@ -49,7 +49,6 @@ void Plateau::addCombinaison(const Combinaison combinaison)
 {
   if(_combinaisons.size() < 12)
     {
-      std::cout << "ajout de " << combinaison << std::endl;
       
       _combinaisons.push_back(combinaison);
       
@@ -60,7 +59,6 @@ void Plateau::addCombinaison(const Combinaison combinaison)
 ////////////////////////////////////////////////////////////
 std::ostream & operator<<(std::ostream & os, const Plateau & p)
 {
-  std::cout << "size : " << p.getCombinaisons().size() << std::endl;
   for(int i = 0; i < (12 - p.getCombinaisons().size()); i++)
     {
       for(int j = 0; j < 4; j++)
