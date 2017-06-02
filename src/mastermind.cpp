@@ -140,7 +140,7 @@ bool Mastermind::partieTerminee()
 
 bool Mastermind::mancheTerminee()
 {
-  return _tourDansManche == 1;
+  return _tourDansManche == 1 and (tourTermine() or decodeurGagnant());
 }
 
 bool Mastermind::tourTermine()
