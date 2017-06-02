@@ -49,20 +49,15 @@ void Client::run()
 
   packet >>_nameHost;
   std::cout << _nameHost << " a choisit sa combinaison" << std::endl;
-
+  
   // Saisie de la combinaison
   // Tant que la partie n'est pas finie
-  while (true)
-  {
-    std::cout << "Saisie de la combinaison: " << std::endl;
+  std::string plateau;
 
-    // Envoi du paquet
-    packet.clear();
-    // Réponse du serveur
-    _pSocket->send(packet);
-    // Continuer la partie ?
-    
-  }
+  packet >> plateau;
+  std::cout << plateau;
+
+  
 }
 
 
