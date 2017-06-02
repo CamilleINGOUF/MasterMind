@@ -16,15 +16,6 @@ int main()
   std::cin >> nombreManches;
   mm.setNbManches(nombreManches);
   
-  std::cout << "Vous êtes le codeur, créer un code secret : ";
-  std::cin >> codeSecretString;
-  codeSecret.setPions(codeSecretString);
-
-  mm.setCodeSecret(codeSecret);
-  mm.setNomJoueurServeur(pseudo);
-  std::cout << "Code secret : " << mm.getCodeSecret() << std::endl;
-
-  
   Combinaison combinaisonAjouter;
   std::string combinaisonString;
 
@@ -36,6 +27,18 @@ int main()
   
   while(!isOver)
     {
+      if(mm.getPlateau().getCombinaisons().size() == 0)
+	//si le plateau est vide, il faut selectionner le code secret
+	{
+	  std::cout << "Vous êtes le codeur, créer un code secret : ";
+	  std::cin >> codeSecretString;
+	  codeSecret.setPions(codeSecretString);
+
+	  mm.setCodeSecret(codeSecret);
+	  mm.setNomJoueurServeur(pseudo);
+	  std::cout << "Code secret : " << mm.getCodeSecret() << std::endl;
+	}
+      
       std::cout << "Combinaison à ajouter : ";
       std::cin >> combinaisonString;
       combinaisonAjouter.setPions(combinaisonString);
