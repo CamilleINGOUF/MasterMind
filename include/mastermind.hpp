@@ -13,7 +13,7 @@ enum Joueur
 //////////////////////////////////////////////////////////////////
 /// \brief La classe MasterMind est la classe principale du jeu.
 /// \file      mastermind.hpp
-/// \author    Axel segard
+/// \author    Camille Ingouf
 /// \version   1.2
 /// \date 31 mai 2017
 /////////////////////////////////////////////////////////////////
@@ -32,6 +32,9 @@ public:
   int getNbManches() const;
   void setNbManches(const int v);
 
+  int getCurrentNbManches() const;
+  void setCurrentNbManches(const int v);
+
   Plateau getPlateau() const;
   void setPlateau(const Plateau plateau);
 
@@ -40,13 +43,15 @@ public:
   void setNomJoueurServeur(const std::string nom);
   void setNomJoueurClient(const std::string nom);
 
-  std::string getGagnant() const;
-  void setGagnant(const std::string nom);
+  std::string getGagnantNom() const;
+  void setGagnantNom(const std::string nom);
 
   int getScoreServeur() const;
   void setScoreServeur(const int v);
   int getScoreClient() const;
   void setScoreClient(const int v);
+
+  bool decodeurGagnant();
 
   const Combinaison getCodeSecret();
   void setCodeSecret(const Combinaison combinaison);
@@ -60,11 +65,19 @@ public:
   
   void nouvelleManche();
 
-  void ajoutPoints();
+  void ajoutPoints(Joueur joueur, int v);
 
-  bool gameIsOver();
+  bool partieTerminee();
+
+  bool mancheTerminee();
+
+  bool tourTermine();
 private:
   int _nbManches;
+  int _currentNbManches;
+
+  int _tourDansManche;// tour 1, puir tour 2
+  
   Plateau _plateau;
 
   Combinaison _codeSecret;
@@ -78,7 +91,10 @@ private:
   int _scoreServeur;
   int _scoreClient;
 
-  std::string _gagnant;
+  bool _isRunning;
+
+  std::string _gagnantNom;
+  Joueur _gagnantJoueur;
 };
 
 #endif

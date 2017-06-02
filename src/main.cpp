@@ -4,12 +4,17 @@ int main()
 {
   Mastermind mm;
   std::string pseudo;
+  int nombreManches;
 
   std::string codeSecretString;
   Combinaison codeSecret;
   
   std::cout << "Donner votre nom : ";
   std::cin >> pseudo;
+
+  std::cout << "Nombre de manches : ";
+  std::cin >> nombreManches;
+  mm.setNbManches(nombreManches);
   
   std::cout << "Vous êtes le codeur, créer un code secret : ";
   std::cin >> codeSecretString;
@@ -19,53 +24,49 @@ int main()
   mm.setNomJoueurServeur(pseudo);
   std::cout << "Code secret : " << mm.getCodeSecret() << std::endl;
 
-  Plateau p;
   
+  Combinaison combinaisonAjouter;
+  std::string combinaisonString;
 
-  mm.setPlateau(p);
-  std::cout << mm.getPlateau() << std::endl;
-
-  //std::cin.ignore();
-
-  
-  Combinaison codeAjouter;
-  std::string codeString;
-
-  bool isRunning = true;
+  bool isOver = false;
 
   mm.setScoreServeur(0);
 
-  while(isRunning)
-    {
-      
-      std::cout << "Combinaison à ajouter : ";
-      std::cin >> codeString;
-      codeAjouter.setPions(codeString);
-      
-      Plateau pTemp;
-      pTemp = mm.getPlateau();
-      pTemp.addCombinaison(codeAjouter);
-      mm.setPlateau(pTemp);
+  std::cout << mm.getPlateau();
   
-      std::cout << mm.getPlateau() << std::endl;
+  while(!isOver)
+    {
+      std::cout << "Combinaison à ajouter : ";
+      std::cin >> combinaisonString;
+      combinaisonAjouter.setPions(combinaisonString);
+
+      Plateau tempPlateau;
+      tempPlateau = mm.getPlateau();
+      tempPlateau.addCombinaison(combinaisonAjouter);
+      mm.setPlateau(tempPlateau);
+      
       mm.setScoreServeur(mm.getScoreServeur() + 1);
 
-      if(codeAjouter == mm.getCodeSecret())
+      std::cout << mm.getPlateau();
+
+      if(mm.decodeurGagnant())
 	{
-	  std::cout << "Gagné ! Avec "
-		    << mm.getScoreServeur()
-		    << " point(s)" << std::endl;
-	  isRunning = false;
+	  //Gagné
+	  std::cout << "Tu as gagné avec " << mm.getScoreServeur() << std::endl;
+	  mm.inverserRoles();
+	  std::cout << "On inverse les rôles mais tu es seul" << std::endl;
 	}
-      else if(mm.getPlateau().getCombinaisons().size() == 12)
+      else if(mm.tourTermine())
 	{
-	  
-	  mm.setScoreServeur(20);
-	  std::cout << "Perdu ! Avec "
-		    << mm.getScoreServeur()
-		    << " point(s)" << std::endl;
-	  isRunning = false;
+	  //Perdu
+	  mm.setScoreServeur(mm.getScoreServeur() + 20);
+	  std::cout << "Tu as perdu avec " << mm.getScoreServeur() << std::endl;
+	  mm.inverserRoles();
+	  std::cout << "On inverse les rôles mais tu es seul" << std::endl;
 	}
+
+      std::cout << "Manches : " << mm.getCurrentNbManches() << std::endl;
+      isOver = mm.partieTerminee();
     }
   
   return 0;
