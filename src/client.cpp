@@ -62,6 +62,7 @@ void Client::run()
   // Saisie de la combinaison
   Combinaison combi;
   std::cin >> combi;
+  std::cout << "Combinaison saisie: " << combi;
 
   packet.clear();
   packet << combi.toString();

@@ -86,6 +86,8 @@ void Server::run()
   if (packet >> combi)
   {
     combinaison.setPions(combi);
+    std::cout << "Paquet reçu: " << combi << std::endl;
+    std::cout << "Combinaison reçu: " << combi << std::endl;
   }
 
   _game.getPlateau().addCombinaison(combinaison);
