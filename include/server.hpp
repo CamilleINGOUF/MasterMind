@@ -75,4 +75,17 @@ private:
   Mastermind  _game;       ///< L'instance de jeu
 };
 
+
+////////////////////////////////////////////////////////////
+/// \brief Flux de sortie pour le réseau (envoi des combinaisons)
+///
+/// \param pkt le paquet à envoyer
+/// \param p Le plateau qui sera utilisé
+///
+/// \return Le paquet chargé
+///
+/////////////////////////////////////////////////////////
+sf::Packet& operator<<(sf::Packet& pkt, const Plateau& p);
+
+
 #endif // SERVER_HPP_

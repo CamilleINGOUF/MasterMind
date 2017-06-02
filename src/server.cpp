@@ -14,6 +14,7 @@
 #include "Combinaison.hpp"
 #include <iostream>
 #include <stdlib.h>
+#include <sstream>
 
 
 ////////////////////////////////////////////////////////////
@@ -61,17 +62,16 @@ void Server::run()
 
   _game.setCodeSecret(combinaison);
 
-  // Envoi de la confirmation
+  // Envoi de la confirmation (pseudo de l'hôte + plateau initial)
   sf::Packet packet;
-  packet << 1;
+  packet << _nameHost << _game.getPlateau();
 
   if (_pSocket->send(packet) != sf::Socket::Done)
   {
     throw std::string("Impossible d'envoyer la confirmation");
   }
 
-  
-  packet.clear();
+  std::cout << _game.getPlateau();
 }
 
 
@@ -145,6 +145,17 @@ void Server::priv_initServer()
   std::cout << "Le client (" << _pSocket->getRemoteAddress().toString()
 	    << ") a rejoint le serveur" << std::endl;
 }
+
+
+////////////////////////////////////////////////////////////
+sf::Packet& operator<<(sf::Packet& pkt, const Plateau& p)
+{
+  std::ostringstream oss;
+  oss << p;
+  pkt << oss.str();
+  return pkt;
+}
+
 
 ////////////////////////////////////////////////////////////
 int main(int argc, char** argv)
