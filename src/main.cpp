@@ -48,7 +48,7 @@ int main()
       tempPlateau.addCombinaison(combinaisonAjouter);
       mm.setPlateau(tempPlateau);
       
-      mm.setScoreServeur(mm.getScoreServeur() + 1);
+      mm.ajoutPoints(Serveur,1);
 
       std::cout << mm.getPlateau();
 

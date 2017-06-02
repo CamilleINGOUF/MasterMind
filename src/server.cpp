@@ -57,8 +57,10 @@ void Server::run()
   // TODO: Check validité de la combinaison
   // Saisie de la combinaison
   std::cout << "Saisir la combinaison: " << std::endl;
+  std::string input;
   Combinaison combinaison;
-  std::cin >> combinaison;
+  std::cin >> input;
+  combinaison.setPions(input);
 
   _game.setCodeSecret(combinaison);
 
@@ -86,8 +88,6 @@ void Server::run()
   if (packet >> combi)
   {
     combinaison.setPions(combi);
-    std::cout << "Paquet reçu: " << combi << std::endl;
-    std::cout << "Combinaison reçu: " << combi << std::endl;
   }
 
   _game.getPlateau().addCombinaison(combinaison);

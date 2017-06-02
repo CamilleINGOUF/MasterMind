@@ -58,11 +58,16 @@ void Client::run()
 
   // Première affichage
   std::cout << plateau;
-  
+
+  // TODO: Check validité de la combinaison
   // Saisie de la combinaison
+  std::string input;
   Combinaison combi;
-  std::cin >> combi;
-  std::cout << "Combinaison saisie: " << combi;
+
+  std::cout << "Saisir une combinaison: ";
+  std::cin >> input;
+
+  combi.setPions(input);
 
   packet.clear();
   packet << combi.toString();
