@@ -116,6 +116,7 @@ void Mastermind::inverserRoles()
     nouvelleManche();
   else
     _tourDansManche++;
+  viderPlateau();
 }
   
 void Mastermind::nouvelleManche()
@@ -165,4 +166,10 @@ bool Mastermind::decodeurGagnant()
       return true;
     }
   return false;
+}
+
+void Mastermind::viderPlateau()
+{
+  Plateau p;
+  setPlateau(p);
 }

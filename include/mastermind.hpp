@@ -65,6 +65,8 @@ public:
   
   void nouvelleManche();
 
+  void viderPlateau();
+
   void ajoutPoints(Joueur joueur, int v);
 
   bool partieTerminee();
