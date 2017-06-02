@@ -64,6 +64,9 @@ public:
   ///
   ////////////////////////////////////////////////////////////
   const std::string toString() const;
+
+
+  bool pionDansLaCombinaison(Pion p);
   
 private:
 

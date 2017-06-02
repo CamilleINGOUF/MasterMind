@@ -46,12 +46,17 @@ int main()
       Plateau tempPlateau;
       tempPlateau = mm.getPlateau();
       tempPlateau.addCombinaison(combinaisonAjouter);
-      mm.setPlateau(tempPlateau);
+
       
+      mm.setPlateau(tempPlateau);
+
+      mm.corrigerDerniereCombinaison();
       mm.ajoutPoints(Serveur,1);
 
       std::cout << mm.getPlateau();
 
+      //std::cout << "main.cpp ajout du nouveau plateau" << std::endl;
+      
       if(mm.decodeurGagnant())
 	{
 	  //Gagné

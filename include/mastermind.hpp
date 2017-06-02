@@ -74,6 +74,8 @@ public:
   bool mancheTerminee();
 
   bool tourTermine();
+
+  void corrigerDerniereCombinaison();
 private:
   int _nbManches;
   int _currentNbManches;
