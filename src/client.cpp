@@ -2,10 +2,11 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include "client.hpp"
-#include <iostream>
-#include <string>
-#include <memory>
+#include "protocol.hpp"
 #include "Combinaison.hpp"
+#include <iostream>
+#include <memory>
+#include <string>
 
 
 ////////////////////////////////////////////////////////////
@@ -52,25 +53,16 @@ void Client::run()
 
   if (packet >> _nameHost >> plateau)
   {
-    std::cout << "Confirmation reçu de " << _nameHost << std::endl;
-    std::cout << plateau.size() << std::endl;
+    std::cout << _nameHost << " a choisit le code secret !" << std::endl;
   }
 
   // Première affichage
   std::cout << plateau;
 
-  // TODO: Check validité de la combinaison
-  // Saisie de la combinaison
-  std::string input;
-  Combinaison combi;
-
-  std::cout << "Saisir une combinaison: ";
-  std::cin >> input;
-
-  combi.setPions(input);
+  Combinaison combi = Combinaison::fromInput();
 
   packet.clear();
-  packet << combi.toString();
+  packet << combi;
 
   // Envoi de la combinaison
   if (_pSocket->send(packet) != sf::Socket::Done)

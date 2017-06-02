@@ -12,9 +12,11 @@
 #include "server.hpp"
 #include "Plateau.hpp"
 #include "Combinaison.hpp"
+#include "protocol.hpp"
 #include <iostream>
 #include <stdlib.h>
 #include <sstream>
+#include <SFML/Network.hpp>
 
 
 ////////////////////////////////////////////////////////////
@@ -54,14 +56,7 @@ void Server::run()
   // Fin de la partie afficher le vainqueur
   // Fin du programme
   
-  // TODO: Check validité de la combinaison
-  // Saisie de la combinaison
-  std::cout << "Saisir la combinaison: " << std::endl;
-  std::string input;
-  Combinaison combinaison;
-  std::cin >> input;
-  combinaison.setPions(input);
-
+  Combinaison combinaison = Combinaison::fromInput();
   _game.setCodeSecret(combinaison);
 
   // Envoi de la confirmation (pseudo de l'hôte + plateau initial)
@@ -174,13 +169,6 @@ void Server::priv_initServer()
   
   std::cout << "Le client (" << _pSocket->getRemoteAddress().toString()
 	    << ") a rejoint le serveur" << std::endl;
-}
-
-
-////////////////////////////////////////////////////////////
-sf::Packet& operator<<(sf::Packet& pkt, const Plateau& p)
-{
-  return pkt << p.toString();
 }
 
 

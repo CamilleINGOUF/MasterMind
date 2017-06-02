@@ -4,6 +4,8 @@
 #include "Combinaison.hpp"
 #include <string>
 #include <sstream>
+#include <algorithm>
+#include <vector>
 
 
 ////////////////////////////////////////////////////////////
@@ -136,4 +138,70 @@ const std::string Combinaison::toString() const
   }
 
   return sstream.str();
+}
+
+
+////////////////////////////////////////////////////////////
+bool Combinaison::priv_isValid(const std::string& input)
+{
+  if (input.empty())
+  {
+    std::cout << "La combinaison ne peut être vide !" << std::endl;
+    return false;
+  }
+
+  if (input.size() != 4)
+  {
+    std::cout << "La combinaison doit être composée de 4 lettres !" << std::endl;
+    return false;
+  }
+
+  std::vector<char> lettres;
+  
+  for (std::string::size_type i = 0; i < input.size(); i++)
+  {
+    char carac = input[i];
+    
+    if (!Combinaison::isColor(carac))
+    {
+      std::cout << carac << " n'est pas une couleur !" << std::endl;
+      return false;
+    }
+      
+    if (std::find(lettres.begin(), lettres.end(), carac) != lettres.end())
+    {
+      std::cout << "Doublons non autorisés !" << std::endl;
+      return false;
+    }
+    
+    lettres.push_back(carac);
+  }
+  
+  return true;
+}
+
+
+////////////////////////////////////////////////////////////
+Combinaison Combinaison::fromInput()
+{
+  std::string input;
+
+  do
+  {
+    std::cout << "Saisir une combinaison: ";
+    std::getline(std::cin, input);
+  }
+  while (!Combinaison::priv_isValid(input));
+
+  Combinaison combi;
+  combi.setPions(input);
+  return combi;
+}
+
+
+////////////////////////////////////////////////////////////
+bool Combinaison::isColor(const char c)
+{ 
+  return c == 'r' or c == 'v' or c == 'b' or c == 'm' or c == 'o' or
+    c == 'j' or c == 'n' or c == 'B';
 }

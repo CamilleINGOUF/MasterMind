@@ -49,10 +49,7 @@ Combinaison Plateau::getLastCombinaison() const
 void Plateau::addCombinaison(const Combinaison combinaison)
 {
   if(_combinaisons.size() < 12)
-  {
     _combinaisons.push_back(combinaison);
-    std::cout << "Ajout de la combi !" << std::endl;
-  }
 }
 
 

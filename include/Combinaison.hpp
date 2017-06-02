@@ -65,7 +65,26 @@ public:
   ////////////////////////////////////////////////////////////
   const std::string toString() const;
   
+  ////////////////////////////////////////////////////////////
+  /// \brief Retourne une combinaison précédément tapée
+  ///
+  ////////////////////////////////////////////////////////////
+  static Combinaison fromInput();
+
+
+  ////////////////////////////////////////////////////////////
+  /// \brief Retourne true si le caractère est autorisé pour une combinaison
+  ///
+  ////////////////////////////////////////////////////////////
+  static bool isColor(const char c);
+  
 private:
+  ////////////////////////////////////////////////////////////
+  /// \brief Retourne true si il est possible de créer
+  /// une combinaison à partir d'une châine de caractères
+  ///
+  ////////////////////////////////////////////////////////////
+  static bool priv_isValid(const std::string& input);
 
   ////////////////////////////////////////////////////////////
   /// Données membres
@@ -75,5 +94,7 @@ private:
 
 std::ostream & operator<<(std::ostream & os, const Combinaison & c);
 std::istream & operator>>(std::istream & is,  Combinaison & c);
+
+bool isCombinaisonValid(const std::string& input);
 
 #endif
