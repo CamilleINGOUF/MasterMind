@@ -55,48 +55,53 @@ void Server::run()
   // Update des scores
   // Fin de la partie afficher le vainqueur
   // Fin du programme
-  
-  Combinaison combinaison = Combinaison::fromInput();
-  _game.setCodeSecret(combinaison);
 
-  // Envoi de la confirmation (pseudo de l'hôte + plateau initial)
   sf::Packet packet;
-  packet << _nameHost << _game.getPlateau();
-  
-  if (_pSocket->send(packet) != sf::Socket::Done)
+  sf::Socket::Status status;
+
+  // Tant que toutes les manches n'ont pas été jouées
+  while (!_game.partieTerminee())
   {
-    throw std::string("Impossible d'envoyer la confirmation");
+    // Début de partie
+    if (_game.plateauVide())
+    {
+      // Attende de le confirmation du client
+      if (_game.getDecodeur() == Client)
+      {
+	if (_pSocket->receive(packet) != sf::Socket::Done)
+	{
+	  throw std::string("Server::run() - Impossible de recevoir la confirmation du client");
+	}
+
+	std::string codeSecret;
+	
+	if (!(packet >> codeSecret))
+	  throw std::string("Server::run() - erreur à la réception du paquet");
+
+	Combinaison combinaison;
+	combinaison.setPions(codeSecret);
+	_game.setCodeSecret(combinaison);
+      }
+      // Saisie locale
+      else
+      {
+	Combinaison combinaison = Combinaison::fromInput();
+	_game.setCodeSecret(combinaison);
+
+	// Envoi de la confirmation
+	packet.clear();
+	packet << _nameHost << _game.getPlateau();
+
+	status = _pSocket->send(packet);
+
+	if (status != sf::Socket::Done)
+	{
+	  std::cout << "Le client s'est déconnecté !" << std::endl;
+	  return;
+	}
+      }
+    }
   }
-
-  std::cout << _game.getPlateau();
-
-  // Attente de la combinaison du client
-  packet.clear();
-
-  if (_pSocket->receive(packet) != sf::Socket::Done)
-  {
-    throw std::string("Pas de réponse de la part du client");
-  }
-  
-  // Réception
-  std::string combi;
-  if (packet >> combi)
-  {
-    combinaison.setPions(combi);
-  }
-
-  _game.getPlateau().addCombinaison(combinaison);
-
-  // Refresh  
-  packet.clear();
-  packet << _game.getPlateau();
-
-  if (_pSocket->send(packet) != sf::Socket::Done)
-  {
-    throw std::string("Impossible d'envoyer le plateau modifié");
-  }
-
-  std::cout << _game.getPlateau();
 }
   
 

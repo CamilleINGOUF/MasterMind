@@ -55,6 +55,9 @@ public:
 
   const Combinaison getCodeSecret();
   void setCodeSecret(const Combinaison combinaison);
+  bool plateauVide();
+
+  Joueur getDecodeur() const;
 
   ////////////////////////////////////////////////////////////
   /// \brief Lance le jeu

@@ -173,3 +173,20 @@ void Mastermind::viderPlateau()
   Plateau p;
   setPlateau(p);
 }
+
+
+////////////////////////////////////////////////////////////
+bool Mastermind::plateauVide()
+{
+  return getPlateau().getCombinaisons().size() == 0;
+}
+
+
+////////////////////////////////////////////////////////////
+Joueur Mastermind::getDecodeur() const
+{
+  if (_decodeur == Serveur)
+    return Serveur;
+  
+  return Client;
+}
