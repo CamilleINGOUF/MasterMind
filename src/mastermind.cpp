@@ -16,7 +16,7 @@ void Mastermind::setNbManches(const int v)
   _nbManches = v;
 }
 
-Plateau Mastermind::getPlateau() const
+Plateau& Mastermind::getPlateau()
 {
   return _plateau;
 }

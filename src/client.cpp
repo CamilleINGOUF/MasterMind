@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <memory>
+#include "Combinaison.hpp"
 
 
 ////////////////////////////////////////////////////////////
@@ -47,17 +48,40 @@ void Client::run()
     throw std::string("Impossible de recevoir le paquet de confirmation");
   }
 
-  packet >>_nameHost;
-  std::cout << _nameHost << " a choisit sa combinaison" << std::endl;
-  
-  // Saisie de la combinaison
-  // Tant que la partie n'est pas finie
   std::string plateau;
 
-  packet >> plateau;
-  std::cout << plateau;
+  if (packet >> _nameHost >> plateau)
+  {
+    std::cout << "Confirmation reçu de " << _nameHost << std::endl;
+    std::cout << plateau.size() << std::endl;
+  }
 
+  // Première affichage
+  std::cout << plateau;
   
+  // Saisie de la combinaison
+  Combinaison combi;
+  std::cin >> combi;
+
+  packet.clear();
+  packet << combi.toString();
+
+  // Envoi de la combinaison
+  if (_pSocket->send(packet) != sf::Socket::Done)
+  {
+    throw std::string("Impossible d'envoyer le paquet !");
+  }
+
+  // Réception du plateau modifié
+  packet.clear();
+  if (_pSocket->receive(packet) != sf::Socket::Done)
+  {
+    throw std::string("Impossible d'envoyer le paquet !");
+  }
+  
+  // Affichage du paquet modifié
+  if (packet >> plateau)
+    std::cout << plateau;
 }
 
 

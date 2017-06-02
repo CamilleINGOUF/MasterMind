@@ -3,6 +3,7 @@
 ////////////////////////////////////////////////////////////
 #include "Combinaison.hpp"
 #include <string>
+#include <sstream>
 
 
 ////////////////////////////////////////////////////////////
@@ -81,7 +82,7 @@ Combinaison & Combinaison::operator=(const Combinaison & c) {
       //std::cout << c << std::endl;
       _pions = c._pions;
     }
-    return *this; // T'es sérieux là ? WTF IS THIS !
+    return *this;
  }
 
 
@@ -114,27 +115,26 @@ std::istream& operator >>(std::istream& is, Combinaison& c)
 ////////////////////////////////////////////////////////////
 std::ostream& operator <<(std::ostream& os, const Combinaison& c)
 {
-  std::locale vieuxLoc = std::locale::global(std::locale("fr_FR.UTF-8"));
+  return os << c.toString();
+}
 
-  std::vector<char> pionsChar;
-	
+
+////////////////////////////////////////////////////////////
+const std::string Combinaison::toString() const
+{
+  std::stringstream sstream;
+  
   for(int i = 0; i < 4; i++)
   {
-    if(c.getPions()[i].getCouleur() == blanc) pionsChar.push_back('B');
-    if(c.getPions()[i].getCouleur() == bleu) pionsChar.push_back('b');
-    if(c.getPions()[i].getCouleur() == marron) pionsChar.push_back('m');
-    if(c.getPions()[i].getCouleur() == rouge) pionsChar.push_back('r');
-    if(c.getPions()[i].getCouleur() == vert) pionsChar.push_back('v');
-    if(c.getPions()[i].getCouleur() == orange) pionsChar.push_back('o');
-    if(c.getPions()[i].getCouleur() == jaune) pionsChar.push_back('j');
-    if(c.getPions()[i].getCouleur() == noir) pionsChar.push_back('n');
+    if(getPions()[i].getCouleur() == blanc) sstream << 'B';
+    if(getPions()[i].getCouleur() == bleu) sstream << 'b';
+    if(getPions()[i].getCouleur() == marron) sstream << 'm';
+    if(getPions()[i].getCouleur() == rouge) sstream << 'r';
+    if(getPions()[i].getCouleur() == vert) sstream << 'v';
+    if(getPions()[i].getCouleur() == orange) sstream << 'o';
+    if(getPions()[i].getCouleur() == jaune) sstream << 'j';
+    if(getPions()[i].getCouleur() == noir) sstream << 'n';
   }
-  
-  os << pionsChar[0] << " "
-     << pionsChar[1] << " "
-     << pionsChar[2] << " "
-     << pionsChar[3] << std::endl;
-  
-  std::locale::global(vieuxLoc);
-  return os;
+
+  return sstream.str();
 }

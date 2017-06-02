@@ -2,6 +2,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include "Plateau.hpp"
+#include <sstream>
 
 
 ////////////////////////////////////////////////////////////
@@ -48,11 +49,33 @@ Combinaison Plateau::getLastCombinaison() const
 void Plateau::addCombinaison(const Combinaison combinaison)
 {
   if(_combinaisons.size() < 12)
+  {
+    _combinaisons.push_back(combinaison);
+    std::cout << "Ajout de la combi !" << std::endl;
+  }
+}
+
+
+////////////////////////////////////////////////////////////
+const std::string Plateau::toString() const
+{
+  std::stringstream sstream;
+  for (unsigned i = 0; i < (12 - getCombinaisons().size()); i++)
+  {
+    for (int j = 0; j < 4; j++)
     {
-      
-      _combinaisons.push_back(combinaison);
-      
+      sstream << ". ";
     }
+    
+    sstream << "\n";
+  }
+  
+  for(unsigned i = 0; i < getCombinaisons().size(); i++)
+  {
+    sstream << getCombinaisons()[i] << "\n";
+  }
+  
+  return sstream.str();
 }
 
 
@@ -72,8 +95,8 @@ std::ostream & operator<<(std::ostream & os, const Plateau & p)
   for(unsigned i = 0; i < p.getCombinaisons().size(); i++)
   {
     //std::cout << i << std::endl;
-    os << p.getCombinaisons()[i];
-  }
+    os << p.getCombinaisons()[i] << std::endl;
+  } 
   
   return os;
 }

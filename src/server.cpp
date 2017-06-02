@@ -65,15 +65,43 @@ void Server::run()
   // Envoi de la confirmation (pseudo de l'hôte + plateau initial)
   sf::Packet packet;
   packet << _nameHost << _game.getPlateau();
-
+  
   if (_pSocket->send(packet) != sf::Socket::Done)
   {
     throw std::string("Impossible d'envoyer la confirmation");
   }
 
   std::cout << _game.getPlateau();
-}
 
+  // Attente de la combinaison du client
+  packet.clear();
+
+  if (_pSocket->receive(packet) != sf::Socket::Done)
+  {
+    throw std::string("Pas de réponse de la part du client");
+  }
+  
+  // Réception
+  std::string combi;
+  if (packet >> combi)
+  {
+    combinaison.setPions(combi);
+  }
+
+  _game.getPlateau().addCombinaison(combinaison);
+
+  // Refresh  
+  packet.clear();
+  packet << _game.getPlateau();
+
+  if (_pSocket->send(packet) != sf::Socket::Done)
+  {
+    throw std::string("Impossible d'envoyer le plateau modifié");
+  }
+
+  std::cout << _game.getPlateau();
+}
+  
 
 ////////////////////////////////////////////////////////////
 void Server::priv_getSettings()
@@ -106,9 +134,9 @@ void Server::priv_getSettings()
   do
   {
     std::cout << "Pseudo: ";
-    std::getline(std::cin, _nameClient);
+    std::getline(std::cin, _nameHost);
   }
-  while (_nameClient.empty());  
+  while (_nameHost.empty());  
 }
 
 
@@ -150,10 +178,7 @@ void Server::priv_initServer()
 ////////////////////////////////////////////////////////////
 sf::Packet& operator<<(sf::Packet& pkt, const Plateau& p)
 {
-  std::ostringstream oss;
-  oss << p;
-  pkt << oss.str();
-  return pkt;
+  return pkt << p.toString();
 }
 
 

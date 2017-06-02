@@ -32,7 +32,7 @@ public:
   int getNbManches() const;
   void setNbManches(const int v);
 
-  Plateau getPlateau() const;
+  Plateau& getPlateau();
   void setPlateau(const Plateau plateau);
 
   std::string getNomJoueurServeur() const;

@@ -2,6 +2,8 @@
 #define PLATEAU_HPP_
 
 #include <vector>
+#include <string>
+#include <iostream>
 #include "Combinaison.hpp"
 
 //////////////////////////////////////////////////////////////////
@@ -60,6 +62,12 @@ public:
   /// \note Combinaison : r j v B pour rouge, jaune, vert, Blanc
   ////////////////////////////////////////////////////////// 
   void addCombinaison(const Combinaison combinaison);
+
+  //////////////////////////////////////////////////////////
+  /// \brief Retourne le plateau sous la forme d'une chaîne de caractères
+  ///
+  ////////////////////////////////////////////////////////// 
+  const std::string toString() const;
   
 private:
   
