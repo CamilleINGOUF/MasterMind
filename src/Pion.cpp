@@ -22,7 +22,7 @@ void Pion::setCouleur(const Couleur couleur)
   _couleur = couleur;
 }
 
-bool Pion::operator==(const Pion & p2)
+bool Pion::operator==(const Pion & p2) const 
 {
   return p2._couleur == _couleur;
 }

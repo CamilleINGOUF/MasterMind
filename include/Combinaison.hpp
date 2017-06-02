@@ -56,7 +56,7 @@ public:
 
   void setPions(const std::string pions);
   
-  bool operator==(Combinaison & that);
+  bool operator==(const Combinaison & that) const;
   Combinaison & operator=(const Combinaison & c);
 
   ////////////////////////////////////////////////////////////

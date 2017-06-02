@@ -62,13 +62,13 @@ void Combinaison::setPions(const std::string str)
 
 
 ////////////////////////////////////////////////////////////
-bool Combinaison::operator==(Combinaison & that)
+bool Combinaison::operator==(const Combinaison & that) const
 {
   bool toReturn = true;
   for(unsigned i = 0; i < that._pions.size(); i++)
   {
-      if(!(that._pions[i] == _pions[i]))
-	toReturn = false;
+    if(!(that._pions[i] == _pions[i]))
+      toReturn = false;
   }
   return toReturn;
 }

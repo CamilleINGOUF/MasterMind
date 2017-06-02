@@ -4,44 +4,73 @@ int main()
 {
   Mastermind mm;
   std::string pseudo;
+  int nombreManches;
 
   std::string codeSecretString;
   Combinaison codeSecret;
   
   std::cout << "Donner votre nom : ";
   std::cin >> pseudo;
+
+  std::cout << "Nombre de manches : ";
+  std::cin >> nombreManches;
+  mm.setNbManches(nombreManches);
   
-  std::cout << "Vous êtes le codeur, créer un code secret : ";
-  std::cin >> codeSecretString;
-  codeSecret.setPions(codeSecretString);
+  Combinaison combinaisonAjouter;
+  std::string combinaisonString;
 
-  mm.setCodeSecret(codeSecret);
-  mm.setNomJoueurServeur(pseudo);
-  std::cout << "Code secret : " << mm.getCodeSecret() << std::endl;
+  bool isOver = false;
 
-  Combinaison c({blanc,bleu,orange,marron});
-  Combinaison c2({jaune,vert,rouge,noir});
+  mm.setScoreServeur(0);
 
-  Plateau p({c,c2});
-
-  mm.setPlateau(p);
-  std::cout << mm.getPlateau() << std::endl;
-
-  //std::cin.ignore();
-
+  std::cout << mm.getPlateau();
   
-  Combinaison codeAjouter;
-  std::string codeString;
-  std::cout << "Combinaison à ajouter : ";
-  std::cin >> codeString;
-  codeAjouter.setPions(codeString);
+  while(!isOver)
+    {
+      if(mm.getPlateau().getCombinaisons().size() == 0)
+	//si le plateau est vide, il faut selectionner le code secret
+	{
+	  std::cout << "Vous êtes le codeur, créer un code secret : ";
+	  std::cin >> codeSecretString;
+	  codeSecret.setPions(codeSecretString);
 
-  Plateau pTemp;
-  pTemp = mm.getPlateau();
-  pTemp.addCombinaison(codeAjouter);
-  mm.setPlateau(pTemp);
-  
-  std::cout << mm.getPlateau() << std::endl;
+	  mm.setCodeSecret(codeSecret);
+	  mm.setNomJoueurServeur(pseudo);
+	  std::cout << "Code secret : " << mm.getCodeSecret() << std::endl;
+	}
+      
+      std::cout << "Combinaison à ajouter : ";
+      std::cin >> combinaisonString;
+      combinaisonAjouter.setPions(combinaisonString);
+
+      Plateau tempPlateau;
+      tempPlateau = mm.getPlateau();
+      tempPlateau.addCombinaison(combinaisonAjouter);
+      mm.setPlateau(tempPlateau);
+      
+      mm.setScoreServeur(mm.getScoreServeur() + 1);
+
+      std::cout << mm.getPlateau();
+
+      if(mm.decodeurGagnant())
+	{
+	  //Gagné
+	  std::cout << "Tu as gagné avec " << mm.getScoreServeur() << std::endl;
+	  mm.inverserRoles();
+	  std::cout << "On inverse les rôles mais tu es seul" << std::endl;
+	}
+      else if(mm.tourTermine())
+	{
+	  //Perdu
+	  mm.setScoreServeur(mm.getScoreServeur() + 20);
+	  std::cout << "Tu as perdu avec " << mm.getScoreServeur() << std::endl;
+	  mm.inverserRoles();
+	  std::cout << "On inverse les rôles mais tu es seul" << std::endl;
+	}
+
+      std::cout << "Manches : " << mm.getCurrentNbManches() << std::endl;
+      isOver = mm.partieTerminee();
+    }
   
   return 0;
 }
