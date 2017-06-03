@@ -25,23 +25,100 @@ Client::~Client()
 
 
 ////////////////////////////////////////////////////////////
-void Client::run()
+void Client::priv_getSettings()
 {
-  std::string ip;
-  int port(-1);
-  priv_getSettings(ip, port);
   
+  // Saisie de l'IP du serveur
+  do
+  {
+    std::cout << "Adresse IP du serveur: ";
+    std::getline(std::cin, _serverIP);
+
+    if (_serverIP.empty())
+      std::cerr << "L'adresse du serveur ne peut être vide !" << std::endl;
+  }
+  while (_serverIP.empty());
+
+  // Saisie du port
+  std::string input;
+  
+  do
+  {
+    std::cout << "Port du serveur: ";
+    std::getline(std::cin, input);
+
+    try
+    {
+      _port = std::stoi(input);
+    }
+    catch (const std::invalid_argument& err)
+    {
+      continue;
+    }
+    catch (const std::out_of_range& err)
+    {
+      continue;
+    }
+
+    if (input.empty())
+      std::cerr << "Le port du serveur ne peut être vide !" << std::endl;
+    else
+    {
+      if (_port <= 0)
+	std::cerr << "Le port doit être supérieur à 0 !" << std::endl;
+    }
+  }
+  while (input.empty() || _port <= 0);
+  
+  // Saisie du nom
+  do
+  {
+    std::cout << "Pseudo: ";
+    std::getline(std::cin, _nameClient);
+
+    if (_nameClient.empty())
+      std::cerr << "Votre pseudo ne peut être vide !" << std::endl;
+  }
+  while (_nameClient.empty());
+}
+
+
+////////////////////////////////////////////////////////////
+void Client::priv_initClient()
+{
   // Connexion au serveur
   _pSocket = std::make_unique<sf::TcpSocket>();
-  if (_pSocket->connect(ip, port) != sf::Socket::Done)
-  {
-    throw std::string("Impossible de se connecter au serveur: " + ip); 
-  }
+  if (_pSocket->connect(_serverIP, _port) != sf::Socket::Done)
+    throw std::string("Impossible de se connecter au serveur: " + _serverIP);
 
-  // Attente de la confirmation de la combinaison
   std::cout << "Connexion au serveur réussie." << std::endl;
-  std::cout << "En attente de la combinaison..." << std::endl;
+  
+  // Réception du pseudo de l'hôte
+  sf::Packet packet;
 
+  if (_pSocket->receive(packet) != sf::Socket::Done)
+    throw std::string("Impossible de recevoir le pseudo de l'hôte");
+
+  if (!(packet >> _nameHost))
+    throw std::string("Erreur de paquet - réception du pseudo de l'hôte");
+
+  std::cout << "Vous jouer contre " << _nameHost << " !" << std::endl;
+
+  // Envoi du pseudo client
+  packet.clear();
+  packet << _nameClient;
+  
+  if (_pSocket->send(packet) != sf::Socket::Done)
+    throw std::string("Impossible d'envoyer le pseudo client");
+}
+
+
+////////////////////////////////////////////////////////////
+void Client::run()
+{
+  priv_getSettings();
+  priv_initClient();
+  
   sf::Packet packet;
 
   if (_pSocket->receive(packet) != sf::Socket::Done)
@@ -82,50 +159,6 @@ void Client::run()
     std::cout << plateau;
 }
 
-
-////////////////////////////////////////////////////////////
-void Client::priv_getSettings(std::string& ip, int& port)
-{
-  
-  // Saisie de l'IP du serveur
-  do
-  {
-    std::cout << "Adresse IP du serveur: ";
-    std::getline(std::cin, ip);
-  }
-  while (ip.empty());
-
-  // Saisie du port
-  std::string input;
-  
-  do
-  {
-    std::cout << "Port du serveur: ";
-    std::getline(std::cin, input);
-
-    try
-    {
-      port = std::stoi(input);
-    }
-    catch (const std::invalid_argument& err)
-    {
-      continue;
-    }
-    catch (const std::out_of_range& err)
-    {
-      continue;
-    }
-  }
-  while (input.empty() || port <= 0);
-  
-  // Saisie du nom
-  do
-  {
-    std::cout << "Pseudo: ";
-    std::getline(std::cin, _nameClient);
-  }
-  while (_nameClient.empty());
-}
 
 
 ////////////////////////////////////////////////////////////
