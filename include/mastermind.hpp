@@ -77,6 +77,10 @@ public:
   bool mancheTerminee();
 
   bool tourTermine();
+
+  void ajouterCombinaison(Combinaison& combi);
+
+  unsigned getNombreEssais() const;
 private:
   int _nbManches;
   int _currentNbManches;

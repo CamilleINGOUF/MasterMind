@@ -178,7 +178,7 @@ void Mastermind::viderPlateau()
 ////////////////////////////////////////////////////////////
 bool Mastermind::plateauVide()
 {
-  return getPlateau().getCombinaisons().size() == 0;
+  return _plateau.getCombinaisons().size() == 0;
 }
 
 
@@ -187,6 +187,20 @@ Joueur Mastermind::getDecodeur() const
 {
   if (_decodeur == Serveur)
     return Serveur;
-  
+
   return Client;
+}
+
+
+////////////////////////////////////////////////////////////
+void Mastermind::ajouterCombinaison(Combinaison& combi)
+{
+  _plateau.addCombinaison(combi);
+}
+
+
+////////////////////////////////////////////////////////////
+unsigned Mastermind::getNombreEssais() const
+{
+  return _plateau.getCombinaisons().size();
 }
