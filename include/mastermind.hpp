@@ -100,8 +100,6 @@ private:
   int _scoreServeur;
   int _scoreClient;
 
-  bool _isRunning;
-
   std::string _gagnantNom;
   Joueur _gagnantJoueur;
 };

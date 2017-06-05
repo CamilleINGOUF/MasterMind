@@ -152,14 +152,14 @@ void Server::priv_updateTour()
     }
     else
     {
-      _game.setCodeSecret(priv_requestCombinaison());
+      _game.setCodeSecret(priv_requestCombinaison(true));
     }
   }
 
   // Récupération de la combinaison
   if (_game.getDecodeur() == Client)
   {
-    Combinaison combinaison = priv_requestCombinaison();
+    Combinaison combinaison = priv_requestCombinaison(false);
     _game.ajouterCombinaison(combinaison);
   }
   else
@@ -201,11 +201,14 @@ void Server::priv_updateTour()
     packet << static_cast<sf::Int32>(PacketType::TurnFinished);
 
     if (_game.getDecodeur() == Serveur)
-      packet << Serveur << static_cast<sf::Int32>(_game.getScoreServeur());
+      packet << static_cast<sf::Int32>(_game.getScoreServeur());
     else
-      packet << Client << static_cast<sf::Int32>(_game.getScoreClient());
+      packet << static_cast<sf::Int32>(_game.getScoreClient());
 
     packet << _game.getPlateau().toString();
+
+    _game.inverserRoles();
+    std::cout << "Inversion des rôles" << std::endl;
   }
   else
   {
@@ -219,12 +222,20 @@ void Server::priv_updateTour()
 
 
 ////////////////////////////////////////////////////////////
-Combinaison Server::priv_requestCombinaison()
+Combinaison Server::priv_requestCombinaison(bool combiSecrete)
 {  
   // Requête d'une combinaison
-  std::cout << "En attente d'une combinaison de "
+  if (combiSecrete)
+  {
+    std::cout << "En attente d'une combinaison secrète de "
+	      << _nameClient << "..." << std::endl;
+  }
+  else
+  {     
+    std::cout << "En attente d'une combinaison de "
 	    << _nameClient << "..." << std::endl;
-
+  }
+  
   sf::Packet packet;
   packet << static_cast<sf::Int32>(PacketType::CombinaisonRequest);
   if (_pSocket->send(packet) != sf::Socket::Done)
@@ -258,10 +269,16 @@ void Server::priv_mainLoop()
       {
 	priv_updateTour();
       }
-
-      _game.inverserRoles();
     }
   }
+
+  sf::Packet packet;
+  packet << static_cast<sf::Int32>(PacketType::GameFinished);
+
+  if (_pSocket->send(packet) != sf::Socket::Done)
+    throw std::string("Impossible d'envoyer le paquet - PacketType::GameFinished");
+
+  std::cout << "La partie est terminée !" << std::endl;
 }
 
 

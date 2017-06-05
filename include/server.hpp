@@ -78,8 +78,11 @@ private:
   ////////////////////////////////////////////////////////////
   /// \brief Retourne une combinaison reçu d'un client
   ///
+  /// \param True si la combinaison demandée est la combinaison
+  /// secrète
+  ///
   ////////////////////////////////////////////////////////////
-  Combinaison priv_requestCombinaison();
+  Combinaison priv_requestCombinaison(bool combiSecrete);
   
   ////////////////////////////////////////////////////////////
   /// Données membres

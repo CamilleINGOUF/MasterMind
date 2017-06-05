@@ -109,6 +109,9 @@ void Client::priv_initClient()
   
   if (_pSocket->send(packet) != sf::Socket::Done)
     throw std::string("Impossible d'envoyer le pseudo client");
+
+  std::cout << "En attente de la confirmation de la combinaison..."
+	    << std::endl;
 }
 
 
@@ -138,12 +141,15 @@ void Client::priv_handlePacket(sf::Int32 packetType, sf::Packet& packet)
     sf::Int32 score;
     std::string plateau;
 
-    if (!(packet >> score) or !(packet >> plateau))
-      throw std::string("Paquet corrompu - PacketType::TurnFinished");
+    if (!(packet >> score))
+      throw std::string("Paquet corrompu [score] - PacketType::TurnFinished");
+
+    if (!(packet >> plateau))
+      throw std::string("Paquet corrompu [plateau] - PacketType::TurnFinished");
 
     std::cout << "Score du décodeur: " << score << "pts" << std::endl
 	      << plateau << std::endl;
-    
+    std::cout << "Inversion des rôles !" << std::endl;
   } break;
 
   case PacketType::TurnNotFinished:
@@ -153,7 +159,7 @@ void Client::priv_handlePacket(sf::Int32 packetType, sf::Packet& packet)
     if (!(packet >> plateau))
       throw std::string("Paquet corrompu - PacketType::TurnNotFinished");
 
-    std::cout << plateau;
+    std::cout << plateau << std::endl;
   } break;
   
   case PacketType::GameFinished:

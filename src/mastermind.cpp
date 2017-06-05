@@ -5,7 +5,8 @@
 
 ////////////////////////////////////////////////////////////
 Mastermind::Mastermind(): _tourDansManche(0),
-			  _codeur(Serveur), _decodeur(Client), _isRunning(false)
+			  _codeur(Serveur), _decodeur(Client),
+			  _scoreServeur(0), _scoreClient(0)
 			{}
 			  
 int Mastermind::getNbManches() const
@@ -140,17 +141,20 @@ bool Mastermind::partieTerminee()
 
 bool Mastermind::mancheTerminee()
 {
-  return _tourDansManche == 1 and (tourTermine() or decodeurGagnant());
+  return partieTerminee() or (_tourDansManche == 1 and tourTermine());
 }
 
 bool Mastermind::tourTermine()
 {
-  return _plateau.getCombinaisons().size() >= 12
-    or decodeurGagnant();
+  return partieTerminee() or (_plateau.getCombinaisons().size() >= 12
+	  or decodeurGagnant());
 }
 
 bool Mastermind::decodeurGagnant()
 {
+  if (getNombreEssais() == 0)
+    return false;
+  
   if(_codeSecret == _plateau.getLastCombinaison())
     {
       if(_decodeur == Serveur)
@@ -170,6 +174,7 @@ bool Mastermind::decodeurGagnant()
 
 void Mastermind::viderPlateau()
 {
+  // PAS PROPRE -> faire un clear sur le vecteur de combinaison...
   Plateau p;
   setPlateau(p);
 }
