@@ -11,16 +11,15 @@
 
 ////////////////////////////////////////////////////////////
 Client::Client() :
-  _pSocket(nullptr)
-{
-  
+  _pSocket(nullptr),
+  _endOfGame(false)
+{ 
 }
 
 
 ////////////////////////////////////////////////////////////
 Client::~Client()
 {
-
 }
 
 
@@ -114,51 +113,84 @@ void Client::priv_initClient()
 
 
 ////////////////////////////////////////////////////////////
+void Client::priv_handlePacket(sf::Int32 packetType, sf::Packet& packet)
+{
+  switch (packetType)
+  {
+    
+  case PacketType::Confirmation:
+  {
+    std::cout << _nameHost << " a choisi la combinaison secrète !" << std::endl;
+  } break;
+
+  case PacketType::CombinaisonRequest:
+  {
+    Combinaison combinaison = Combinaison::fromInput();
+    sf::Packet pkt;
+    pkt << combinaison;
+
+    if (_pSocket->send(pkt) != sf::Socket::Done)
+      throw std::string("Impossible d'envoyer la combinaison !");
+  } break;
+
+  case PacketType::TurnFinished:
+  {
+    sf::Int32 score;
+    std::string plateau;
+
+    if (!(packet >> score) or !(packet >> plateau))
+      throw std::string("Paquet corrompu - PacketType::TurnFinished");
+
+    std::cout << "Score du décodeur: " << score << "pts" << std::endl
+	      << plateau << std::endl;
+    
+  } break;
+
+  case PacketType::TurnNotFinished:
+  {
+    std::string plateau;
+
+    if (!(packet >> plateau))
+      throw std::string("Paquet corrompu - PacketType::TurnNotFinished");
+
+    std::cout << plateau;
+  } break;
+  
+  case PacketType::GameFinished:
+  {
+    std::cout << "La partie est terminée !" << std::endl;
+    _endOfGame = true;
+  } break;
+  
+  };
+}
+
+////////////////////////////////////////////////////////////
+void Client::priv_mainLoop()
+{
+  sf::Packet packet;
+  sf::Int32 packetType;
+  
+  while (!_endOfGame)
+  {
+    packet.clear();
+    if (_pSocket->receive(packet) != sf::Socket::Done)
+      throw std::string("Impossible de recevoir des paquets du serveur !");
+
+    if (!(packet >> packetType))
+      throw std::string("Impossible d'extraire le type du paquet !");
+
+    priv_handlePacket(packetType, packet);
+  }
+}
+
+////////////////////////////////////////////////////////////
 void Client::run()
 {
   priv_getSettings();
   priv_initClient();
-  
-  sf::Packet packet;
-
-  if (_pSocket->receive(packet) != sf::Socket::Done)
-  {
-    throw std::string("Impossible de recevoir le paquet de confirmation");
-  }
-
-  std::string plateau;
-
-  if (packet >> _nameHost >> plateau)
-  {
-    std::cout << _nameHost << " a choisit le code secret !" << std::endl;
-  }
-
-  // Première affichage
-  std::cout << plateau;
-
-  Combinaison combi = Combinaison::fromInput();
-
-  packet.clear();
-  packet << combi;
-
-  // Envoi de la combinaison
-  if (_pSocket->send(packet) != sf::Socket::Done)
-  {
-    throw std::string("Impossible d'envoyer le paquet !");
-  }
-
-  // Réception du plateau modifié
-  packet.clear();
-  if (_pSocket->receive(packet) != sf::Socket::Done)
-  {
-    throw std::string("Impossible d'envoyer le paquet !");
-  }
-  
-  // Affichage du paquet modifié
-  if (packet >> plateau)
-    std::cout << plateau;
+  priv_mainLoop();
 }
-
 
 
 ////////////////////////////////////////////////////////////

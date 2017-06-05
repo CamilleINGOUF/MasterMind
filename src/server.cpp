@@ -145,42 +145,21 @@ void Server::priv_updateTour()
       Combinaison combinaison = Combinaison::fromInput();
       _game.setCodeSecret(combinaison);
 
-      packet.clear();
-      packet << static_cast<sf::Int32>(PacketType::SERVER_CONFIRM);
+      packet << static_cast<sf::Int32>(PacketType::Confirmation);
       
       if (_pSocket->send(packet) != sf::Socket::Done)
 	throw std::string("Impossible d'envoyer la confirmation de sélection de combinaison");
     }
     else
     {
-      if (_pSocket->receive(packet) != sf::Socket::Done)
-	throw std::string("Server::run() - Impossible de recevoir le code secret");
-
-      std::string codeSecret;
-	
-      if (!(packet >> codeSecret))
-	throw std::string("Server::run() - erreur à la réception du paquet");
-
-      Combinaison combinaison;
-      combinaison.setPions(codeSecret);
-      _game.setCodeSecret(combinaison);
+      _game.setCodeSecret(priv_requestCombinaison());
     }
   }
 
   // Récupération de la combinaison
   if (_game.getDecodeur() == Client)
   {
-    if (_pSocket->receive(packet) != sf::Socket::Done)
-      throw std::string("Impossible de recevoir la combinaison du client !");
-
-    std::string combiClient;
-
-    packet.clear();
-    if (!(packet >> combiClient))
-      throw std::string("Paquet corrompu à la réception de la combinaison du client !");
-
-    Combinaison combinaison;
-    combinaison.setPions(combiClient);
+    Combinaison combinaison = priv_requestCombinaison();
     _game.ajouterCombinaison(combinaison);
   }
   else
@@ -189,14 +168,14 @@ void Server::priv_updateTour()
     _game.ajouterCombinaison(combiServer);
   }
 
+  // Refresh de l'affichage
+  std::cout << _game.getPlateau();  
+
   packet.clear();
-  
+
   // Vérification + Mise à jour du jeu
   if (_game.tourTermine())
   {
-    // Refresh de l'affichage
-    std::cout << _game.getPlateau();
-
     // Mise à jour des points
     if (_game.decodeurGagnant())
     {
@@ -219,23 +198,52 @@ void Server::priv_updateTour()
 	      << " points" << std::endl;
 
     // Envoi des informations de fin de tour
-    packet << static_cast<sf::Int32>(PacketType::TURN_FINISHED);
+    packet << static_cast<sf::Int32>(PacketType::TurnFinished);
 
     if (_game.getDecodeur() == Serveur)
-      packet << Serveur << _game.getScoreServeur();
+      packet << Serveur << static_cast<sf::Int32>(_game.getScoreServeur());
     else
-      packet << Client << _game.getScoreClient();
+      packet << Client << static_cast<sf::Int32>(_game.getScoreClient());
 
     packet << _game.getPlateau().toString();
   }
   else
   {
-    packet << static_cast<sf::Int32>(PacketType::TURN_NOT_FINISHED)
+    packet << static_cast<sf::Int32>(PacketType::TurnNotFinished)
 	   << _game.getPlateau().toString();
   }
 
   if (_pSocket->send(packet) != sf::Socket::Done)
     throw std::string("Impossible d'envoyer le paquet de refresh !");
+}
+
+
+////////////////////////////////////////////////////////////
+Combinaison Server::priv_requestCombinaison()
+{  
+  // Requête d'une combinaison
+  std::cout << "En attente d'une combinaison de "
+	    << _nameClient << "..." << std::endl;
+
+  sf::Packet packet;
+  packet << static_cast<sf::Int32>(PacketType::CombinaisonRequest);
+  if (_pSocket->send(packet) != sf::Socket::Done)
+    throw std::string("Impossible d'envoyer une requête de combinaison");
+      
+  // Réception de la combinaison
+  packet.clear();
+  if (_pSocket->receive(packet) != sf::Socket::Done)
+    throw std::string("Impossible de recevoir une combinaison");
+
+  // Extraction de la combinaison
+  std::string combiStr;	
+  if (!(packet >> combiStr))
+    throw std::string("Erreur d'extraction de la combinaison !");
+
+  Combinaison combinaison;
+  combinaison.setPions(combiStr);
+
+  return combinaison;
 }
 
 

@@ -21,9 +21,11 @@
 ////////////////////////////////////////////////////////////
 enum PacketType
 {
-  SERVER_CONFIRM,
-  TURN_FINISHED,
-  TURN_NOT_FINISHED
+  Confirmation,
+  CombinaisonRequest,
+  GameFinished,
+  TurnFinished,
+  TurnNotFinished
 };
 
 

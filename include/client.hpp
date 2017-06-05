@@ -61,6 +61,21 @@ private:
   void priv_initClient();
 
   ////////////////////////////////////////////////////////////
+  /// \brief Boucle principale du client
+  ///
+  ////////////////////////////////////////////////////////////
+  void priv_mainLoop();
+
+  ////////////////////////////////////////////////////////////
+  /// \brief Gestion des paquets
+  ///
+  /// \param packetType le type du paquet (cf. protocol.hpp)
+  /// \param packet les données
+  ///
+  //////////////////////////////////////////////////////////// 
+  void priv_handlePacket(sf::Int32 packetType, sf::Packet& packet);
+  
+  ////////////////////////////////////////////////////////////
   /// Données membres
   ////////////////////////////////////////////////////////////
   PtrSocket   _pSocket;    ///< Lien entre le serveur et le client
@@ -68,6 +83,7 @@ private:
   std::string _nameHost;   ///< Le pseudo de l'hôte
   std::string _serverIP;   ///< L'adresse du serveur
   unsigned    _port;       ///< Le port du serveur
+  bool        _endOfGame;  ///< Flag de la boucle principale
   
 };
 
