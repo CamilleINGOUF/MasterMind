@@ -209,3 +209,32 @@ unsigned Mastermind::getNombreEssais() const
 {
   return _plateau.getCombinaisons().size();
 }
+
+
+////////////////////////////////////////////////////////////
+void Mastermind::corrigerDerniereCombinaison()
+{
+  Combinaison correction;
+  std::vector<Pion> pions;
+
+  for(int i = 0; i < 4;i++)
+    {
+      if(_codeSecret.getPions()[i] == _plateau.getLastCombinaison().getPions()[i])
+	{
+	  pions.push_back(blanc);
+	}
+      else if(_codeSecret.pionDansLaCombinaison(_plateau
+						.getLastCombinaison()
+						.getPions()[i]))
+	{
+	  pions.push_back(noir);
+	}
+      else
+	{
+	  pions.push_back(vide);
+	}
+    }
+
+  correction.setPions(pions);
+  _plateau.addCorrection(correction);
+}

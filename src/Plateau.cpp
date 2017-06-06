@@ -8,6 +8,7 @@
 ////////////////////////////////////////////////////////////
 Plateau::Plateau()
 {
+  
 }
 
 
@@ -37,6 +38,18 @@ void Plateau::setCombinaisons(const std::vector<Combinaison> combinaisons)
   _combinaisons = combinaisons;
 }
 
+///////////////////////////////////////////////////////////
+std::vector<Combinaison> Plateau::getCorrections() const
+{
+  return _corrections;
+}
+
+///////////////////////////////////////////////////////////
+void Plateau::setCorrection(const std::vector<Combinaison> combinaisons)
+{
+  _corrections = combinaisons;
+}
+
 
 ////////////////////////////////////////////////////////////
 Combinaison Plateau::getLastCombinaison() const
@@ -54,6 +67,16 @@ void Plateau::addCombinaison(const Combinaison combinaison)
     _combinaisons.push_back(combinaison);
 }
 
+////////////////////////////////////////////////////////////
+//dans le cli, la corretion la plus récente se trouvera en bas du plateau
+void Plateau::addCorrection(const Combinaison combinaison)
+{
+  if(_corrections.size() < 12)
+  {
+    _corrections.push_back(combinaison);
+  }
+}
+
 
 ////////////////////////////////////////////////////////////
 const std::string Plateau::toString() const
@@ -63,8 +86,10 @@ const std::string Plateau::toString() const
   {
     for (int j = 0; j < 4; j++)
     {
-      sstream << ". ";
+      sstream << ".";
     }
+
+    
     
     sstream << "\n";
   }
@@ -85,7 +110,14 @@ std::ostream & operator<<(std::ostream & os, const Plateau & p)
   {
     for (int j = 0; j < 4; j++)
     {
-	std::cout << ". ";
+	std::cout << ".";
+    }
+
+    std::cout << " ";
+
+    for (int j = 0; j < 4; j++)
+    {
+	std::cout << ".";
     }
     
     std::cout << std::endl;
@@ -93,8 +125,7 @@ std::ostream & operator<<(std::ostream & os, const Plateau & p)
   
   for(unsigned i = 0; i < p.getCombinaisons().size(); i++)
   {
-    //std::cout << i << std::endl;
-    os << p.getCombinaisons()[i] << std::endl;
+    os << p.getCorrections()[i]  << " " << p.getCombinaisons()[i] << std::endl;
   } 
   
   return os;

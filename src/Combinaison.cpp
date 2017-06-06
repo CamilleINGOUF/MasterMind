@@ -5,8 +5,6 @@
 #include <string>
 #include <sstream>
 #include <algorithm>
-#include <vector>
-
 
 ////////////////////////////////////////////////////////////
 Combinaison::Combinaison() :
@@ -135,6 +133,7 @@ const std::string Combinaison::toString() const
     if(_pions[i].getCouleur() == orange) sstream << 'o';
     if(_pions[i].getCouleur() == jaune) sstream << 'j';
     if(_pions[i].getCouleur() == noir) sstream << 'n';
+    if(_pions[i].getCouleur() == vide) sstream << '.';
   }
 
   return sstream.str();
@@ -204,4 +203,11 @@ bool Combinaison::isColor(const char c)
 { 
   return c == 'r' or c == 'v' or c == 'b' or c == 'm' or c == 'o' or
     c == 'j' or c == 'n' or c == 'B';
+}
+
+
+////////////////////////////////////////////////////////////
+bool Combinaison::pionDansLaCombinaison(Pion p)
+{
+  return (std::find(_pions.begin(), _pions.end(), p) != _pions.end());
 }

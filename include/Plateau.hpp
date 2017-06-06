@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////////
 /// \brief La classe Plateau permet d'afficher l'état du jeu en cours
 /// \file      Plateau.hpp
-/// \author    Axel segard
+/// \author    Camille gouf
 /// \version   1.0
 /// \date 1 juin 2017
 //////////////////////////////////////////////////////////////////
@@ -57,11 +57,29 @@ public:
   Combinaison getLastCombinaison() const;
 
   //////////////////////////////////////////////////////////
+  /// \brief Récupères les corrections
+  /// \return Combinaison de pions (noir/blanc/vide)
+  //////////////////////////////////////////////////////////  
+  std::vector<Combinaison> getCorrections() const;
+
+  //////////////////////////////////////////////////////////
+  /// \brief Accesseurs pour changer les corrections de plateau
+  /// \param combinaisons vecteur de combinaison (noir/blanc/vide)
+  ////////////////////////////////////////////////////////// 
+  void setCorrection(const std::vector<Combinaison> combinaisons);
+
+  //////////////////////////////////////////////////////////
   /// \brief Accesseurs pour ajouter une combinaison sur le plateau
   /// \param combinaison combinaison de couleur
   /// \note Combinaison : r j v B pour rouge, jaune, vert, Blanc
   ////////////////////////////////////////////////////////// 
   void addCombinaison(const Combinaison combinaison);
+
+  //////////////////////////////////////////////////////////
+  /// \brief Accesseurs pour ajouter une correction sur le plateau
+  /// \param combinaison correction (noir/blanc/vide)
+  ////////////////////////////////////////////////////////// 
+  void addCorrection(const Combinaison correction);
 
   //////////////////////////////////////////////////////////
   /// \brief Retourne le plateau sous la forme d'une chaîne de caractères
@@ -72,9 +90,15 @@ public:
 private:
   
   ////////////////////////////////////////////////////////////
-  /// Données membres
+  /// Vecteur des combinaisons avec les pions du jeu
   ////////////////////////////////////////////////////////////
   std::vector<Combinaison> _combinaisons; ///< Historique des coups joués
+
+  ////////////////////////////////////////////////////////////
+  /// Vecteur des corrections correspondant aux combinaisons
+  /// Ce vecteur est composé de pions blancs et noirs seulement
+  ////////////////////////////////////////////////////////////
+  std::vector<Combinaison> _corrections;
 };
 
 ////////////////////////////////////////////////////////////

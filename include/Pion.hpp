@@ -34,7 +34,8 @@ enum Couleur
     orange,
     jaune,
     noir,
-    blanc
+    blanc,
+    vide
   };
 
 ///////////////////////////////////////////////////////////////////
