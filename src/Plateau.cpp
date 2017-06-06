@@ -85,18 +85,19 @@ const std::string Plateau::toString() const
   for (unsigned i = 0; i < (12 - getCombinaisons().size()); i++)
   {
     for (int j = 0; j < 4; j++)
-    {
       sstream << ".";
-    }
 
+    sstream << " ";
     
+    for (int j = 0; j < 4; j++)
+      sstream << ".";
     
     sstream << "\n";
   }
   
   for(unsigned i = 0; i < getCombinaisons().size(); i++)
   {
-    sstream << getCombinaisons()[i] << "\n";
+    sstream << getCorrections()[i] << " " << getCombinaisons()[i] << "\n";
   }
   
   return sstream.str();
@@ -109,25 +110,19 @@ std::ostream & operator<<(std::ostream & os, const Plateau & p)
   for (unsigned i = 0; i < (12 - p.getCombinaisons().size()); i++)
   {
     for (int j = 0; j < 4; j++)
-    {
 	std::cout << ".";
-    }
 
     std::cout << " ";
 
     for (int j = 0; j < 4; j++)
-    {
 	std::cout << ".";
-    }
     
     std::cout << std::endl;
   }
   
-  for(unsigned i = 0; i < p.getCombinaisons().size(); i++)
-  {
-    os << p.getCorrections()[i]  << " " << p.getCombinaisons()[i] << std::endl;
-  } 
-  
+  for(unsigned i = 0; i < p.getCombinaisons().size(); i++) 
+   os << p.getCorrections()[i]  << " " << p.getCombinaisons()[i] << std::endl;
+    
   return os;
 }
 

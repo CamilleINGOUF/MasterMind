@@ -127,6 +127,9 @@ void Server::priv_initServer()
   if (!(packet >> _nameClient))
     throw std::string("Erreur de paquet lors de la réception du nom du client");
 
+  _game.setNomJoueurServeur(_nameHost);
+  _game.setNomJoueurClient(_nameClient);
+  
   std::cout << "Vous jouer contre " <<_nameClient << " !" << std::endl;
 }
 
@@ -167,6 +170,8 @@ void Server::priv_updateTour()
     Combinaison combiServer = Combinaison::fromInput();
     _game.ajouterCombinaison(combiServer);
   }
+
+  _game.corrigerDerniereCombinaison();
 
   // Refresh de l'affichage
   std::cout << _game.getPlateau();  
@@ -272,13 +277,16 @@ void Server::priv_mainLoop()
     }
   }
 
+  // Fin de partie
   sf::Packet packet;
   packet << static_cast<sf::Int32>(PacketType::GameFinished);
-
+  packet << _game.getGagnantNom();
+  
   if (_pSocket->send(packet) != sf::Socket::Done)
     throw std::string("Impossible d'envoyer le paquet - PacketType::GameFinished");
 
-  std::cout << "La partie est terminée !" << std::endl;
+  std::cout << "Le gagnant est " << _game.getGagnantNom() << std::endl
+	    << "La partie est terminée !" << std::endl;
 }
 
 

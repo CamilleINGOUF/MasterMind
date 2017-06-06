@@ -1,5 +1,20 @@
 #include "mastermind.hpp"
 
+std::vector<Pion> codeSecretAleatoire()
+{
+  std::vector<Pion> availablePions = {blanc,bleu,rouge,vert,marron,jaune,orange,noir};
+  std::vector<Pion> pions;
+
+  do
+    {
+      int randomIndex = rand() % availablePions.size();
+      pions.push_back(availablePions[randomIndex]);
+    }
+  while(pions.size() != 4);
+
+  return pions;
+}
+
 int main()
 {
   Mastermind mm;
@@ -30,9 +45,9 @@ int main()
       if(mm.getPlateau().getCombinaisons().size() == 0)
 	//si le plateau est vide, il faut selectionner le code secret
 	{
-	  std::cout << "Vous êtes le codeur, créer un code secret : ";
-	  std::cin >> codeSecretString;
-	  codeSecret.setPions(codeSecretString);
+	  //std::cout << "Vous êtes le codeur, créer un code secret : ";
+	  //std::cin >> codeSecretString;
+	  codeSecret.setPions(codeSecretAleatoire());
 
 	  mm.setCodeSecret(codeSecret);
 	  mm.setNomJoueurServeur(pseudo);

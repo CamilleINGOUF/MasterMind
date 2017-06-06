@@ -164,7 +164,13 @@ void Client::priv_handlePacket(sf::Int32 packetType, sf::Packet& packet)
   
   case PacketType::GameFinished:
   {
-    std::cout << "La partie est terminée !" << std::endl;
+    std::string gagnant;
+
+    if (!(packet >> gagnant))
+      throw std::string("Paquet corrompu - PacketType::GameFinished");
+
+    std::cout << "Le gagnant est " << gagnant << " !" << std::endl
+	      << "La partie est terminée !" << std::endl;
     _endOfGame = true;
   } break;
   
