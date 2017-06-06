@@ -1,3 +1,21 @@
+Dépendances :
+- sfml
+- cmake
+- doxygen
+- sphinx
+
+Comment compiler et lancer le programme :
+
+- mkdir build
+- cd build
+- cmake .. && make
+- Lancement :
+  * Serveur : ./serveur.out <port>
+  * Client : ./client.out
+
+Le client doit renseigner l'adresse locale du serveur.
+
+
 Spécifications :
 
 - réseau :
