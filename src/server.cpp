@@ -168,6 +168,8 @@ void Server::priv_updateTour()
     _game.ajouterCombinaison(combiServer);
   }
 
+  _game.corrigerDerniereCombinaison();
+
   // Refresh de l'affichage
   std::cout << _game.getPlateau();  
 
