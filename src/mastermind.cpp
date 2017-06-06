@@ -238,3 +238,13 @@ void Mastermind::corrigerDerniereCombinaison()
   correction.setPions(pions);
   _plateau.addCorrection(correction);
 }
+
+
+////////////////////////////////////////////////////////////
+Joueur Mastermind::getGagnant() const
+{
+  if (_gagnantJoueur == Serveur)
+    return Serveur;
+
+  return Client;
+}

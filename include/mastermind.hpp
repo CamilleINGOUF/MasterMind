@@ -198,6 +198,8 @@ public:
   void ajouterCombinaison(Combinaison& combi);
   unsigned getNombreEssais() const;  
   void corrigerDerniereCombinaison();
+
+  Joueur getGagnant() const;
 private:
   int _nbManches;/// indique le numéro de la manche
   int _currentNbManches;/// indique le numéro de la manche actuel
