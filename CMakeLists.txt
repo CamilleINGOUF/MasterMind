@@ -81,10 +81,13 @@ add_executable( mastermind.out src/main.cpp
   src/Pion.cpp
   src/Combinaison.cpp
   src/Plateau.cpp)
+add_executable( main.out gui/main.cpp
+  
+  )
 
 # Édition des liens
 target_link_libraries( server.out ${PKG_LIBRARIES} )
 target_link_libraries( client.out ${PKG_LIBRARIES} )
-
+target_link_libraries( main.out ${PKG_LIBRARIES} )
 
 # TODO: Tests unitaires
