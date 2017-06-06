@@ -2,9 +2,9 @@
    sphinx-quickstart on Tue May 30 11:39:47 2017.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
-==============================================
-Bienvenu dans la documentation du MasterMind !
-==============================================
+
+Bienvenue dans la documentation du MasterMind !
+***********************************************
 
 Le MasterMind
 =============
@@ -22,4 +22,3 @@ Comment jouer à l'application MasterMind ?
    jouer
    heberger
    rejoindre
-	      

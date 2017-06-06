@@ -12,10 +12,10 @@
 ////////////////////////////////////////////////////////////
 /// Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Network.hpp>
+#include "mastermind.hpp"
 #include <memory>
 #include <string>
-#include "mastermind.hpp"
+#include <SFML/Network.hpp>
 
 typedef std::unique_ptr<sf::TcpSocket> PtrSocket;
 typedef std::unique_ptr<sf::TcpListener> PtrListener;
@@ -62,6 +62,27 @@ private:
   ///
   ////////////////////////////////////////////////////////////
   void priv_initServer();
+
+  ////////////////////////////////////////////////////////////
+  /// \brief Gestion d'un tour
+  ///
+  ////////////////////////////////////////////////////////////
+  void priv_updateTour();
+  
+  ////////////////////////////////////////////////////////////
+  /// \brief Boucle principale
+  ///
+  ////////////////////////////////////////////////////////////
+  void priv_mainLoop();
+
+  ////////////////////////////////////////////////////////////
+  /// \brief Retourne une combinaison reçu d'un client
+  ///
+  /// \param True si la combinaison demandée est la combinaison
+  /// secrète
+  ///
+  ////////////////////////////////////////////////////////////
+  Combinaison priv_requestCombinaison(bool combiSecrete);
   
   ////////////////////////////////////////////////////////////
   /// Données membres
@@ -74,18 +95,6 @@ private:
   int         _nbManches;  ///< Le nombre total de manches
   Mastermind  _game;       ///< L'instance de jeu
 };
-
-
-////////////////////////////////////////////////////////////
-/// \brief Flux de sortie pour le réseau (envoi des combinaisons)
-///
-/// \param pkt le paquet à envoyer
-/// \param p Le plateau qui sera utilisé
-///
-/// \return Le paquet chargé
-///
-/////////////////////////////////////////////////////////
-sf::Packet& operator<<(sf::Packet& pkt, const Plateau& p);
 
 
 #endif // SERVER_HPP_

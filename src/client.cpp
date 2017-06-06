@@ -2,106 +2,41 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include "client.hpp"
-#include <iostream>
-#include <string>
-#include <memory>
+#include "protocol.hpp"
 #include "Combinaison.hpp"
+#include <iostream>
+#include <memory>
+#include <string>
 
 
 ////////////////////////////////////////////////////////////
 Client::Client() :
-  _pSocket(nullptr)
-{
-  
+  _pSocket(nullptr),
+  _endOfGame(false)
+{ 
 }
 
 
 ////////////////////////////////////////////////////////////
 Client::~Client()
 {
-
 }
 
 
 ////////////////////////////////////////////////////////////
-void Client::run()
-{
-  std::string ip;
-  int port(-1);
-  priv_getSettings(ip, port);
-  
-  // Connexion au serveur
-  _pSocket = std::make_unique<sf::TcpSocket>();
-  if (_pSocket->connect(ip, port) != sf::Socket::Done)
-  {
-    throw std::string("Impossible de se connecter au serveur: " + ip); 
-  }
-
-  // Attente de la confirmation de la combinaison
-  std::cout << "Connexion au serveur réussie." << std::endl;
-  std::cout << "En attente de la combinaison..." << std::endl;
-
-  sf::Packet packet;
-
-  if (_pSocket->receive(packet) != sf::Socket::Done)
-  {
-    throw std::string("Impossible de recevoir le paquet de confirmation");
-  }
-
-  std::string plateau;
-
-  if (packet >> _nameHost >> plateau)
-  {
-    std::cout << "Confirmation reçu de " << _nameHost << std::endl;
-    std::cout << plateau.size() << std::endl;
-  }
-
-  // Première affichage
-  std::cout << plateau;
-
-  // TODO: Check validité de la combinaison
-  // Saisie de la combinaison
-  std::string input;
-  Combinaison combi;
-
-  std::cout << "Saisir une combinaison: ";
-  std::cin >> input;
-
-  combi.setPions(input);
-
-  packet.clear();
-  packet << combi.toString();
-
-  // Envoi de la combinaison
-  if (_pSocket->send(packet) != sf::Socket::Done)
-  {
-    throw std::string("Impossible d'envoyer le paquet !");
-  }
-
-  // Réception du plateau modifié
-  packet.clear();
-  if (_pSocket->receive(packet) != sf::Socket::Done)
-  {
-    throw std::string("Impossible d'envoyer le paquet !");
-  }
-  
-  // Affichage du paquet modifié
-  if (packet >> plateau)
-    std::cout << plateau;
-}
-
-
-////////////////////////////////////////////////////////////
-void Client::priv_getSettings(std::string& ip, int& port)
+void Client::priv_getSettings()
 {
   
   // Saisie de l'IP du serveur
   do
   {
     std::cout << "Adresse IP du serveur: ";
-    std::getline(std::cin, ip);
+    std::getline(std::cin, _serverIP);
+
+    if (_serverIP.empty())
+      std::cerr << "L'adresse du serveur ne peut être vide !" << std::endl;
   }
-  while (ip.empty());
+  while (_serverIP.empty());
 
   // Saisie du port
   std::string input;
@@ -113,7 +48,7 @@ void Client::priv_getSettings(std::string& ip, int& port)
 
     try
     {
-      port = std::stoi(input);
+      _port = std::stoi(input);
     }
     catch (const std::invalid_argument& err)
     {
@@ -123,16 +58,144 @@ void Client::priv_getSettings(std::string& ip, int& port)
     {
       continue;
     }
+
+    if (input.empty())
+      std::cerr << "Le port du serveur ne peut être vide !" << std::endl;
+    else
+    {
+      if (_port <= 0)
+	std::cerr << "Le port doit être supérieur à 0 !" << std::endl;
+    }
   }
-  while (input.empty() || port <= 0);
+  while (input.empty() || _port <= 0);
   
   // Saisie du nom
   do
   {
     std::cout << "Pseudo: ";
     std::getline(std::cin, _nameClient);
+
+    if (_nameClient.empty())
+      std::cerr << "Votre pseudo ne peut être vide !" << std::endl;
   }
   while (_nameClient.empty());
+}
+
+
+////////////////////////////////////////////////////////////
+void Client::priv_initClient()
+{
+  // Connexion au serveur
+  _pSocket = std::make_unique<sf::TcpSocket>();
+  if (_pSocket->connect(_serverIP, _port) != sf::Socket::Done)
+    throw std::string("Impossible de se connecter au serveur: " + _serverIP);
+
+  std::cout << "Connexion au serveur réussie." << std::endl;
+  
+  // Réception du pseudo de l'hôte
+  sf::Packet packet;
+
+  if (_pSocket->receive(packet) != sf::Socket::Done)
+    throw std::string("Impossible de recevoir le pseudo de l'hôte");
+
+  if (!(packet >> _nameHost))
+    throw std::string("Erreur de paquet - réception du pseudo de l'hôte");
+
+  std::cout << "Vous jouer contre " << _nameHost << " !" << std::endl;
+
+  // Envoi du pseudo client
+  packet.clear();
+  packet << _nameClient;
+  
+  if (_pSocket->send(packet) != sf::Socket::Done)
+    throw std::string("Impossible d'envoyer le pseudo client");
+
+  std::cout << "En attente de la confirmation de la combinaison..."
+	    << std::endl;
+}
+
+
+////////////////////////////////////////////////////////////
+void Client::priv_handlePacket(sf::Int32 packetType, sf::Packet& packet)
+{
+  switch (packetType)
+  {
+    
+  case PacketType::Confirmation:
+  {
+    std::cout << _nameHost << " a choisi la combinaison secrète !" << std::endl;
+  } break;
+
+  case PacketType::CombinaisonRequest:
+  {
+    Combinaison combinaison = Combinaison::fromInput();
+    sf::Packet pkt;
+    pkt << combinaison;
+
+    if (_pSocket->send(pkt) != sf::Socket::Done)
+      throw std::string("Impossible d'envoyer la combinaison !");
+  } break;
+
+  case PacketType::TurnFinished:
+  {
+    sf::Int32 score;
+    std::string plateau;
+
+    if (!(packet >> score))
+      throw std::string("Paquet corrompu [score] - PacketType::TurnFinished");
+
+    if (!(packet >> plateau))
+      throw std::string("Paquet corrompu [plateau] - PacketType::TurnFinished");
+
+    std::cout << "Score du décodeur: " << score << "pts" << std::endl
+	      << plateau << std::endl;
+    std::cout << "Inversion des rôles !" << std::endl;
+  } break;
+
+  case PacketType::TurnNotFinished:
+  {
+    std::string plateau;
+
+    if (!(packet >> plateau))
+      throw std::string("Paquet corrompu - PacketType::TurnNotFinished");
+
+    std::cout << plateau << std::endl;
+  } break;
+  
+  case PacketType::GameFinished:
+  {
+    std::cout << "La partie est terminée !" << std::endl;
+    _endOfGame = true;
+  } break;
+  
+  };
+}
+
+////////////////////////////////////////////////////////////
+void Client::priv_mainLoop()
+{
+  sf::Packet packet;
+  sf::Int32 packetType;
+  
+  while (!_endOfGame)
+  {
+    packet.clear();
+    if (_pSocket->receive(packet) != sf::Socket::Done)
+      throw std::string("Impossible de recevoir des paquets du serveur !");
+
+    if (!(packet >> packetType))
+      throw std::string("Impossible d'extraire le type du paquet !");
+
+    priv_handlePacket(packetType, packet);
+  }
+}
+
+////////////////////////////////////////////////////////////
+void Client::run()
+{
+  priv_getSettings();
+  priv_initClient();
+  priv_mainLoop();
 }
 
 

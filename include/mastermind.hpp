@@ -142,6 +142,9 @@ public:
   /// \param combinaison
   ///////////////////////////////////////////////////////////
   void setCodeSecret(const Combinaison combinaison);
+  bool plateauVide();
+
+  Joueur getDecodeur() const;
 
   ////////////////////////////////////////////////////////////
   /// \brief Lance le jeu
@@ -191,7 +194,9 @@ public:
   /// \return bool
   ///////////////////////////////////////////////////////////
   bool tourTermine();
-  
+
+  void ajouterCombinaison(Combinaison& combi);
+  unsigned getNombreEssais() const;  
   void corrigerDerniereCombinaison();
 private:
   int _nbManches;/// indique le numéro de la manche
@@ -212,10 +217,8 @@ private:
   int _scoreServeur;/// score du joueur serveur
   int _scoreClient;/// score du joueur client
 
-  bool _isRunning;/// jeu en cours
-
-  std::string _gagnantNom;/// pseudo du gagnant
-  Joueur _gagnantJoueur;/// Serveur ou client
+  std::string _gagnantNom;
+  Joueur _gagnantJoueur;
 };
 
 #endif

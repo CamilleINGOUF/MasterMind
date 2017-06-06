@@ -54,7 +54,9 @@ void Plateau::setCorrection(const std::vector<Combinaison> combinaisons)
 ////////////////////////////////////////////////////////////
 Combinaison Plateau::getLastCombinaison() const
 {
-  return _combinaisons.back();
+  // TODO: DANGER: -> à supprimer au plus vite
+  // Comportement indéfini quand le vecteur est vide !!!!
+  return _combinaisons.back(); 
 }
 
 ////////////////////////////////////////////////////////////
@@ -62,9 +64,7 @@ Combinaison Plateau::getLastCombinaison() const
 void Plateau::addCombinaison(const Combinaison combinaison)
 {
   if(_combinaisons.size() < 12)
-  {
     _combinaisons.push_back(combinaison);
-  }
 }
 
 ////////////////////////////////////////////////////////////

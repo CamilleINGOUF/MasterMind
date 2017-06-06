@@ -16,11 +16,12 @@
 #include <memory>
 #include <string>
 
+
 typedef std::unique_ptr<sf::TcpSocket> PtrSocket;
 
 
 ////////////////////////////////////////////////////////////
-/// \brief Représente un joueur
+/// \brief Partie client du mastermind
 ///
 ////////////////////////////////////////////////////////////
 class Client
@@ -49,18 +50,40 @@ private:
   ////////////////////////////////////////////////////////////
   /// \brief Récupère les données pour rejoindre une partie
   ///
-  /// \param ip l'adresse ip du serveur
-  /// \param port le port du serveur
+  ////////////////////////////////////////////////////////////
+  void priv_getSettings();
+
+  ////////////////////////////////////////////////////////////
+  /// \brief Phase d'initialisation du jeu entre le client et le
+  /// serveur
   ///
   ////////////////////////////////////////////////////////////
-  void priv_getSettings(std::string& ip, int& port);
+  void priv_initClient();
 
+  ////////////////////////////////////////////////////////////
+  /// \brief Boucle principale du client
+  ///
+  ////////////////////////////////////////////////////////////
+  void priv_mainLoop();
+
+  ////////////////////////////////////////////////////////////
+  /// \brief Gestion des paquets
+  ///
+  /// \param packetType le type du paquet (cf. protocol.hpp)
+  /// \param packet les données
+  ///
+  //////////////////////////////////////////////////////////// 
+  void priv_handlePacket(sf::Int32 packetType, sf::Packet& packet);
+  
   ////////////////////////////////////////////////////////////
   /// Données membres
   ////////////////////////////////////////////////////////////
-  PtrSocket _pSocket;      ///< Lien entre le serveur et le client
+  PtrSocket   _pSocket;    ///< Lien entre le serveur et le client
   std::string _nameClient; ///< Le pseudo du client
   std::string _nameHost;   ///< Le pseudo de l'hôte
+  std::string _serverIP;   ///< L'adresse du serveur
+  unsigned    _port;       ///< Le port du serveur
+  bool        _endOfGame;  ///< Flag de la boucle principale
   
 };
 
