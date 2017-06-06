@@ -86,5 +86,17 @@ add_executable( mastermind.out src/main.cpp
 target_link_libraries( server.out ${PKG_LIBRARIES} )
 target_link_libraries( client.out ${PKG_LIBRARIES} )
 
-
 # TODO: Tests unitaires
+add_executable( main_test.out src/main_test.cpp
+  src/mastermind.cpp
+  src/Pion.cpp
+  src/Combinaison.cpp
+  src/Plateau.cpp
+  
+  src/mastermind_test.cpp
+  src/Pion_test.cpp
+  src/Plateau_test.cpp
+  src/Combinaison_test.cpp
+  )
+
+target_link_libraries( main_test.out ${PKG_LIBRARIES} )
