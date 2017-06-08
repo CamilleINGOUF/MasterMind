@@ -30,9 +30,7 @@ Menu::Menu(float width, float height){
 
 }
 
-Menu::~Menu(){
-
-}
+Menu::~Menu(){}
 
 void Menu::draw(sf::RenderWindow &window)
 {
@@ -43,14 +41,14 @@ void Menu::draw(sf::RenderWindow &window)
 }
 
 void Menu::MoveUp()
- {
-   if(selectedItemIndex -1 >=0)
-     {
-       menu[selectedItemIndex].setColor(sf::Color::White);
-       selectedItemIndex--;
-       menu[selectedItemIndex].setColor(sf::Color::Red);
-     }
- }
+{
+  if(selectedItemIndex -1 >=0)
+    {
+      menu[selectedItemIndex].setColor(sf::Color::White);
+      selectedItemIndex--;
+      menu[selectedItemIndex].setColor(sf::Color::Red);
+    }
+}
 
 void Menu::MoveDown()
  {
