@@ -82,7 +82,7 @@ add_executable( mastermind.out src/main.cpp
   src/Combinaison.cpp
   src/Plateau.cpp)
 add_executable( main.out gui/main.cpp
-  
+  gui/buttonMM.cpp
   )
 
 # Édition des liens
