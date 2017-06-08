@@ -2,6 +2,8 @@
 #include <iostream>
 #include "menu.h"
 
+#include <iostream>
+#include "buttonMM.hpp"
 
 int main(){
   sf::RenderWindow renderWindow(sf::VideoMode(972, 640), "Mastermind");
@@ -19,7 +21,6 @@ int main(){
   */
   while (renderWindow.isOpen()){
     sf::Event event;
-
     while (renderWindow.pollEvent(event)){
       switch (event.type)
 	{
@@ -61,6 +62,7 @@ int main(){
       /*renderWindow.draw(background);
 	renderWindow.draw(rectangle);*/
       menu.draw(renderWindow);
+
       renderWindow.display();
 
   }

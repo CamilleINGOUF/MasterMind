@@ -84,6 +84,7 @@ add_executable( mastermind.out src/main.cpp
 add_executable( main.out gui/main.cpp
   gui/menu1.cpp
   gui/menu2.cpp
+  gui/buttonMM.cpp
   )
 
 # Édition des liens
