@@ -1,5 +1,6 @@
 #include <CppUTest/CommandLineTestRunner.h>
 #include "Combinaison.hpp"
+#include "Pion.hpp"
 
 TEST_GROUP(GroupCombinaison) { };
 
@@ -75,5 +76,32 @@ TEST(GroupCombinaison, test_Combinaison_6) {
   Combinaison c(vect1);
   std::string str=c.toString();
   CHECK(str=="jomn");
+}
+
+//Test de la methode isColor
+TEST(GroupCombinaison, test_Combinaison_7) {
+
+  Combinaison c;
+  CHECK(c.isColor('r'));
+  CHECK(c.isColor('v'));
+  CHECK(c.isColor('b'));
+  CHECK(c.isColor('m'));
+  CHECK(c.isColor('o'));
+  CHECK(c.isColor('j'));
+  CHECK(c.isColor('n'));
+  CHECK(c.isColor('B'));
+  CHECK(!c.isColor('x'));
+  
+}
+
+//Test de la methode pionDansLaCombinaison(Pion p)
+TEST(GroupCombinaison, test_Combinaison_8) {
+
+   Combinaison c;
+   CHECK(c.pionDansLaCombinaison(Pion(blanc)));
+   CHECK(c.pionDansLaCombinaison(Pion(noir)));
+   CHECK(c.pionDansLaCombinaison(Pion(rouge)));
+   CHECK(c.pionDansLaCombinaison(Pion(bleu)));
+
 }
 
