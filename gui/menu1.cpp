@@ -8,7 +8,8 @@ Menu::Menu(float width, float height){
   if(!font.loadFromFile("../media/fonts/arial.ttf"))
     {
       std::cout << "No arial" << std::endl;
-      }
+      exit(0);
+    }
   
   menu[0].setFont(font);
   menu[0].setColor(sf::Color::Red);
