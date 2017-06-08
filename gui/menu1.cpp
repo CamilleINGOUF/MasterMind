@@ -5,7 +5,7 @@ using namespace std;
 
 Menu::Menu(float width, float height){
 
-  if(!font.loadFromFile("arial.ttf"))
+  if(!font.loadFromFile("../media/fonts/arial.ttf"))
     {
       std::cout << "No arial" << std::endl;
       }
