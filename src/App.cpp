@@ -3,6 +3,7 @@
 ////////////////////////////////////////////////////////////
 #include "App.hpp"
 #include "GameState.hpp"
+#include <SFML/Window/WindowStyle.hpp>
 
 // Durée pour 60 FPS
 const sf::Time App::FrameRate = sf::Time(sf::seconds(1.f / 60.f));
@@ -10,7 +11,7 @@ const sf::Time App::FrameRate = sf::Time(sf::seconds(1.f / 60.f));
 
 ////////////////////////////////////////////////////////////
 App::App() :
-  _window(sf::VideoMode(640, 480), "MasterMind"),
+  _window(sf::VideoMode(640, 480), "MasterMind",sf::Style::Titlebar | sf::Style::Close),
   _stateManager(&_context)
 {
   _context.window       = &_window;

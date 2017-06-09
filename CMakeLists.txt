@@ -76,7 +76,6 @@ add_executable( client.out src/client.cpp
   src/Pion.cpp
   src/Combinaison.cpp
   src/Plateau.cpp)
-<<<<<<< HEAD
 add_executable( mastermind.out src/main.cpp
   src/mastermind.cpp
   src/Pion.cpp
@@ -89,7 +88,10 @@ add_executable( launcher.out src/launcher.cpp
 add_executable( client_gui.out src/main_client.cpp
   src/App.cpp
   src/GameStateManager.cpp
-  src/MenuState.cpp)
+  src/MenuState.cpp
+  src/Button.cpp
+  src/TextField.cpp
+  )
 
 # Édition des liens
 target_link_libraries( server.out ${PKG_LIBRARIES} )
