@@ -4,6 +4,16 @@
 #include <memory>
 
 ////////////////////////////////////////////////////////////
+Button::Button() :
+  _background(sf::Color::Red),
+  _textColor(sf::Color::White)
+{
+  _shape.setFillColor(_background);
+  _text.setColor(_textColor);
+  priv_updateGeometry();
+}
+
+////////////////////////////////////////////////////////////
 Button::Button(const sf::Font& font, const std::string& label) :
   _text(label, font),
   _background(sf::Color::Red),
@@ -88,4 +98,10 @@ void Button::setTextColor(const sf::Color &color)
 void Button::setCallback(Callback callback)
 {
   _callback = std::move(callback);
+}
+
+////////////////////////////////////////////////////////////
+void Button::setFont(const sf::Font& font)
+{
+  _text.setFont(font);
 }

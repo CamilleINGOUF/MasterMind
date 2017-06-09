@@ -14,6 +14,13 @@
 class TextField : public sf::Drawable
 {
 public:
+  
+  ////////////////////////////////////////////////////////////
+  /// \brief Constructeur par défaut
+  ///
+  ////////////////////////////////////////////////////////////
+  TextField();
+  
   ////////////////////////////////////////////////////////////
   /// \brief Construit le text field avec une police
   ///
@@ -67,7 +74,7 @@ public:
   /// \param event voir sf::Event
   ///
   ////////////////////////////////////////////////////////////
-  void catchEvent(sf::Event& event);
+  void catchEvent(sf::Event& event, const sf::RenderWindow& window);
 
   ////////////////////////////////////////////////////////////
   /// \brief Définit la nouvelle police utilisée par le textfield
@@ -108,6 +115,7 @@ public:
   ///
   ////////////////////////////////////////////////////////////
   void setBackgroundSize(const sf::Vector2f& size);
+  
 private:
   virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
   
@@ -119,6 +127,7 @@ private:
   sf::RectangleShape _background; ///< Le rectangle qui sert de background
   sf::Color _backgroundColor;     ///< La couleur de fond
   sf::Color _outlineColor;        ///< La couleur de contour du background
+  bool isActive;                  ///< Si on écrit dedans ou pas
 };
 
 #endif

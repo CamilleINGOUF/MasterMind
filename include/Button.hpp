@@ -7,6 +7,8 @@
 #include <SFML/Graphics.hpp>
 #include <functional>
 
+
+
 typedef std::function<void()> Callback;
 
 ////////////////////////////////////////////////////////////
@@ -16,6 +18,8 @@ typedef std::function<void()> Callback;
 class Button : public sf::Drawable
 {
 public:
+  Button();
+  
   ////////////////////////////////////////////////////////////
   /// \brief Construit un bouton avec une police et un texte 
   /// par défaut
@@ -74,6 +78,14 @@ public:
   ////////////////////////////////////////////////////////////
   void setCallback(Callback callback);
 
+  ////////////////////////////////////////////////////////////
+  /// \brief Définit la police du bouton
+  ///
+  /// \param police du bouton
+  ///
+  ///////////////////////////////////////////////////////////
+  void setFont(const sf::Font& font);
+
 private:
   virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -92,6 +104,8 @@ private:
   sf::Color _background;     ///< Le couleur du background
   sf::Color _textColor;      ///< La couleur du label
   Callback _callback;        ///< L'event associé au bouton
+
+  sf::Font font;
 };
 
 #endif // BUTTON_HPP_

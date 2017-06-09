@@ -81,16 +81,15 @@ add_executable( mastermind.out src/main.cpp
   src/Pion.cpp
   src/Combinaison.cpp
   src/Plateau.cpp)
-add_executable( main.out gui/main.cpp
-  gui/menu1.cpp
-  gui/menu2.cpp
-  gui/buttonMM.cpp
+add_executable( launcher.out src/launcher.cpp
+  src/Button.cpp
+  src/TextField.cpp
   )
 
 # Édition des liens
 target_link_libraries( server.out ${PKG_LIBRARIES} )
 target_link_libraries( client.out ${PKG_LIBRARIES} )
-target_link_libraries( main.out ${PKG_LIBRARIES} )
+target_link_libraries( launcher.out ${PKG_LIBRARIES} )
 
 # TODO: Tests unitaires
 add_executable( main_test.out src/main_test.cpp
