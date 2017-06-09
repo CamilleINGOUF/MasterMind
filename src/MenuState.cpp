@@ -2,7 +2,10 @@
 /// Headers
 ////////////////////////////////////////////////////////////
 #include "MenuState.hpp"
+#include "GameStateManager.hpp"
+#include "GameContext.hpp"
 
+#include <iostream>
 #include <SFML/Graphics/Color.hpp>
 
 ////////////////////////////////////////////////////////////
@@ -112,9 +115,9 @@ void MenuState::init()
   _joinGame.setFont(_font);
   _joinGame.setLabel("Jouer");
   _joinGame.setPosition(sf::Vector2f(200,100));
-  _joinGame.setCallback([]()
+  _joinGame.setCallback([this]()
 			{
-		      
+			  switchToWaitingState();
 			});
 
   //_addressHost
@@ -126,4 +129,11 @@ void MenuState::init()
   _nickname.setFont(_font);
   _nickname.setText("pseudo");
   _nickname.setPosition(sf::Vector2f(200,0));
+}
+
+void MenuState::switchToWaitingState()
+{
+  std::cout << "Passage en WaitingState" << std::endl;
+  GameStateManager* stateManager = _context->stateManager;
+  stateManager->setState(State::Waiting);
 }

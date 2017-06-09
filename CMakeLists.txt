@@ -80,6 +80,8 @@ add_executable( client_gui.out src/main_client.cpp
   src/App.cpp
   src/GameStateManager.cpp
   src/MenuState.cpp
+  src/WaitingState.cpp
+  src/NetworkState.cpp
   src/Button.cpp
   src/TextField.cpp
   )

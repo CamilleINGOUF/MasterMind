@@ -3,6 +3,8 @@
 ////////////////////////////////////////////////////////////
 #include "GameStateManager.hpp"
 #include "MenuState.hpp"
+#include "WaitingState.hpp"
+#include "NetworkState.hpp"
 
 ////////////////////////////////////////////////////////////
 GameStateManager::GameStateManager() :
@@ -32,8 +34,8 @@ GameStateManager::~GameStateManager()
 void GameStateManager::registerStates()
 {
   _gameStates[State::Menu] = new MenuState(_context);
-  //_gameStates[State::Waiting] = std::make_unique<WaitingState>(this);
-  //_gameStates[State::InGame]  = std::make_unique<NetworkState>(this);
+  _gameStates[State::Waiting] = new WaitingState(_context);
+  _gameStates[State::InGame]  = new NetworkState(_context);
 }
 
 
@@ -41,9 +43,13 @@ void GameStateManager::registerStates()
 void GameStateManager::setState(State state)
 {
   if (state == State::Menu)
-  {
-    _currentState = _gameStates[State::Menu];
-  }
+    {
+      _currentState = _gameStates[State::Menu];
+    }
+  else if(state == State::Waiting)
+    {
+      _currentState = _gameStates[State::Waiting];
+    }
 }
 
 

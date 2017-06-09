@@ -34,6 +34,7 @@ public:
 private:
   void init();
   void switchPanels();
+  void switchToWaitingState();
 private:
   
   ////////////////////////////////////////////////////////////
