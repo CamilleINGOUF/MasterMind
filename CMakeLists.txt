@@ -76,15 +76,16 @@ add_executable( client.out src/client.cpp
   src/Pion.cpp
   src/Combinaison.cpp
   src/Plateau.cpp)
-add_executable( mastermind.out src/main.cpp
-  src/mastermind.cpp
-  src/Pion.cpp
-  src/Combinaison.cpp
-  src/Plateau.cpp)
+add_executable( client_gui.out src/main_client.cpp
+  src/App.cpp
+  src/GameStateManager.cpp
+  src/MenuState.cpp)
 
 # Édition des liens
 target_link_libraries( server.out ${PKG_LIBRARIES} )
 target_link_libraries( client.out ${PKG_LIBRARIES} )
+target_link_libraries( client_gui.out ${PKG_LIBRARIES} )
+
 
 # TODO: Tests unitaires
 add_executable( main_test.out src/main_test.cpp
