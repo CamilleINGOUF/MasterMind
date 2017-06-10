@@ -5,7 +5,6 @@
 #include "GameStateManager.hpp"
 #include "GameContext.hpp"
 
-#include <iostream>
 #include <SFML/Graphics/Color.hpp>
 
 ////////////////////////////////////////////////////////////
@@ -133,7 +132,6 @@ void MenuState::init()
 
 void MenuState::switchToWaitingState()
 {
-  std::cout << "Passage en WaitingState" << std::endl;
   GameStateManager* stateManager = _context->stateManager;
   stateManager->setState(State::Waiting);
 }

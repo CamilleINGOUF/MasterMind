@@ -50,6 +50,10 @@ void GameStateManager::setState(State state)
     {
       _currentState = _gameStates[State::Waiting];
     }
+  else if(state == State::InGame)
+    {
+      _currentState = _gameStates[State::InGame];
+    }
 }
 
 
