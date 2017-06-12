@@ -6,6 +6,7 @@
 ////////////////////////////////////////////////////////////
 #include "GameState.hpp"
 
+#include <SFML/Network.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
 
@@ -31,6 +32,8 @@ private:
   sf::Font _font;          //< Police du texte
 
   float _timeSinceStarted; //< Temps depuis l'entrée dans l'état attente
+
+  
 };
 
 
