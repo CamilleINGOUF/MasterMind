@@ -22,7 +22,6 @@ Resource& AssetManager<Resource, Identifier>::get(Identifier id)
 }
 
 
-
 ////////////////////////////////////////////////////////////
 template<typename Resource, typename Identifier>
 const Resource& AssetManager<Resource, Identifier>::get(Identifier id) const

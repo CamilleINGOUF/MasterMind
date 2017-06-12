@@ -10,20 +10,22 @@
 
 ////////////////////////////////////////////////////////////
 Button::Button() :
-  _background(sf::Color::Red),
-  _textColor(sf::Color::White)
+  Button(nullptr, "")
 {
-  setup();
 }
 
 
 ////////////////////////////////////////////////////////////
-Button::Button(const sf::Font& font, const std::string& label) :
-  _text(label, font),
+Button::Button(FontManager* fontManager, const std::string& label) :
+  _fontManager(fontManager),
   _background(sf::Color::Red),
   _textColor(sf::Color::White)
 {
-  setup();
+  _text.setFont(_fontManager->get(Fonts::Arial));
+  _text.setString(label);
+  _shape.setFillColor(_background);
+  _text.setColor(_textColor);
+  updateGeometry();
 }
 
 
@@ -33,15 +35,6 @@ void Button::updateGeometry()
   sf::FloatRect bounds = _text.getGlobalBounds();
   _shape.setSize(sf::Vector2f(bounds.width, bounds.height));
   _shape.setPosition(bounds.left, bounds.top);
-}
-
-
-////////////////////////////////////////////////////////////
-void Button::setup()
-{
-  _shape.setFillColor(_background);
-  _text.setColor(_textColor);
-  updateGeometry();
 }
 
 
@@ -109,10 +102,4 @@ void Button::setTextColor(const sf::Color &color)
 void Button::setCallback(Callback callback)
 {
   _callback = std::move(callback);
-}
-
-////////////////////////////////////////////////////////////
-void Button::setFont(const sf::Font& font)
-{
-  _text.setFont(font);
 }

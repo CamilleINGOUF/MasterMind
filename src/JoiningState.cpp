@@ -10,12 +10,12 @@
 
 ////////////////////////////////////////////////////////////
 JoiningState::JoiningState(GameContext* context) :
-  GameState(context)
+  GameState(context),
+  _cancel(_context->fontManager, "Retour"),
+  _joinGame(_context->fontManager, "Jouer"),
+  _hostAddress(_context->fontManager, "IP:Port", 17),
+  _nickname(_context->fontManager, "Pseudo", 20)
 {
-  FontManager* fontManager = _context->fontManager;
-  
-  _cancel.setFont(fontManager->get(Fonts::Arial));
-  _cancel.setLabel("Retour");
   _cancel.setPosition(sf::Vector2f(200,150));
   _cancel.setCallback([this]() {
       GameStateManager* stateManager = _context->stateManager;
@@ -23,8 +23,6 @@ JoiningState::JoiningState(GameContext* context) :
   });
 
   //< Rejoindre la partie
-  _joinGame.setFont(fontManager->get(Fonts::Arial));
-  _joinGame.setLabel("Jouer");
   _joinGame.setPosition(sf::Vector2f(200,100));
   _joinGame.setCallback([this]() {
       if (!validInput())
@@ -34,14 +32,8 @@ JoiningState::JoiningState(GameContext* context) :
       stateManager->setState(State::InGame);
     });
 
-  //_addressHost
-  _addressHost.setFont(fontManager->get(Fonts::Arial));
-  _addressHost.setText("adresse:host");
-  _addressHost.setPosition(sf::Vector2f(200,50));
-
-  //_nickname
-  _nickname.setFont(fontManager->get(Fonts::Arial));
-  _nickname.setText("pseudo");
+  
+  _hostAddress.setPosition(sf::Vector2f(200,50));
   _nickname.setPosition(sf::Vector2f(200,0));
 }
 
@@ -60,11 +52,9 @@ void JoiningState::update(sf::Time dt)
 
 ////////////////////////////////////////////////////////////
 void JoiningState::handleEvent(sf::Event& event)
-{
-  sf::RenderWindow* window = _context->window;
-  
-  _nickname.catchEvent(event, *window);
-  _addressHost.catchEvent(event, *window);
+{  
+  _nickname.catchEvent(event);
+  _hostAddress.catchEvent(event);
   _cancel.catchEvent(event);
   _joinGame.catchEvent(event);
 }
@@ -75,7 +65,7 @@ void JoiningState::draw()
 {
   sf::RenderWindow* window = _context->window;
   
-  window->draw(_addressHost);
+  window->draw(_hostAddress);
   window->draw(_nickname);
   window->draw(_cancel);
   window->draw(_joinGame); 
@@ -90,7 +80,7 @@ bool JoiningState::validInput()
   std::string portStr;
 
   std::cout << "get text" << std::endl;
-  std::string ipPort = _addressHost.getText();
+  std::string ipPort = _hostAddress.getText();
 
   std::cout << "get text" << std::endl;
   std::string name = _nickname.getText();

@@ -11,19 +11,14 @@
 
 ////////////////////////////////////////////////////////////
 NetworkState::NetworkState(GameContext* context) :
-  GameState(context)
+  GameState(context),
+  _backToMenu(_context->fontManager, "Retour au menu")
 {
-  if (!_font.loadFromFile("../media/fonts/arial.ttf"))
-    exit(-1);
-
-  _backToMenu.setFont(_font);
-  _backToMenu.setLabel("Retour au menu");
   _backToMenu.setPosition(sf::Vector2f(50,50));
   _backToMenu.setCallback([this](){
     switchToMenuState();
   });
 
-  
   _socket.setBlocking(false);
 
   if (_socket.connect(_context->ip, _context->port) != sf::Socket::Done)

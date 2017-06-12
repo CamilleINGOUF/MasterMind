@@ -33,7 +33,7 @@ private:
   Button _cancel;
   Button _joinGame;
 
-  TextField _addressHost;
+  TextField _hostAddress;
   TextField _nickname;
 };
 

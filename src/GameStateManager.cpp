@@ -1,14 +1,17 @@
 ////////////////////////////////////////////////////////////
 /// Headers
 ////////////////////////////////////////////////////////////
+#include "AssetsDeclarations.hpp"
+#include "AssetManager.hpp"
 #include "GameStateManager.hpp"
 #include "MenuState.hpp"
 #include "JoiningState.hpp"
 #include "NetworkState.hpp"
 
+
 ////////////////////////////////////////////////////////////
 GameStateManager::GameStateManager() :
-  _context(nullptr)
+  GameStateManager(nullptr)
 {
 }
 
@@ -22,6 +25,8 @@ GameStateManager::GameStateManager(GameContext* context) :
 ////////////////////////////////////////////////////////////
 void GameStateManager::registerStates()
 {
+  _context->fontManager->load(Fonts::Arial, "../media/fonts/arial.ttf");
+  
   _gameStates[State::Menu]    = std::make_unique<MenuState>(_context);
   _gameStates[State::Joining] = std::make_unique<JoiningState>(_context);
   _gameStates[State::InGame]  = std::make_unique<NetworkState>(_context);

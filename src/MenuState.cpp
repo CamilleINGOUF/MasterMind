@@ -12,23 +12,17 @@
 
 ////////////////////////////////////////////////////////////
 MenuState::MenuState(GameContext* context) :
-  GameState(context)
+  GameState(context),
+  _quit(context->fontManager, "Retour"),
+  _joinServer(context->fontManager, "Rejoindre")
 {
-  FontManager* fontManager = _context->fontManager;
-  fontManager->load(Fonts::Arial, "../media/fonts/arial.ttf");
-
-  
   //< Quitter
-  _quit.setFont(fontManager->get(Fonts::Arial));
-  _quit.setLabel("Quitter");
   _quit.setPosition(sf::Vector2f(200,150));
   _quit.setCallback([]() {
       exit(0);
   });
   
   //< Rejoindre un serveur
-  _joinServer.setFont(fontManager->get(Fonts::Arial));
-  _joinServer.setLabel("Rejoindre");
   _joinServer.setPosition(sf::Vector2f(180,100));
   _joinServer.setCallback([this](){
       GameStateManager* stateManager = _context->stateManager;

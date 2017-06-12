@@ -71,7 +71,6 @@ private:
   static const sf::Time FrameRate; ///< durée d'une frame
 
   sf::RenderWindow _window;         ///< Fenêtre principale
-  sf::Clock        _clock;          ///< Horloge
   GameStateManager _stateManager;   ///< Le gestionnaire d'états
   TextureManager   _textureManager; ///< Le gestionnaire des textures
   FontManager      _fontManager;    ///< Le gestionnaire des polices
