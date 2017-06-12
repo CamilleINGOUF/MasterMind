@@ -3,7 +3,6 @@
 ////////////////////////////////////////////////////////////
 #include "GameStateManager.hpp"
 #include "MenuState.hpp"
-#include "WaitingState.hpp"
 #include "NetworkState.hpp"
 
 ////////////////////////////////////////////////////////////
@@ -33,8 +32,7 @@ GameStateManager::~GameStateManager()
 ////////////////////////////////////////////////////////////
 void GameStateManager::registerStates()
 {
-  _gameStates[State::Menu] = new MenuState(_context);
-  _gameStates[State::Waiting] = new WaitingState(_context);
+  _gameStates[State::Menu]    = new MenuState(_context);
   _gameStates[State::InGame]  = new NetworkState(_context);
 }
 

@@ -71,16 +71,10 @@ add_executable( client_gui.out src/main_client.cpp
   src/App.cpp
   src/GameStateManager.cpp
   src/MenuState.cpp
-  src/WaitingState.cpp
   src/NetworkState.cpp
   src/Button.cpp
   src/TextField.cpp
-  src/Client.cpp
-  src/mastermind.cpp
-  src/Pion.cpp
-  src/Combinaison.cpp
-  src/Plateau.cpp
-  )
+)
 
 add_executable( server.out src/Server.cpp
   src/mastermind.cpp

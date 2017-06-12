@@ -31,9 +31,14 @@ void Client::priv_initClient()
 {
   // Connexion au serveur
   _pSocket = std::make_unique<sf::TcpSocket>();
-  if (_pSocket->connect(_context->ip, std::stoi(_context->port)) != sf::Socket::Done)
-    throw std::string("Impossible de se connecter au serveur: " + _context->ip);
-
+  if (_pSocket->connect(_context->ip, std::stoi(_context->port)) !=
+      sf::Socket::Done)
+ {
+    std::cerr << "[ERROR] Impossible de se connecter au serveur "
+	      << _context->ip << std::endl;
+    _thread->terminate();
+ }
+    
   std::cout << "Connexion au serveur réussie." << std::endl;
   
   _connected = true;
@@ -147,4 +152,11 @@ void Client::start()
 bool Client::isConnected()
 {
   return _connected;
+}
+
+
+////////////////////////////////////////////////////////////
+void Client::disconnect()
+{
+  _pSocket.disconnect();
 }

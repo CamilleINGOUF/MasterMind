@@ -23,7 +23,7 @@ struct GameContext
   Client* client;
   
   std::string ip;
-  std::string port;
+  unsigned short port;
 
   std::string clientName;
   std::string serverName;
