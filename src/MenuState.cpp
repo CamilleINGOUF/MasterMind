@@ -8,6 +8,7 @@
 
 #include <SFML/Graphics/Color.hpp>
 #include <iostream>
+#include <stdexcept>
 
 ////////////////////////////////////////////////////////////
 MenuState::MenuState(GameContext* context) :
@@ -119,7 +120,7 @@ void MenuState::init()
   _joinGame.setCallback([this]()
 			{
 			  initIpPort();
-			  switchToWaitingState();
+			  switchToNetworkState();
 			});
 
   //_addressHost
@@ -133,19 +134,17 @@ void MenuState::init()
   _nickname.setPosition(sf::Vector2f(200,0));
 }
 
-void MenuState::switchToWaitingState()
+void MenuState::switchToNetworkState()
 {
   GameStateManager* stateManager = _context->stateManager;
-  Client* client = new Client(_context);
-  stateManager->setState(State::Waiting);
-  client->start();  
+  stateManager->setState(State::InGame);
 }
 
 void MenuState::initIpPort()
 {
 
   std::string ip;
-  std::string port;
+  std::string portStr;
 
   std::cout << "get text" << std::endl;
   std::string ipPort = _addressHost.getText();
@@ -156,10 +155,24 @@ void MenuState::initIpPort()
   std::cout << "trouver l'ip" << std::endl;
   ip = ipPort.substr(0, ipPort.find(':'));
   std::cout << "Trouver le port" << std::endl;
-  port = ipPort.substr(ipPort.find(':') + 1);
+  portStr = ipPort.substr(ipPort.find(':') + 1);
 
-  _context->ip = ip;
-  _context->port = port;
+  unsigned short port;
+  
+  try
+  {
+    port = std::stoi(portStr);
+  }
+  catch (const std::invalid_argument& err)
+  {
+    std::cerr << err.what() << std::endl;
+  }
+  catch (const std::out_of_range& err)
+  {
+    std::cerr << err.what() << std::endl;
+  }
 
+  _context->ip        = ip;
+  _context->port      = port;
   _context->clientName = name;
 }

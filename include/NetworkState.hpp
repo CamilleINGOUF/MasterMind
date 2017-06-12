@@ -11,6 +11,9 @@
 
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Network/Packet.hpp>
+#include <SFML/Network/TcpSocket.hpp>
+#include <SFML/System/Time.hpp>
 
 ////////////////////////////////////////////////////////////
 /// \brief Etat en jeu
@@ -23,19 +26,25 @@ public:
   virtual void update(sf::Time dt) override;
   virtual void handleEvent(sf::Event& event) override;
   virtual void draw() override;
+  
 private:
   void switchToMenuState();
-private:
+  void handlePacket(sf::Int32 packetType, sf::Packet& packet);
   
   ////////////////////////////////////////////////////////////
   /// Données membres
   ////////////////////////////////////////////////////////////
-  sf::Text _waitingText;   //< Texte affiché pendant le jeu
-  sf::Font _font;          //< Police du texte
 
   Button _backToMenu;      //< Bouton retour au menu
 
   PionDrawable _pionD;
+  // Partie graphique
+  sf::Text _waitingText; ///< Texte affiché pendant le jeu
+  sf::Font _font;        ///< Police du texte
+
+  // Partie réseau
+  sf::TcpSocket _socket; ///< Le lien entre le client et le serveur
+  sf::Time      _timeoutTimer;
 };
 
 
