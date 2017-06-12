@@ -3,6 +3,7 @@
 ////////////////////////////////////////////////////////////
 #include "App.hpp"
 #include "GameState.hpp"
+
 #include <SFML/Window/WindowStyle.hpp>
 
 // Durée pour 60 FPS

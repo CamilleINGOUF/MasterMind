@@ -41,17 +41,13 @@ void GameStateManager::registerStates()
 void GameStateManager::setState(State state)
 {
   if (state == State::Menu)
-    {
-      _currentState = _gameStates[State::Menu];
-    }
-  else if(state == State::Waiting)
-    {
-      _currentState = _gameStates[State::Waiting];
-    }
+  {
+    _currentState = _gameStates[State::Menu];
+  }
   else if(state == State::InGame)
-    {
-      _currentState = _gameStates[State::InGame];
-    }
+  {
+    _currentState = _gameStates[State::InGame];
+  }
 }
 
 

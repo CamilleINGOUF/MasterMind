@@ -20,13 +20,11 @@ struct GameContext
 {
   sf::RenderWindow* window;
   GameStateManager* stateManager;
-  Client* client;
-  
-  std::string ip;
-  unsigned short port;
-
-  std::string clientName;
-  std::string serverName;
+  Client*           client;
+  std::string       ip;
+  unsigned short    port;
+  std::string       clientName;
+  std::string       serverName;
 };
 
 #endif // GAME_CONTEXT_HPP_

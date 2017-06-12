@@ -1,17 +1,21 @@
+////////////////////////////////////////////////////////////
+/// Headers
+////////////////////////////////////////////////////////////
 #include "Button.hpp"
-#include <stdexcept>
+
 #include <iostream>
+#include <stdexcept>
 #include <memory>
+
 
 ////////////////////////////////////////////////////////////
 Button::Button() :
   _background(sf::Color::Red),
   _textColor(sf::Color::White)
 {
-  _shape.setFillColor(_background);
-  _text.setColor(_textColor);
-  priv_updateGeometry();
+  setup();
 }
+
 
 ////////////////////////////////////////////////////////////
 Button::Button(const sf::Font& font, const std::string& label) :
@@ -19,9 +23,25 @@ Button::Button(const sf::Font& font, const std::string& label) :
   _background(sf::Color::Red),
   _textColor(sf::Color::White)
 {
+  setup();
+}
+
+
+////////////////////////////////////////////////////////////
+void Button::updateGeometry()
+{
+  sf::FloatRect bounds = _text.getGlobalBounds();
+  _shape.setSize(sf::Vector2f(bounds.width, bounds.height));
+  _shape.setPosition(bounds.left, bounds.top);
+}
+
+
+////////////////////////////////////////////////////////////
+void Button::setup()
+{
   _shape.setFillColor(_background);
   _text.setColor(_textColor);
-  priv_updateGeometry();
+  updateGeometry();
 }
 
 
@@ -59,16 +79,7 @@ void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const
 void Button::setLabel(const std::string& label)
 {
   _text.setString(label);
-  priv_updateGeometry();
-}
-
-
-////////////////////////////////////////////////////////////
-void Button::priv_updateGeometry()
-{
-  sf::FloatRect bounds = _text.getGlobalBounds();
-  _shape.setSize(sf::Vector2f(bounds.width, bounds.height));
-  _shape.setPosition(bounds.left, bounds.top);
+  updateGeometry();
 }
 
 
@@ -76,7 +87,7 @@ void Button::priv_updateGeometry()
 void Button::setPosition(const sf::Vector2f &position)
 {
   _text.setPosition(position);
-  priv_updateGeometry();
+  updateGeometry();
 }
 
 

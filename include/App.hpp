@@ -69,9 +69,9 @@ private:
   static const sf::Time FrameRate; ///< durée d'une frame
 
   sf::RenderWindow _window;       ///< Fenêtre principale
-  sf::Clock _clock;               ///< Horloge
+  sf::Clock        _clock;        ///< Horloge
   GameStateManager _stateManager; ///< Le gestionnaire d'états
-  GameContext _context;           ///< Le contexte de jeu
+  GameContext      _context;      ///< Le contexte de jeu
 };
 
 #endif // APP_HPP_

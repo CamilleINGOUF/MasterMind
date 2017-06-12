@@ -4,10 +4,8 @@
 ////////////////////////////////////////////////////////////
 /// Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Graphics.hpp>
 #include <functional>
-
-
+#include <SFML/Graphics.hpp>
 
 typedef std::function<void()> Callback;
 
@@ -18,6 +16,10 @@ typedef std::function<void()> Callback;
 class Button : public sf::Drawable
 {
 public:
+  ////////////////////////////////////////////////////////////
+  /// \brief Constructeur par défaut
+  ///
+  ////////////////////////////////////////////////////////////
   Button();
   
   ////////////////////////////////////////////////////////////
@@ -94,32 +96,22 @@ private:
   /// par rapport au texte.
   ///
   ////////////////////////////////////////////////////////////  
-  void priv_updateGeometry();
+  void updateGeometry();
+
+  ////////////////////////////////////////////////////////////
+  /// \brief Un helper du constructeur
+  ///
+  ////////////////////////////////////////////////////////////  
+  void setup();
 
   ////////////////////////////////////////////////////////////  
   /// Données membres
   ////////////////////////////////////////////////////////////  
-  sf::Text _text;            ///< Rendu du texte
-  sf::RectangleShape _shape; ///< Le background
-  sf::Color _background;     ///< Le couleur du background
-  sf::Color _textColor;      ///< La couleur du label
-  Callback _callback;        ///< L'event associé au bouton
-
-  sf::Font font;
+  sf::Text           _text;       ///< Rendu du texte
+  sf::RectangleShape _shape;      ///< Le background
+  sf::Color          _background; ///< Le couleur du background
+  sf::Color          _textColor;  ///< La couleur du label
+  Callback           _callback;   ///< L'event associé au bouton
 };
 
 #endif // BUTTON_HPP_
-
-////////////////////////////////////////////////////////////
-/// \class Button
-///
-/// Exemple d'utilisation:
-/// \code
-/// Button button(font, "Mon bouton !");
-/// button.setPosition(sf::Vector2f(200, 200));
-/// button.setCallback([this](){...}); // A appeler dans une classe
-/// ...
-/// while(window.pollEvent(event)) { button.catchEvent(event); ... }
-/// \endcode
-///
-////////////////////////////////////////////////////////////

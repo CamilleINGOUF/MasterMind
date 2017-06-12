@@ -1,9 +1,9 @@
 ////////////////////////////////////////////////////////////
 /// Headers
 ////////////////////////////////////////////////////////////
-#include "NetworkState.hpp"
 #include "GameStateManager.hpp"
 #include "GameContext.hpp"
+#include "NetworkState.hpp"
 
 #include <SFML/Network/IpAddress.hpp>
 
@@ -18,19 +18,11 @@ NetworkState::NetworkState(GameContext* context) :
   _backToMenu.setFont(_font);
   _backToMenu.setLabel("Retour au menu");
   _backToMenu.setPosition(sf::Vector2f(50,50));
-  _backToMenu.setCallback([this]()
-			  {
-			    switchToMenuState();
-			  });
+  _backToMenu.setCallback([this](){
+    switchToMenuState();
+  });
 
   
-  _pionD.setPion({rouge});
-  _pionD.setPosition(sf::Vector2f(0,0));
-  _pionD.setScale(sf::Vector2f(5,5));
-  _backToMenu.setCallback([this](){
-      switchToMenuState();
-    });
-
   _socket.setBlocking(false);
 
   if(_socket.connect(_context->ip, _context->port) != sf::Socket::Done)
@@ -84,7 +76,6 @@ void NetworkState::draw()
 {
   sf::RenderWindow* window = _context->window;
   window->draw(_backToMenu);
-  window->draw(_panelPions);
 }
 
 

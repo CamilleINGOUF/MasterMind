@@ -4,11 +4,8 @@
 ////////////////////////////////////////////////////////////
 /// Headers
 ////////////////////////////////////////////////////////////
-#include "GameState.hpp"
 #include "Button.hpp"
-#include "Client.hpp"
-#include "PionDrawable.hpp"
-#include "PanelPions.hpp" 
+#include "GameState.hpp"
 
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -38,10 +35,8 @@ private:
 
   Button _backToMenu;      //< Bouton retour au menu
 
-  PionDrawable _pionD;
   // Partie graphique
   sf::Font _font;        ///< Police du texte
-  PanelPions _panelPions;
   
   // Partie réseau
   sf::TcpSocket _socket; ///< Le lien entre le client et le serveur

@@ -1,14 +1,14 @@
 ////////////////////////////////////////////////////////////
 /// Headers
 ////////////////////////////////////////////////////////////
-#include "MenuState.hpp"
-#include "GameStateManager.hpp"
 #include "GameContext.hpp"
-#include "Client.hpp"
+#include "GameStateManager.hpp"
+#include "MenuState.hpp"
 
-#include <SFML/Graphics/Color.hpp>
 #include <iostream>
 #include <stdexcept>
+#include <SFML/Graphics/Color.hpp>
+
 
 ////////////////////////////////////////////////////////////
 MenuState::MenuState(GameContext* context) :
@@ -35,19 +35,18 @@ void MenuState::update(sf::Time dt)
 void MenuState::handleEvent(sf::Event& event)
 {
   sf::RenderWindow* window = _context->window;
-  if(_currentPanel == panel_menu)
-    {
-	      
-      _quit.catchEvent(event);
-      _joinServer.catchEvent(event);
-    }
+  if (_currentPanel == panel_menu)
+  {
+    _quit.catchEvent(event);
+    _joinServer.catchEvent(event);
+  }
   else
-    {
-      _nickname.catchEvent(event,*window);
-      _addressHost.catchEvent(event,*window);
-      _cancel.catchEvent(event);
-      _joinGame.catchEvent(event);
-    }
+  {
+    _nickname.catchEvent(event,*window);
+    _addressHost.catchEvent(event,*window);
+    _cancel.catchEvent(event);
+    _joinGame.catchEvent(event);
+  }
 }
 
 
@@ -55,32 +54,37 @@ void MenuState::handleEvent(sf::Event& event)
 void MenuState::draw()
 {
   sf::RenderWindow* window = _context->window;
-  if(_currentPanel == panel_menu)
-    {
-      window->draw(_quit);
-      window->draw(_joinServer);
-    }
+  
+  if (_currentPanel == panel_menu)
+  {
+    window->draw(_quit);
+    window->draw(_joinServer);
+  }
   else
-    {
-      window->draw(_addressHost);
-      window->draw(_nickname);
-      window->draw(_cancel);
-      window->draw(_joinGame); 
-    }
+  {
+    window->draw(_addressHost);
+    window->draw(_nickname);
+    window->draw(_cancel);
+    window->draw(_joinGame); 
+  }
 }
 
+
+////////////////////////////////////////////////////////////
 void MenuState::switchPanels()
 {
-  if(_currentPanel == panel_menu)
-    {
-      _currentPanel = panel_join;
-    }
+  if (_currentPanel == panel_menu)
+  {
+    _currentPanel = panel_join;
+  }
   else
-    {
-      _currentPanel = panel_menu;
-    }
+  {
+    _currentPanel = panel_menu;
+  }
 }
 
+
+////////////////////////////////////////////////////////////
 void MenuState::init()
 {
     if (!_font.loadFromFile("../media/fonts/arial.ttf"))
@@ -134,6 +138,8 @@ void MenuState::init()
   _nickname.setPosition(sf::Vector2f(200,0));
 }
 
+
+////////////////////////////////////////////////////////////
 void MenuState::switchToNetworkState()
 {
   //sf::RenderWindow* window = _context->window;
@@ -142,6 +148,8 @@ void MenuState::switchToNetworkState()
   stateManager->setState(State::InGame);
 }
 
+
+////////////////////////////////////////////////////////////
 void MenuState::initIpPort()
 {
 
