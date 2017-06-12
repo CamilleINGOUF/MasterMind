@@ -80,6 +80,7 @@ add_executable( client_gui.out src/main_client.cpp
   src/Pion.cpp
   src/Combinaison.cpp
   src/Plateau.cpp
+  src/PionDrawable.cpp
   )
 
 add_executable( server.out src/Server.cpp

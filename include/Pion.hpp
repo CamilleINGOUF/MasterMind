@@ -83,6 +83,8 @@ public:
   bool operator==(const Pion & p2) const;
   
   //Pion  & operator=(const Pion & p);
+
+  std::string* getString() const;
 };
 
 ////////////////////////////////////////////////////////////

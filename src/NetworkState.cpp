@@ -19,6 +19,11 @@ NetworkState::NetworkState(GameContext* context) :
 			  {
 			    switchToMenuState();
 			  });
+
+  
+  _pionD.setPion({rouge});
+  _pionD.setPosition(sf::Vector2f(0,0));
+  _pionD.setScale(sf::Vector2f(5,5));
 }
 
 
@@ -47,6 +52,7 @@ void NetworkState::draw()
 {
   sf::RenderWindow* window = _context->window;
   window->draw(_backToMenu);
+  window->draw(_pionD);
 }
 
 void NetworkState::switchToMenuState()

@@ -7,6 +7,7 @@
 #include "GameState.hpp"
 #include "Button.hpp"
 #include "Client.hpp"
+#include "PionDrawable.hpp"
 
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -33,6 +34,8 @@ private:
   sf::Font _font;          //< Police du texte
 
   Button _backToMenu;      //< Bouton retour au menu
+
+  PionDrawable _pionD;
 };
 
 

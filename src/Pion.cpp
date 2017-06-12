@@ -34,6 +34,18 @@ bool Pion::operator==(const Pion & p2) const
   
 }*/
 
+std::string* Pion::getString() const
+{
+  if(_couleur == blanc) return new std::string("B");
+  if(_couleur == noir) return new std::string("n");
+  if(_couleur == bleu) return new std::string("b");
+  if(_couleur == vert) return new std::string("v");
+  if(_couleur == jaune) return new std::string("j");
+  if(_couleur == rouge) return new std::string("r");
+  if(_couleur == orange) return new std::string("o");
+  if(_couleur == marron) return new std::string("m");
+}
+
 std::istream& operator >>(std::istream& is, Pion& p) {
 
   std::locale vieuxLoc = std::locale::global(std::locale("fr_FR.UTF-8"));
