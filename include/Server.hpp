@@ -32,9 +32,10 @@ public:
   /// \brief Constructeur du serveur
   ///
   /// \param port le port du serveur
+  /// \param nbManches le nombre de manches
   ///
   ////////////////////////////////////////////////////////////
-  Server(unsigned port);
+  Server(unsigned port, unsigned nbManches);
 
   ////////////////////////////////////////////////////////////
   /// \brief Le destructeur du serveur
@@ -49,14 +50,6 @@ public:
   void run();
   
 private:
-
-  ////////////////////////////////////////////////////////////
-  /// \brief Recupère les paramètres du serveur depuis l'entrée
-  /// standard
-  ///
-  ////////////////////////////////////////////////////////////
-  void priv_getSettings();
-  
   ////////////////////////////////////////////////////////////
   /// \brief Initialise le serveur
   ///
@@ -90,10 +83,14 @@ private:
   unsigned    _port;       ///< Le port du serveur
   PtrSocket   _pSocket;    ///< La socket qui fait le lien entre les 2 machines
   PtrListener _pListener;  ///< Le listener pour attendre la connexion du client
-  std::string _nameHost;   ///< Le pseudo de l'hôte
-  std::string _nameClient; ///< Le pseudo du client
+  std::string _nameA;      ///< Le pseudo du client A
+  std::string _nameB;      ///< Le pseudo du client B
   int         _nbManches;  ///< Le nombre total de manches
   Mastermind  _game;       ///< L'instance de jeu
+
+  // TODO: Remove THIS
+  std::string _nameHost;
+  std::string _nameClient;
 };
 
 

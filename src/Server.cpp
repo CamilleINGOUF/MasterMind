@@ -12,19 +12,20 @@
 #include "Server.hpp"
 #include "Plateau.hpp"
 #include "Combinaison.hpp"
+#include "Utils.hpp"
 #include "protocol.hpp"
 #include <iostream>
-#include <stdlib.h>
 #include <sstream>
+#include <stdexcept>
 #include <SFML/Network.hpp>
 
 
 ////////////////////////////////////////////////////////////
-Server::Server(unsigned port) :
+Server::Server(unsigned port, unsigned nbManches) :
   _port(port),
   _pSocket(nullptr),
   _pListener(nullptr),
-  _nbManches(0)
+  _nbManches(nbManches)
 {
 
 }
@@ -33,52 +34,6 @@ Server::Server(unsigned port) :
 ////////////////////////////////////////////////////////////
 Server::~Server()
 {
-}
-
-
-////////////////////////////////////////////////////////////
-void Server::priv_getSettings()
-{
-  // Saisie du nombre de manches
-  std::string input;
-  
-  do
-  {
-    std::cout << "Nombre de manches: ";
-    std::getline(std::cin, input);
-
-    try
-    {
-      _nbManches = std::stoi(input);
-    }
-    catch (const std::invalid_argument& err)
-    {
-      continue;
-    }
-    catch (const std::out_of_range& err)
-    {
-      continue;
-    }
-
-    if (input.empty())
-      std::cerr << "Le nombre de manches ne peut être vide !" << std::endl;
-
-    if (_nbManches <= 0)
-      std::cerr << "Le nombre de manches doit être positif !" << std::endl;
-  }
-  while (input.empty() || _nbManches <= 0);
-  
-  
-  // Saisie du pseudo
-  do
-  {
-    std::cout << "Pseudo: ";
-    std::getline(std::cin, _nameHost);
-
-    if (_nameHost.empty())
-      std::cerr << "Votre nom ne peut être vide !" << std::endl;
-  }
-  while (_nameHost.empty());  
 }
 
 
@@ -293,7 +248,6 @@ void Server::priv_mainLoop()
 ////////////////////////////////////////////////////////////
 void Server::run()
 {
-  priv_getSettings();
   priv_initServer();
   priv_mainLoop();
 }
@@ -302,15 +256,54 @@ void Server::run()
 ////////////////////////////////////////////////////////////
 int main(int argc, char** argv)
 {
-  // Saisie du port
-  if (argc != 2)
+  // Vérification des arguments
+  if (argc != 3)
   {
-    std::cerr << "Utilisation: ./server.out <port>" << std::endl;
+    std::cerr << "Utilisation: ./server.out <port> <nombre de manches>"
+	      << std::endl;
     exit(-1);
   }
+
+  // Saisie du port
+  unsigned port(0);
   
-  unsigned port = atoi(argv[1]);
-  Server serveur(port);
+  try
+  {
+    port = std::atoi(argv[1]);
+  }
+  catch (const std::invalid_argument& err)
+  {
+    return -1;
+  }
+  catch (const std::out_of_range& err)
+  {
+    return -1;
+  }
+
+  // Saisie du nombre de manches
+  int nbManches(0);
+  
+  try
+  {
+    nbManches = std::atoi(argv[2]);
+  }
+  catch (const std::invalid_argument& err)
+  {
+    return -1;
+  }
+  catch (const std::out_of_range& err)
+  {
+    return -1;
+  }
+
+  if (nbManches <= 0)
+  {
+    std::cerr << "Le nombre de manches ne peut être négatif !" << std::endl;
+    return -1;
+  }
+  
+  // Création et lancement du serveur
+  Server serveur(port, nbManches);
 
   try
   {
