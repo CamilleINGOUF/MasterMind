@@ -140,7 +140,7 @@ void TextField::setOutlineColor(const sf::Color& outlineColor)
 
 
 ////////////////////////////////////////////////////////////
-const std::string& TextField::getText()
+const sf::String& TextField::getText()
 {
   return _text.getString();
 }

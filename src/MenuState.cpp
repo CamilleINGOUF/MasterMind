@@ -6,6 +6,7 @@
 #include "GameContext.hpp"
 
 #include <SFML/Graphics/Color.hpp>
+#include <iostream>
 
 ////////////////////////////////////////////////////////////
 MenuState::MenuState(GameContext* context) :
@@ -116,6 +117,7 @@ void MenuState::init()
   _joinGame.setPosition(sf::Vector2f(200,100));
   _joinGame.setCallback([this]()
 			{
+			  initIpPort();
 			  switchToWaitingState();
 			});
 
@@ -134,4 +136,27 @@ void MenuState::switchToWaitingState()
 {
   GameStateManager* stateManager = _context->stateManager;
   stateManager->setState(State::Waiting);
+}
+
+void MenuState::initIpPort()
+{
+
+  std::string ip;
+  std::string port;
+
+  std::cout << "get text" << std::endl;
+  std::string ipPort = _addressHost.getText();
+
+  std::cout << "get text" << std::endl;
+  std::string name = _nickname.getText();
+
+  std::cout << "trouver l'ip" << std::endl;
+  ip = ipPort.substr(0, ipPort.find(':'));
+  std::cout << "Trouver le port" << std::endl;
+  port = ipPort.substr(ipPort.find(':') + 1);
+
+  _context->ip = ip;
+  _context->port = port;
+
+  _context->clientName = name;
 }

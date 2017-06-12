@@ -35,6 +35,7 @@ private:
   void init();
   void switchPanels();
   void switchToWaitingState();
+  void initIpPort();
 private:
   
   ////////////////////////////////////////////////////////////
