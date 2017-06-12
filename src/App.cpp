@@ -12,11 +12,14 @@ const sf::Time App::FrameRate = sf::Time(sf::seconds(1.f / 60.f));
 
 ////////////////////////////////////////////////////////////
 App::App() :
-  _window(sf::VideoMode(1280,960), "MasterMind",sf::Style::Titlebar | sf::Style::Close),
+  _window(sf::VideoMode(1280,960), "MasterMind", sf::Style::Titlebar |
+	  sf::Style::Close),
   _stateManager(&_context)
 {
-  _context.window       = &_window;
-  _context.stateManager = &_stateManager;
+  _context.window          = &_window;
+  _context.stateManager    = &_stateManager;
+  _context.textureManager  = &_textureManager;
+  _context.fontManager     = &_fontManager;
   _stateManager.registerStates();
   _stateManager.setState(State::Menu);
 }

@@ -1,6 +1,7 @@
 ////////////////////////////////////////////////////////////
 /// Headers
 ////////////////////////////////////////////////////////////
+#include "AssetManager.hpp"
 #include "GameStateManager.hpp"
 #include "GameContext.hpp"
 #include "NetworkState.hpp"
@@ -25,10 +26,8 @@ NetworkState::NetworkState(GameContext* context) :
   
   _socket.setBlocking(false);
 
-  if(_socket.connect(_context->ip, _context->port) != sf::Socket::Done)
-  {
+  if (_socket.connect(_context->ip, _context->port) != sf::Socket::Done)
     switchToMenuState();
-  }
 }
 
 

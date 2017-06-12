@@ -11,6 +11,8 @@
 #include <map>
 #include <SFML/Graphics.hpp>
 
+typedef std::map<State, std::unique_ptr<GameState>> StateContainer;
+
 ////////////////////////////////////////////////////////////
 /// \brief Le gestionnaire d'états du jeu
 ///
@@ -31,12 +33,6 @@ public:
   ///
   ////////////////////////////////////////////////////////////
   GameStateManager(GameContext* context);
-
-  ////////////////////////////////////////////////////////////
-  /// \brief Destructeur
-  ///
-  ////////////////////////////////////////////////////////////
-  ~GameStateManager();
   
   ////////////////////////////////////////////////////////////
   /// \brief Création des différents stages du jeu
@@ -79,9 +75,9 @@ private:
   ////////////////////////////////////////////////////////////  
   /// Données membres
   ////////////////////////////////////////////////////////////  
-  GameContext* _context;                   ///< Le contexte du jeu
-  GameState* _currentState;                ///< L'état courant
-  std::map<State, GameState*> _gameStates; ///< Les états de jeu
+  GameContext*   _context;      ///< Le contexte du jeu
+  GameState*     _currentState; ///< L'état courant
+  StateContainer _gameStates;   ///< Les états de jeu
 };
 
 #endif

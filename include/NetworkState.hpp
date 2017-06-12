@@ -27,6 +27,14 @@ public:
   
 private:
   void switchToMenuState();
+
+  ////////////////////////////////////////////////////////////
+  /// \brief Gestion des différents paquets reçu par le serveur
+  ///
+  /// \param packetType le type du paquet
+  /// \param packet les données
+  ///
+  ////////////////////////////////////////////////////////////
   void handlePacket(sf::Int32 packetType, sf::Packet& packet);
   
   ////////////////////////////////////////////////////////////

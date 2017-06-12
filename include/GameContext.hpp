@@ -4,6 +4,8 @@
 ////////////////////////////////////////////////////////////
 /// Headers
 ////////////////////////////////////////////////////////////
+#include "AssetsDeclarations.hpp"
+
 #include <string>
 
 class GameStateManager;
@@ -18,8 +20,13 @@ namespace sf { class RenderWindow; }
 ////////////////////////////////////////////////////////////
 struct GameContext
 {
+  // Partie graphique
   sf::RenderWindow* window;
   GameStateManager* stateManager;
+  TextureManager*   textureManager;
+  FontManager*      fontManager;   
+  
+  // Partie réseau
   Client*           client;
   std::string       ip;
   unsigned short    port;

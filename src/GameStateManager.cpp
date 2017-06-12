@@ -3,6 +3,7 @@
 ////////////////////////////////////////////////////////////
 #include "GameStateManager.hpp"
 #include "MenuState.hpp"
+#include "JoiningState.hpp"
 #include "NetworkState.hpp"
 
 ////////////////////////////////////////////////////////////
@@ -19,21 +20,11 @@ GameStateManager::GameStateManager(GameContext* context) :
 
 
 ////////////////////////////////////////////////////////////
-GameStateManager::~GameStateManager()
-{
-  for (auto itr = _gameStates.begin(); itr != _gameStates.end(); itr++)
-  {
-    delete itr->second;
-    _gameStates.erase(itr);
-  }
-}
-
-
-////////////////////////////////////////////////////////////
 void GameStateManager::registerStates()
 {
-  _gameStates[State::Menu]    = new MenuState(_context);
-  _gameStates[State::InGame]  = new NetworkState(_context);
+  _gameStates[State::Menu]    = std::make_unique<MenuState>(_context);
+  _gameStates[State::Joining] = std::make_unique<JoiningState>(_context);
+  _gameStates[State::InGame]  = std::make_unique<NetworkState>(_context);
 }
 
 
@@ -41,13 +32,13 @@ void GameStateManager::registerStates()
 void GameStateManager::setState(State state)
 {
   if (state == State::Menu)
-  {
-    _currentState = _gameStates[State::Menu];
-  }
+    _currentState = _gameStates[State::Menu].get();
+  else if (state == State::Joining)
+    _currentState = _gameStates[State::Joining].get();
   else if(state == State::InGame)
-  {
-    _currentState = _gameStates[State::InGame];
-  }
+    _currentState = _gameStates[State::InGame].get();
+  else
+    _currentState = nullptr;
 }
 
 
