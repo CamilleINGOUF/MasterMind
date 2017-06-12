@@ -2,7 +2,9 @@
 #define GAME_CONTEXT_HPP_
 
 class GameStateManager;
+class Client;
 namespace sf { class RenderWindow; }
+
 
 ////////////////////////////////////////////////////////////
 /// \brief Le contexte du jeu. Il permet un accès plus simple
@@ -13,7 +15,7 @@ struct GameContext
 {
   sf::RenderWindow* window;
   GameStateManager* stateManager;
-  // TODO: ResourceHolder ? FontHolder ?
+  Client* client;
 };
 
 #endif // GAME_CONTEXT_HPP_

@@ -12,9 +12,12 @@
 ////////////////////////////////////////////////////////////
 /// Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Network.hpp>
+#include "GameContext.hpp"
+
 #include <memory>
 #include <string>
+#include <SFML/Network.hpp>
+#include <SFML/System/Thread.hpp>
 
 
 typedef std::unique_ptr<sf::TcpSocket> PtrSocket;
@@ -31,7 +34,7 @@ public:
   /// \brief Constructeur d'un client
   ///
   ////////////////////////////////////////////////////////////
-  Client();
+  Client(GameContext* context);
 
   ////////////////////////////////////////////////////////////
   /// \brief Destructeur du client
@@ -40,18 +43,12 @@ public:
   ~Client();
 
   ////////////////////////////////////////////////////////////
-  /// \brief Lancement du client
+  /// \brief Fonction associée au thread
   ///
   ////////////////////////////////////////////////////////////
   void run();
   
 private:
-
-  ////////////////////////////////////////////////////////////
-  /// \brief Récupère les données pour rejoindre une partie
-  ///
-  ////////////////////////////////////////////////////////////
-  void priv_getSettings();
 
   ////////////////////////////////////////////////////////////
   /// \brief Phase d'initialisation du jeu entre le client et le
@@ -78,13 +75,14 @@ private:
   ////////////////////////////////////////////////////////////
   /// Données membres
   ////////////////////////////////////////////////////////////
-  PtrSocket   _pSocket;    ///< Lien entre le serveur et le client
-  std::string _nameClient; ///< Le pseudo du client
-  std::string _nameHost;   ///< Le pseudo de l'hôte
-  std::string _serverIP;   ///< L'adresse du serveur
-  unsigned    _port;       ///< Le port du serveur
-  bool        _endOfGame;  ///< Flag de la boucle principale
-  
+  PtrSocket   _pSocket;      ///< Lien entre le serveur et le client
+  std::string _nameClient;   ///< Le pseudo du client
+  std::string _nameOpponent; ///< Le pseudo de l'adversaire
+  std::string _serverIP;     ///< L'adresse du serveur
+  unsigned    _port;         ///< Le port du serveur
+  GameContext* _context;     ///< Le contexte du jeu
+  sf::Thread  _thread;       ///< La gestion réseau non bloquante
+  bool        _endOfGame;    ///< Flag de la boucle principale
 };
 
 #endif // CLIENT_HPP_
