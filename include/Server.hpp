@@ -81,16 +81,15 @@ private:
   /// Données membres
   ////////////////////////////////////////////////////////////
   unsigned    _port;       ///< Le port du serveur
-  PtrSocket   _pSocket;    ///< La socket qui fait le lien entre les 2 machines
-  PtrListener _pListener;  ///< Le listener pour attendre la connexion du client
+  // PtrSocket   _pSocket;    < La socket qui fait le lien entre les 2 machines
+  // PtrListener _pListener;  < Le listener pour attendre la connexion du client
+
+  sf::TcpListener _listener;
   std::string _nameA;      ///< Le pseudo du client A
   std::string _nameB;      ///< Le pseudo du client B
-  int         _nbManches;  ///< Le nombre total de manches
+  sf::TcpSocket  _socketA;    ///< La socket du client A
+  sf::TcpSocket  _socketB;    ///< La socket du client B
   Mastermind  _game;       ///< L'instance de jeu
-
-  // TODO: Remove THIS
-  std::string _nameHost;
-  std::string _nameClient;
 };
 
 

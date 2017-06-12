@@ -24,6 +24,12 @@ public:
   virtual void update(sf::Time dt) override;
   virtual void handleEvent(sf::Event& event) override;
   virtual void draw() override;
+
+  //////////////////////////////////////////////////////////
+  /// \brief Met en place les connexions
+  ///
+  //////////////////////////////////////////////////////////
+  void prepare();
   
 private:
   void switchToMenuState();
@@ -36,19 +42,14 @@ private:
   ///
   ////////////////////////////////////////////////////////////
   void handlePacket(sf::Int32 packetType, sf::Packet& packet);
-  
+
   ////////////////////////////////////////////////////////////
   /// Données membres
   ////////////////////////////////////////////////////////////
-
-  Button _backToMenu;      //< Bouton retour au menu
-
-  // Partie graphique
-  sf::Font _font;        ///< Police du texte
-  
-  // Partie réseau
-  sf::TcpSocket _socket; ///< Le lien entre le client et le serveur
-  sf::Time      _timeoutTimer;
+  Button        _backToMenu;   ///< Bouton retour au menu
+  sf::TcpSocket _socket;       ///< Le lien entre le client et le serveur
+  sf::Time      _timeoutTimer; ///< Timer pour le timeout 
+  bool          _connected;    ///< Indique si on est connecté au serveur
 };
 
 

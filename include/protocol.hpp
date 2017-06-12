@@ -28,6 +28,16 @@ enum PacketType
   TurnNotFinished
 };
 
+namespace ServerPacket
+{
+  enum ID
+  {
+    NameRequest,
+    WaitingCodeur,
+    Confirmation,
+    CombinaisonRequest,
+  };
+}
 
 ////////////////////////////////////////////////////////////
 sf::Packet& operator<<(sf::Packet& pkt, const Combinaison& combi)

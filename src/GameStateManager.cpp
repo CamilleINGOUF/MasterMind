@@ -69,3 +69,10 @@ void GameStateManager::draw()
   if (_currentState)
     _currentState->draw();
 }
+
+
+////////////////////////////////////////////////////////////
+GameState* GameStateManager::getCurrentState()
+{
+  return _currentState;
+}

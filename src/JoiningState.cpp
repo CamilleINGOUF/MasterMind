@@ -3,6 +3,7 @@
 ////////////////////////////////////////////////////////////
 #include "GameStateManager.hpp"
 #include "JoiningState.hpp"
+#include "NetworkState.hpp"
 
 #include <iostream>
 #include <stdexcept>
@@ -30,6 +31,8 @@ JoiningState::JoiningState(GameContext* context) :
 
       GameStateManager* stateManager = _context->stateManager;
       stateManager->setState(State::InGame);
+      NetworkState* state = dynamic_cast<NetworkState*>(stateManager->getCurrentState());
+      state->prepare();
     });
 
   
@@ -75,20 +78,10 @@ void JoiningState::draw()
 ////////////////////////////////////////////////////////////
 bool JoiningState::validInput()
 {
-
-  std::string ip;
-  std::string portStr;
-
-  std::cout << "get text" << std::endl;
-  std::string ipPort = _hostAddress.getText();
-
-  std::cout << "get text" << std::endl;
-  std::string name = _nickname.getText();
-
-  std::cout << "trouver l'ip" << std::endl;
-  ip = ipPort.substr(0, ipPort.find(':'));
-  std::cout << "Trouver le port" << std::endl;
-  portStr = ipPort.substr(ipPort.find(':') + 1);
+  std::string ipPort  = _hostAddress.getText();
+  std::string name    = _nickname.getText();
+  std::string ip      = ipPort.substr(0, ipPort.find(':'));
+  std::string portStr = ipPort.substr(ipPort.find(':') + 1);
 
   unsigned short port;
   
@@ -107,8 +100,8 @@ bool JoiningState::validInput()
     return false;
   }
 
-  _context->ip        = ip;
-  _context->port      = port;
+  _context->ip         = ip;
+  _context->port       = port;
   _context->clientName = name;
 
   return true;
