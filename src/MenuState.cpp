@@ -4,6 +4,7 @@
 #include "MenuState.hpp"
 #include "GameStateManager.hpp"
 #include "GameContext.hpp"
+#include "client.hpp"
 
 #include <SFML/Graphics/Color.hpp>
 #include <iostream>
@@ -135,7 +136,9 @@ void MenuState::init()
 void MenuState::switchToWaitingState()
 {
   GameStateManager* stateManager = _context->stateManager;
+  Client* client = new Client(_context);
   stateManager->setState(State::Waiting);
+  client->start();  
 }
 
 void MenuState::initIpPort()

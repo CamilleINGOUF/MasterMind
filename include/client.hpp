@@ -47,6 +47,18 @@ public:
   ///
   ////////////////////////////////////////////////////////////
   void run();
+
+  ////////////////////////////////////////////////////////////
+  /// \brief Fonction qui démarre le thread
+  ///
+  ////////////////////////////////////////////////////////////
+  void start();
+
+  ////////////////////////////////////////////////////////////
+  /// \brief Retourne True si le client est connecté au serveur
+  ///
+  ////////////////////////////////////////////////////////////
+  bool isConnected();
   
 private:
 
@@ -81,8 +93,9 @@ private:
   std::string _serverIP;     ///< L'adresse du serveur
   unsigned    _port;         ///< Le port du serveur
   GameContext* _context;     ///< Le contexte du jeu
-  sf::Thread  _thread;       ///< La gestion réseau non bloquante
+  sf::Thread*  _thread;       ///< La gestion réseau non bloquante
   bool        _endOfGame;    ///< Flag de la boucle principale
+  bool        _connected;    ///< Flag pour la connectivité
 };
 
 #endif // CLIENT_HPP_

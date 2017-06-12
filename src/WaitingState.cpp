@@ -4,8 +4,10 @@
 #include "WaitingState.hpp"
 #include "GameStateManager.hpp"
 #include "GameContext.hpp"
+#include "client.hpp"
 
 #include <iostream>
+
 ////////////////////////////////////////////////////////////
 WaitingState::WaitingState(GameContext* context) :
   GameState(context)
@@ -30,13 +32,13 @@ WaitingState::~WaitingState()
 ////////////////////////////////////////////////////////////
 void WaitingState::update(sf::Time dt)
 {
-  _timeSinceStarted += dt.asSeconds();
-  std::cout <<  _timeSinceStarted<< std::endl;
-  if(_timeSinceStarted >= 2.0)
-    {
-      switchToNetworkState();
-      _timeSinceStarted = 0.0;
-    }
+  Client* client = _context->client;
+
+  if (!client)
+    return;
+  
+  if (client->isConnected())
+    switchToNetworkState();
 }
 
 

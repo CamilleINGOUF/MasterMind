@@ -75,10 +75,24 @@ add_executable( client_gui.out src/main_client.cpp
   src/NetworkState.cpp
   src/Button.cpp
   src/TextField.cpp
+  src/client.cpp
+  src/mastermind.cpp
+  src/Pion.cpp
+  src/Combinaison.cpp
+  src/Plateau.cpp
+  )
+
+add_executable( server.out src/server.cpp
+  src/mastermind.cpp
+  src/Pion.cpp
+  src/Combinaison.cpp
+  src/Plateau.cpp
 )
 
 # Édition des liens
 target_link_libraries( client_gui.out ${PKG_LIBRARIES} )
+target_link_libraries( server.out ${PKG_LIBRARIES} )
+
 
 # TODO: Tests unitaires
 add_executable( main_test.out src/main_test.cpp

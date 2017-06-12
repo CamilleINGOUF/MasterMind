@@ -13,9 +13,10 @@
 Client::Client(GameContext* context) :
   _pSocket(nullptr),
   _context(context),
-  _thread(&Client::run, this),
-  _endOfGame(false)
-{ 
+  _endOfGame(false),
+  _connected(false)
+{
+  _context->client = this;
 }
 
 
@@ -30,10 +31,12 @@ void Client::priv_initClient()
 {
   // Connexion au serveur
   _pSocket = std::make_unique<sf::TcpSocket>();
-  if (_pSocket->connect(_serverIP, _port) != sf::Socket::Done)
-    throw std::string("Impossible de se connecter au serveur: " + _serverIP);
+  if (_pSocket->connect(_context->ip, std::stoi(_context->port)) != sf::Socket::Done)
+    throw std::string("Impossible de se connecter au serveur: " + _context->ip);
 
   std::cout << "Connexion au serveur réussie." << std::endl;
+  
+  _connected = true;
  
   // Envoi du pseudo client
   sf::Packet packet;
@@ -41,9 +44,6 @@ void Client::priv_initClient()
   
   if (_pSocket->send(packet) != sf::Socket::Done)
     throw std::string("Impossible d'envoyer le pseudo client");
-
-  std::cout << "En attente de la confirmation de la combinaison..."
-	    << std::endl;
 }
 
 
@@ -131,6 +131,20 @@ void Client::priv_mainLoop()
 ////////////////////////////////////////////////////////////
 void Client::run()
 {
-  while (true)
-    std::cout << "Test test stest" << std::endl;
+  priv_initClient();
+}
+
+
+////////////////////////////////////////////////////////////
+void Client::start()
+{
+  _thread = new sf::Thread(&Client::run, this);
+  _thread->launch();
+}
+
+
+////////////////////////////////////////////////////////////
+bool Client::isConnected()
+{
+  return _connected;
 }
