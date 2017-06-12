@@ -4,7 +4,7 @@
 #include "WaitingState.hpp"
 #include "GameStateManager.hpp"
 #include "GameContext.hpp"
-#include "client.hpp"
+#include "Client.hpp"
 
 #include <iostream>
 

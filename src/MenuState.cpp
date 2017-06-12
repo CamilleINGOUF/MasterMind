@@ -4,7 +4,7 @@
 #include "MenuState.hpp"
 #include "GameStateManager.hpp"
 #include "GameContext.hpp"
-#include "client.hpp"
+#include "Client.hpp"
 
 #include <SFML/Graphics/Color.hpp>
 #include <iostream>
