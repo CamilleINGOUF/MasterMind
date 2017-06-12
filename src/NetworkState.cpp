@@ -62,13 +62,13 @@ void NetworkState::update(sf::Time dt)
   }
 
   // TODO: Changer le timer à 1 - 2 Minutes !!
-  /*if (_timeoutTimer >= sf::Time(sf::seconds(10.f)))
+  if (_timeoutTimer >= sf::Time(sf::seconds(10.f)))
   {
     switchToMenuState();
     return;
-    }
+  }
     
-    _timeoutTimer += dt;*/
+  _timeoutTimer += dt;
 }
 
 
@@ -84,7 +84,7 @@ void NetworkState::draw()
 {
   sf::RenderWindow* window = _context->window;
   window->draw(_backToMenu);
-  window->draw(_pionD);
+  window->draw(_panelPions);
 }
 
 
