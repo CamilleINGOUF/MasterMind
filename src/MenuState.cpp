@@ -136,6 +136,8 @@ void MenuState::init()
 
 void MenuState::switchToNetworkState()
 {
+  //sf::RenderWindow* window = _context->window;
+  //window->setSize(sf::Vector2u(1280,960));
   GameStateManager* stateManager = _context->stateManager;
   stateManager->setState(State::InGame);
 }

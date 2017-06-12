@@ -8,6 +8,7 @@
 #include "Button.hpp"
 #include "Client.hpp"
 #include "PionDrawable.hpp"
+#include "PanelPions.hpp" 
 
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -39,9 +40,9 @@ private:
 
   PionDrawable _pionD;
   // Partie graphique
-  sf::Text _waitingText; ///< Texte affiché pendant le jeu
   sf::Font _font;        ///< Police du texte
-
+  PanelPions _panelPions;
+  
   // Partie réseau
   sf::TcpSocket _socket; ///< Le lien entre le client et le serveur
   sf::Time      _timeoutTimer;
