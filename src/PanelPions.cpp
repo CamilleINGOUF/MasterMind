@@ -4,8 +4,7 @@ PanelPions::PanelPions() :
   _pions({rouge,jaune,marron,bleu,blanc,noir,vert,orange}),
   _rectangle(sf::Vector2f(140,260))
 {
-  for(Pion pion : _pions)
-    _pionsD.push_back(PionDrawable(pion));
+  
   _rectangle.setFillColor(sf::Color::White);
 }
 
@@ -19,6 +18,13 @@ void PanelPions::setPosition(const sf::Vector2f& pos)
 
 void PanelPions::setScale(const sf::Vector2f& factors)
 {}
+
+void PanelPions::setTextureManager(TextureManager* text)
+{
+  _textureManager = text;
+  for(Pion pion : _pions)
+    _pionsD.push_back(PionDrawable(pion,_textureManager));
+}
 
 void PanelPions::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
