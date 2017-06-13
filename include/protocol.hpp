@@ -25,9 +25,9 @@ namespace ServerPacket
   {
     NameRequest,
     BroadcastMessage,
-    WaitingCodeur,
-    Confirmation,
     CombinaisonRequest,
+    TurnNotFinished,
+    TurnFinished,
     GameFinished,
   };
 }

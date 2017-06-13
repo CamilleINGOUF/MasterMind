@@ -144,6 +144,26 @@ void NetworkState::handlePacket(sf::Int32 packetType, sf::Packet& packet)
 
     _statusText.setString(msg);
   } break;
+
+  case ServerPacket::CombinaisonRequest:
+  {
+    
+  } break;
+
+  case ServerPacket::TurnNotFinished:
+  {
+    
+  } break;
+
+  case ServerPacket::TurnFinished:
+  {
+    
+  } break;
+  
+  case ServerPacket::GameFinished:
+  {
+    
+  } break;
   
   }
 }
