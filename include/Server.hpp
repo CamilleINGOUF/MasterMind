@@ -60,11 +60,12 @@ private:
   ////////////////////////////////////////////////////////////
   /// \brief Retourne une combinaison reçu d'un client
   ///
-  /// \param True si la combinaison demandée est la combinaison
+  /// \param joueur le destinaire de la requête
+  /// \param combiSecrete la combinaison demandée est la combinaison
   /// secrète
   ///
   ////////////////////////////////////////////////////////////
-  Combinaison requestCombinaison(bool combiSecrete);
+  Combinaison requestCombinaison(Joueur joueur, bool combiSecrete);
   
   ////////////////////////////////////////////////////////////
   /// Données membres
