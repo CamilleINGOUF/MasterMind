@@ -5,10 +5,10 @@
 #include <string>
 
 enum Joueur
-  {
-    Client,
-    Serveur
-  };
+{
+  Client,
+  Serveur
+};
 
 //////////////////////////////////////////////////////////////////
 /// \brief La classe MasterMind est la classe principale du jeu.
@@ -142,8 +142,17 @@ public:
   /// \param combinaison
   ///////////////////////////////////////////////////////////
   void setCodeSecret(const Combinaison combinaison);
+
+  ////////////////////////////////////////////////////////////
+  /// \brief vide le plateau pour le prochain tour
+  /// \return bool
+  ///////////////////////////////////////////////////////////
   bool plateauVide();
 
+  ////////////////////////////////////////////////////////////
+  /// \brief Retourne le décodeur
+  /// \return Joueur
+  ///////////////////////////////////////////////////////////
   Joueur getDecodeur() const;
 
   ////////////////////////////////////////////////////////////
@@ -195,10 +204,27 @@ public:
   ///////////////////////////////////////////////////////////
   bool tourTermine();
 
+  ////////////////////////////////////////////////////////////
+  /// \brief ajoute une combinaison au plateau de jeu
+  /// \param combi Combinaison à ajouter
+  ///////////////////////////////////////////////////////////
   void ajouterCombinaison(Combinaison& combi);
-  unsigned getNombreEssais() const;  
+
+  ////////////////////////////////////////////////////////////
+  /// \brief Retourne le nombre d'essais pour trouver la combinaison secrète 
+  /// \return unsigned
+  ///////////////////////////////////////////////////////////
+  unsigned getNombreEssais() const;
+
+  ////////////////////////////////////////////////////////////
+  /// \brief effectue la correction de la dernière combinaison ajoutée et l'affiche dans le plateau de jeu
+  ///////////////////////////////////////////////////////////
   void corrigerDerniereCombinaison();
 
+  ////////////////////////////////////////////////////////////
+  /// \brief Retourne le joueur gagnant
+  /// \return Joueur
+  ///////////////////////////////////////////////////////////
   Joueur getGagnant() const;
 private:
   int _nbManches;/// indique le numéro de la manche
@@ -219,8 +245,8 @@ private:
   int _scoreServeur;/// score du joueur serveur
   int _scoreClient;/// score du joueur client
 
-  std::string _gagnantNom;
-  Joueur _gagnantJoueur;
+  std::string _gagnantNom;/// Nom du joueur gagnant
+  Joueur _gagnantJoueur;/// Type du gagnant (Client ou Servepur)
 };
 
 #endif

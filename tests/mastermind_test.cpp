@@ -1,5 +1,5 @@
 #include <CppUTest/CommandLineTestRunner.h>
-#include "mastermind.hpp"
+#include "Mastermind.hpp"
 #include "Combinaison.hpp"
 
 TEST_GROUP(GroupMastermind) { };

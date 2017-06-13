@@ -1,25 +1,14 @@
-////////////////////////////////////////////////////////////
-//
-// Mastermind
-// Copyright (C) 2017 - CAFA
-//
-////////////////////////////////////////////////////////////
-
-
 #ifndef SERVER_HPP_
 #define SERVER_HPP_
 
 ////////////////////////////////////////////////////////////
 /// Headers
 ////////////////////////////////////////////////////////////
-#include "mastermind.hpp"
+#include "Mastermind.hpp"
+
 #include <memory>
 #include <string>
 #include <SFML/Network.hpp>
-
-typedef std::unique_ptr<sf::TcpSocket> PtrSocket;
-typedef std::unique_ptr<sf::TcpListener> PtrListener;
-
 
 ////////////////////////////////////////////////////////////
 /// \brief Hébergeur d'une partie
@@ -32,9 +21,10 @@ public:
   /// \brief Constructeur du serveur
   ///
   /// \param port le port du serveur
+  /// \param nbManches le nombre de manches
   ///
   ////////////////////////////////////////////////////////////
-  Server(unsigned port);
+  Server(unsigned port, unsigned nbManches);
 
   ////////////////////////////////////////////////////////////
   /// \brief Le destructeur du serveur
@@ -49,14 +39,6 @@ public:
   void run();
   
 private:
-
-  ////////////////////////////////////////////////////////////
-  /// \brief Recupère les paramètres du serveur depuis l'entrée
-  /// standard
-  ///
-  ////////////////////////////////////////////////////////////
-  void priv_getSettings();
-  
   ////////////////////////////////////////////////////////////
   /// \brief Initialise le serveur
   ///
@@ -87,13 +69,13 @@ private:
   ////////////////////////////////////////////////////////////
   /// Données membres
   ////////////////////////////////////////////////////////////
-  unsigned    _port;       ///< Le port du serveur
-  PtrSocket   _pSocket;    ///< La socket qui fait le lien entre les 2 machines
-  PtrListener _pListener;  ///< Le listener pour attendre la connexion du client
-  std::string _nameHost;   ///< Le pseudo de l'hôte
-  std::string _nameClient; ///< Le pseudo du client
-  int         _nbManches;  ///< Le nombre total de manches
-  Mastermind  _game;       ///< L'instance de jeu
+  unsigned        _port;     ///< Le port du serveur
+  sf::TcpListener _listener; ///< Accepte les nouvelles connexions
+  std::string     _nameA;    ///< Le pseudo du client A
+  std::string     _nameB;    ///< Le pseudo du client B
+  sf::TcpSocket   _socketA;  ///< La socket du client A
+  sf::TcpSocket   _socketB;  ///< La socket du client B
+  Mastermind      _game;     ///< L'instance de jeu
 };
 
 
