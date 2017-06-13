@@ -18,6 +18,8 @@ NetworkState::NetworkState(GameContext* context) :
   GameState(context),
   _backToMenu(_context->fontManager, "Retour au menu"),
   _connected(false),
+  _retryTimer(sf::Time::Zero),
+  _retryCount(0),
   _plateauD(_context->textureManager)
 {
   _backToMenu.setPosition(sf::Vector2f(50,50));
@@ -61,7 +63,9 @@ void NetworkState::update(sf::Time dt)
   if (_connected)
   {
     sf::Packet packet;
-    if (_socket.receive(packet) == sf::Socket::Done)
+    sf::Socket::Status status = _socket.receive(packet);
+    
+    if (status == sf::Socket::Done)
     {
       _timeoutTimer = sf::seconds(0);
 
@@ -69,16 +73,41 @@ void NetworkState::update(sf::Time dt)
       if (packet >> packetType)
 	handlePacket(packetType, packet);
     }
-  }
+    else if (status == sf::Socket::Disconnected)
+    {
+      std::cout << "Déconnexion du serveur" << std::endl;
+      switchToMenuState();
+    }
+    else
+    {
+      if (_timeoutTimer >= sf::seconds(5.f))
+      {
+	std::cout << "Timeout / Pas de données reçu du serveur " << std::endl;
+	switchToMenuState();
+      }
+      
+      _timeoutTimer += dt;
+    }
 
-  // TODO: Changer le timer à 1 - 2 Minutes !!
-  /*if (_timeoutTimer >= sf::Time(sf::seconds(10.f)))
-  {
-    switchToMenuState();
     return;
   }
-    
-  _timeoutTimer += dt;*/
+
+  // Tentative de reconnection
+  _retryTimer += dt;
+
+  if (_retryTimer >= sf::seconds(1.f)) // TODO: Intervalle à redéfinir
+  {
+    _retryTimer = sf::Time::Zero;
+    _retryCount++;
+   
+    if (_retryCount == 5)
+    {
+      switchToMenuState();
+      return;
+    }
+
+    prepare();
+  }
 }
 
 
