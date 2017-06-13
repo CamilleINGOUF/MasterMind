@@ -15,7 +15,7 @@ const sf::Time App::FrameRate = sf::seconds(1.f / 60.f);
 
 ////////////////////////////////////////////////////////////
 App::App() :
-  _window(sf::VideoMode(1024,768), "MasterMind", sf::Style::Titlebar |
+  _window(sf::VideoMode(1024, 768), "MasterMind", sf::Style::Titlebar |
 	  sf::Style::Close),
   _stateManager(&_context)
 {

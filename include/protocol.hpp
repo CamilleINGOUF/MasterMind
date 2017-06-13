@@ -24,10 +24,11 @@ namespace ServerPacket
   enum ID
   {
     NameRequest,
-    GameBegin,
-    WaitingCodeur,
-    Confirmation,
+    BroadcastMessage,
     CombinaisonRequest,
+    TurnNotFinished,
+    TurnFinished,
+    GameFinished,
   };
 }
 

@@ -28,7 +28,7 @@ Server::~Server()
 
 
 ////////////////////////////////////////////////////////////
-void Server::priv_initServer()
+void Server::init()
 {  
   // Affichage de l'IP du serveur
   sf::IpAddress localIP  = sf::IpAddress::getLocalAddress();
@@ -95,177 +95,226 @@ void Server::priv_initServer()
 
   std::cout << "Le client B (" << _nameB << ")" << std::endl;
 
+  _game.setNomJoueurA(_nameA);
+  _game.setNomJoueurB(_nameB);
+
   // Message la partie va commencer
-  packet.clear();
-  packet << static_cast<sf::Int32>(ServerPacket::GameBegin);
-
-  if (_socketA.send(packet) != sf::Socket::Done)
-    throw std::runtime_error("Requête GameBegin - Impossible à envoyer");
-
-  if (_socketB.send(packet) != sf::Socket::Done)
-    throw std::runtime_error("Requête GameBegin - Impossible à envoyer");
+  broadcastMessage("La partie va commencer !");
 }
 
 
 ////////////////////////////////////////////////////////////
-void Server::priv_updateTour()
+void Server::updateTour()
 {
-  // sf::Packet packet;
+  sf::Packet packet;
   
   // // Début de partie
-  // if (_game.plateauVide())
-  // {
-  //   // Envoi de la confirmation au client
-  //   if (_game.getDecodeur() == Client)
-  //   {
-  //     Combinaison combinaison = Combinaison::fromInput();
-  //     _game.setCodeSecret(combinaison);
+  if (_game.plateauVide())
+  {
+    if (_game.getDecodeur() == Joueur::A)
+    {
+      Combinaison combi = requestCombinaison(Joueur::B, true);
+      _game.setCodeSecret(combi);
+      broadcastMessage(_nameB + " a choisit le code secret !");
+    }
+    else
+    {
+      Combinaison combi = requestCombinaison(Joueur::A, true);
+      _game.setCodeSecret(combi);
+      broadcastMessage(_nameA + " a choisit le code secret !");
+    }
+  }
 
-  //     packet << static_cast<sf::Int32>(PacketType::Confirmation);
-      
-  //     if (_pSocket->send(packet) != sf::Socket::Done)
-  // 	throw std::string("Impossible d'envoyer la confirmation de sélection de combinaison");
-  //   }
-  //   else
-  //   {
-  //     _game.setCodeSecret(priv_requestCombinaison(true));
-  //   }
-  // }
+  // Récupération de la combinaison
+  if (_game.getDecodeur() == Joueur::A)
+  {
+    Combinaison combinaison = requestCombinaison(Joueur::A, false);
+    _game.ajouterCombinaison(combinaison);
+  }
+  else
+  {
+    Combinaison combinaison = requestCombinaison(Joueur::B, false);
+    _game.ajouterCombinaison(combinaison);
+  }
 
-  // // Récupération de la combinaison
-  // if (_game.getDecodeur() == Client)
-  // {
-  //   Combinaison combinaison = priv_requestCombinaison(false);
-  //   _game.ajouterCombinaison(combinaison);
-  // }
-  // else
-  // {
-  //   Combinaison combiServer = Combinaison::fromInput();
-  //   _game.ajouterCombinaison(combiServer);
-  // }
+  _game.corrigerDerniereCombinaison();
 
-  // _game.corrigerDerniereCombinaison();
+  // Refresh de l'affichage
+  std::cout << _game.getPlateau();  
 
-  // // Refresh de l'affichage
-  // std::cout << _game.getPlateau();  
+  // Vérification + Mise à jour du jeu
+  if (_game.tourTermine())
+  {
+    // Mise à jour des points
+    if (_game.decodeurGagnant())
+    {
+      if (_game.getDecodeur() == Joueur::A)
+  	_game.ajoutPoints(Joueur::A, _game.getNombreEssais());
+      else
+  	_game.ajoutPoints(Joueur::B, _game.getNombreEssais());
+    }
+    // Le décodeur n'a pas trouvé le code secret 
+    else 
+    {
+      if (_game.getDecodeur() == Joueur::A)
+  	_game.ajoutPoints(Joueur::A, 20);
+      else
+  	_game.ajoutPoints(Joueur::B, 20);
+    }
 
-  // packet.clear();
+    std::cout << "Scores:" << std::endl << _nameA << ": "
+  	      << _game.getScoreJoueurA() << " points" << std::endl
+  	      << _nameB << ": " << _game.getScoreJoueurB()
+  	      << " points" << std::endl;
 
-  // // Vérification + Mise à jour du jeu
-  // if (_game.tourTermine())
-  // {
-  //   // Mise à jour des points
-  //   if (_game.decodeurGagnant())
-  //   {
-  //     if (_game.getDecodeur() == Serveur)
-  // 	_game.ajoutPoints(Serveur, _game.getNombreEssais());
-  //     else
-  // 	_game.ajoutPoints(Client, _game.getNombreEssais());
-  //   }
-  //   else
-  //   {
-  //     if (_game.getDecodeur() == Serveur)
-  // 	_game.ajoutPoints(Serveur, 20);
-  //     else
-  // 	_game.ajoutPoints(Client, 20);
-  //   }
+    // Envoi des informations de fin de tour
+    packet << static_cast<sf::Int32>(ServerPacket::TurnFinished);
 
-  //   std::cout << "Scores:" << std::endl << _nameA << ": "
-  // 	      << _game.getScoreServeur() << " points" << std::endl
-  // 	      << _nameA << ": " << _game.getScoreClient()
-  // 	      << " points" << std::endl;
+    if (_game.getDecodeur() == Joueur::A)
+      packet << static_cast<sf::Int32>(_game.getScoreJoueurA());
+    else
+      packet << static_cast<sf::Int32>(_game.getScoreJoueurB());
 
-  //   // Envoi des informations de fin de tour
-  //   packet << static_cast<sf::Int32>(PacketType::TurnFinished);
+    packet << _game.getPlateau().toString();
 
-  //   if (_game.getDecodeur() == Serveur)
-  //     packet << static_cast<sf::Int32>(_game.getScoreServeur());
-  //   else
-  //     packet << static_cast<sf::Int32>(_game.getScoreClient());
+    _game.inverserRoles();
+    std::cout << "Inversion des rôles" << std::endl;
+  }
+  else
+  {
+    packet << static_cast<sf::Int32>(ServerPacket::TurnNotFinished)
+  	   << _game.getPlateau().toString();
+  }
 
-  //   packet << _game.getPlateau().toString();
+  if (_socketA.send(packet) != sf::Socket::Done)
+    throw std::runtime_error("Impossible d'envoyer le paquet de refresh !");
 
-  //   _game.inverserRoles();
-  //   std::cout << "Inversion des rôles" << std::endl;
-  // }
-  // else
-  // {
-  //   packet << static_cast<sf::Int32>(PacketType::TurnNotFinished)
-  // 	   << _game.getPlateau().toString();
-  // }
-
-  // if (_pSocket->send(packet) != sf::Socket::Done)
-  //   throw std::string("Impossible d'envoyer le paquet de refresh !");
+  
+  if (_socketB.send(packet) != sf::Socket::Done)
+    throw std::runtime_error("Impossible d'envoyer le paquet de refresh !");
 }
 
 
 ////////////////////////////////////////////////////////////
-Combinaison Server::priv_requestCombinaison(bool combiSecrete)
+Combinaison Server::requestCombinaison(Joueur joueur, bool combiSecrete)
 {  
-  // Requête d'une combinaison
-  // if (combiSecrete)
-  // {
-  //   std::cout << "En attente d'une combinaison secrète de "
-  // 	      << _nameA << "..." << std::endl;
-  // }
-  // else
-  // {     
-  //   std::cout << "En attente d'une combinaison de "
-  // 	    << _nameA << "..." << std::endl;
-  // }
+  // Log serveur
+  if (combiSecrete)
+  {
+    std::cout << "En attente d'une combinaison secrète de ";
+    
+    if (joueur == Joueur::A)
+      std::cout << _nameA << std::endl;
+    else
+      std::cout << _nameB << std::endl;
+  }
+  else
+  {     
+    std::cout << "En attente d'une combinaison de ";
+
+    if (joueur == Joueur::A)
+      std::cout << _nameA << std::endl;
+    else
+      std::cout << _nameB << std::endl;
+  }
+
+  // Envoi de la requête
+  sf::Packet packet;
+  packet << static_cast<sf::Int32>(ServerPacket::CombinaisonRequest);
+
+  if (joueur == Joueur::A)
+  {
+    if (_socketA.send(packet) != sf::Socket::Done)
+      throw std::runtime_error("Erreur de paquet: [CombinaisonRequest] -> "
+			       + _nameA);
+  }
+  else
+  {
+    if (_socketB.send(packet) != sf::Socket::Done)
+      throw std::runtime_error("Erreur de paquet: [CombinaisonRequest] -> "
+			       + _nameB);
+  }
+
+  // Réception de la combinaison
+  packet.clear();
+
+  if (joueur == Joueur::A)
+  {
+    if (_socketA.receive(packet) != sf::Socket::Done)
+      throw std::runtime_error("Erreur de paquet: " + _nameA +
+			       " -> [CombinaisonRequest]");
+  }
+  else
+  {
+    if (_socketB.receive(packet) != sf::Socket::Done)
+      throw std::runtime_error("Erreur de paquet: " + _nameB +
+			       " -> [CombinaisonRequest]");
+  }
   
-  // sf::Packet packet;
-  // packet << static_cast<sf::Int32>(PacketType::CombinaisonRequest);
-  // if (_pSocket->send(packet) != sf::Socket::Done)
-  //   throw std::string("Impossible d'envoyer une requête de combinaison");
-      
-  // // Réception de la combinaison
-  // packet.clear();
-  // if (_pSocket->receive(packet) != sf::Socket::Done)
-  //   throw std::string("Impossible de recevoir une combinaison");
+  // Extraction de la combinaison
+  std::string combiStr;	
+  if (!(packet >> combiStr))
+    throw std::string("Erreur d'extraction de la combinaison !");
 
-  // // Extraction de la combinaison
-  // std::string combiStr;	
-  // if (!(packet >> combiStr))
-  //   throw std::string("Erreur d'extraction de la combinaison !");
+  Combinaison combinaison;
+  combinaison.setPions(combiStr);
 
-  // Combinaison combinaison;
-  // combinaison.setPions(combiStr);
-
-  // return combinaison;
+  return combinaison;
 }
 
 
 ////////////////////////////////////////////////////////////
-void Server::priv_mainLoop()
+void Server::mainLoop()
 {
-  // while (!_game.partieTerminee())
-  // {
-  //   while (!_game.mancheTerminee())
-  //   {
-  //     while (!_game.tourTermine())
-  //     {
-  // 	priv_updateTour();
-  //     }
-  //   }
-  // }
+  while (!_game.partieTerminee())
+  {
+    while (!_game.mancheTerminee())
+    {
+      while (!_game.tourTermine())
+      {
+  	updateTour();
+      }
+    }
+  }
 
-  // // Fin de partie
-  // sf::Packet packet;
-  // packet << static_cast<sf::Int32>(PacketType::GameFinished);
-  // packet << _game.getGagnantNom();
+  // Fin de partie
+  broadcastMessage("Le gagnant est: " + _game.getGagnantNom());
   
-  // if (_pSocket->send(packet) != sf::Socket::Done)
-  //   throw std::string("Impossible d'envoyer le paquet - PacketType::GameFinished");
+  sf::Packet packet;
+  packet << static_cast<sf::Int32>(ServerPacket::GameFinished);
+  packet << _game.getGagnantNom();
+  
+  // Envoi de la notification aux clients
+  if (_socketA.send(packet) != sf::Socket::Done)
+    throw std::runtime_error("Impossible d'envoyer le paquet - PacketType::GameFinished");
 
-  // std::cout << "Le gagnant est " << _game.getGagnantNom() << std::endl
-  // 	    << "La partie est terminée !" << std::endl;
+  if (_socketB.send(packet) != sf::Socket::Done)
+    throw std::runtime_error("Impossible d'envoyer le paquet - PacketType::GameFinished");
+
+  std::cout << "Le gagnant est " << _game.getGagnantNom() << std::endl
+  	    << "La partie est terminée !" << std::endl;
+}
+
+
+////////////////////////////////////////////////////////////
+void Server::broadcastMessage(const std::string& message)
+{
+  sf::Packet packet;
+  packet << static_cast<sf::Int32>(ServerPacket::BroadcastMessage);
+  packet << message;
+  
+  if (_socketA.send(packet) != sf::Socket::Done)
+    throw std::runtime_error("Impossible d'envoyer un message au joueur " + _nameA);
+
+  if (_socketB.send(packet) != sf::Socket::Done)
+    throw std::runtime_error("Impossible d'envoyer un message au joueur " + _nameB);
 }
 
 
 ////////////////////////////////////////////////////////////
 void Server::run()
 {
-  priv_initServer();
-  //priv_mainLoop();
+  init();
+  //mainLoop();
 }
+
