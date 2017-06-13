@@ -27,6 +27,9 @@ private:
 
   void validateCombi();
   
+  Button _validateButton;
+  Button _resetButton;
+  
   TextureManager* _textureManager;
   FontManager* _fontManager;
 
@@ -40,8 +43,6 @@ private:
   int _indexNextPion;
   
   sf::RectangleShape _backgroundChoosenCoins;
-  Button _validateButton;
-  Button _resetButton;
 
   std::vector<Pion> _pionValidated;
   ////////////////////////////

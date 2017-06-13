@@ -13,12 +13,14 @@
 GameStateManager::GameStateManager() :
   GameStateManager(nullptr)
 {
+  
 }
 
 ////////////////////////////////////////////////////////////
 GameStateManager::GameStateManager(GameContext* context) :
   _context(context)
 {
+  
 }
 
 

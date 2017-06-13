@@ -33,7 +33,7 @@ public:
   ////////////////////////////////////////////////////////////
   /// \brief Définit la posiion du pion
   ///
-  /// \param position la nouvelle position
+  /// \param pos la nouvelle position
   ///
   /////////////////////////////////////////////////////////
   void setPosition(const sf::Vector2f& pos);

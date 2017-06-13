@@ -99,8 +99,8 @@ void TextField::catchEvent(sf::Event& event)
 ////////////////////////////////////////////////////////////
 void TextField::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-  target.draw(_background);
-  target.draw(_text);
+  target.draw(_background,states);
+  target.draw(_text,states);
 }
 
 

@@ -3,9 +3,9 @@
 #include <algorithm>
 
 PlateauDrawable::PlateauDrawable(TextureManager* text, FontManager* font) :
+  _resetButton(_fontManager, "Reset"),_validateButton(_fontManager, "Valider"),
   _textureManager(text),_fontManager(font), _panelPions(_textureManager),
-  _backgroundChoosenCoins(sf::Vector2f(281,70)),
-  _resetButton(_fontManager, "Reset"),_validateButton(_fontManager, "Valider")
+  _backgroundChoosenCoins(sf::Vector2f(281,70))
 {
   //available coins
   _panelPions.setPosition(sf::Vector2f(877,500));
