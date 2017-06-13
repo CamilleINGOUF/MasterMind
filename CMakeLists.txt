@@ -79,6 +79,7 @@ add_executable( client_gui.out src/main_client.cpp
   src/Combinaison.cpp
   src/Plateau.cpp
   src/PionDrawable.cpp
+  src/Utils.cpp
   src/PanelPions.cpp
 )
 
