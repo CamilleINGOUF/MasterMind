@@ -10,13 +10,15 @@
 
 #include <iostream>
 #include <SFML/Network/IpAddress.hpp>
+#include <SFML/System/Vector2.hpp>
 
 
 ////////////////////////////////////////////////////////////
 NetworkState::NetworkState(GameContext* context) :
   GameState(context),
   _backToMenu(_context->fontManager, "Retour au menu"),
-  _connected(false)
+  _connected(false),
+  _plateauD(_context->textureManager)
 {
   _backToMenu.setPosition(sf::Vector2f(50,50));
   _backToMenu.setCallback([this](){
@@ -26,8 +28,6 @@ NetworkState::NetworkState(GameContext* context) :
   _statusText.setFont(_context->fontManager->get(Fonts::Arial));
   _statusText.setCharacterSize(20);
   _statusText.setString("En attente ...");
-
-  _panelPions.setTextureManager(_context->textureManager);
 }
 
 
@@ -86,6 +86,8 @@ void NetworkState::update(sf::Time dt)
 void NetworkState::handleEvent(sf::Event& event)
 {
   _backToMenu.catchEvent(event);
+  _plateauD.catchEvent(event);
+  
 }
 
 
@@ -95,6 +97,7 @@ void NetworkState::draw()
   sf::RenderWindow* window = _context->window;
   window->draw(_backToMenu);
   window->draw(_statusText);
+  window->draw(_plateauD);
 }
 
 

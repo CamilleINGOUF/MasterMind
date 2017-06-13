@@ -3,6 +3,9 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "AssetsDeclarations.hpp"
+#include "AssetManager.hpp"
+
 #include "Pion.hpp"
 
 class PionDrawable : public sf::Drawable
@@ -16,7 +19,7 @@ public:
   ////////////////////////////////////////////////////////////
   /// \brief Constructeur avec pion
   ////////////////////////////////////////////////////////////
-  PionDrawable(Pion p);
+  PionDrawable(Pion p, TextureManager* text);
 
   void setPion(const Pion& p);
 
@@ -25,7 +28,7 @@ public:
   /// 
   /// \param event voir sf::Event
   ////////////////////////////////////////////////////////////
-  void catchEvent(sf::Event& event);
+  bool catchEvent(sf::Event& event);
 
   ////////////////////////////////////////////////////////////
   /// \brief Définit la posiion du pion
@@ -35,14 +38,21 @@ public:
   /////////////////////////////////////////////////////////
   void setPosition(const sf::Vector2f& pos);
 
+  Pion getPion() const;
+
   void setScale(const sf::Vector2f& factors);
+
+  void setTextureManager(TextureManager* text);
 private:
   virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
+  void updateSprite();
+
   Pion _pion;
 
-  sf::Texture _texture;
   sf::Sprite _sprite;
+
+  TextureManager* _textureManager;
 };
 
 #endif

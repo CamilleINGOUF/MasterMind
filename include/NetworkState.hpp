@@ -6,7 +6,7 @@
 ////////////////////////////////////////////////////////////
 #include "Button.hpp"
 #include "GameState.hpp"
-#include "PanelPions.hpp"
+#include "PlateauDrawable.hpp"
 
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -53,7 +53,7 @@ private:
   bool          _connected;    ///< Indique si on est connecté au serveur
   sf::Text      _statusText;   ///< Texte sur le status du jeu
 
-  PanelPions _panelPions;
+  PlateauDrawable _plateauD;
 };
 
 

@@ -26,6 +26,7 @@ GameStateManager::GameStateManager(GameContext* context) :
 void GameStateManager::registerStates()
 {
   _context->fontManager->load(Fonts::Arial, "../media/fonts/arial.ttf");
+  _context->textureManager->load(Textures::Coin, "../media/images/tileset.png");
   
   _gameStates[State::Menu]    = std::make_unique<MenuState>(_context);
   _gameStates[State::Joining] = std::make_unique<JoiningState>(_context);
