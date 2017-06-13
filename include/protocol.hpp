@@ -19,20 +19,12 @@
 ////////////////////////////////////////////////////////////
 /// \brief Identifiants pour des paquets
 ////////////////////////////////////////////////////////////
-enum PacketType
-{
-  Confirmation,
-  CombinaisonRequest,
-  GameFinished,
-  TurnFinished,
-  TurnNotFinished
-};
-
 namespace ServerPacket
 {
   enum ID
   {
     NameRequest,
+    GameBegin,
     WaitingCodeur,
     Confirmation,
     CombinaisonRequest,

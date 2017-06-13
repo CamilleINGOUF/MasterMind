@@ -1,25 +1,14 @@
-////////////////////////////////////////////////////////////
-//
-// Mastermind
-// Copyright (C) 2017 - CAFA
-//
-////////////////////////////////////////////////////////////
-
-
 #ifndef SERVER_HPP_
 #define SERVER_HPP_
 
 ////////////////////////////////////////////////////////////
 /// Headers
 ////////////////////////////////////////////////////////////
-#include "mastermind.hpp"
+#include "Mastermind.hpp"
+
 #include <memory>
 #include <string>
 #include <SFML/Network.hpp>
-
-typedef std::unique_ptr<sf::TcpSocket> PtrSocket;
-typedef std::unique_ptr<sf::TcpListener> PtrListener;
-
 
 ////////////////////////////////////////////////////////////
 /// \brief Hébergeur d'une partie
@@ -80,16 +69,13 @@ private:
   ////////////////////////////////////////////////////////////
   /// Données membres
   ////////////////////////////////////////////////////////////
-  unsigned    _port;       ///< Le port du serveur
-  // PtrSocket   _pSocket;    < La socket qui fait le lien entre les 2 machines
-  // PtrListener _pListener;  < Le listener pour attendre la connexion du client
-
-  sf::TcpListener _listener;
-  std::string _nameA;      ///< Le pseudo du client A
-  std::string _nameB;      ///< Le pseudo du client B
-  sf::TcpSocket  _socketA;    ///< La socket du client A
-  sf::TcpSocket  _socketB;    ///< La socket du client B
-  Mastermind  _game;       ///< L'instance de jeu
+  unsigned        _port;     ///< Le port du serveur
+  sf::TcpListener _listener; ///< Accepte les nouvelles connexions
+  std::string     _nameA;    ///< Le pseudo du client A
+  std::string     _nameB;    ///< Le pseudo du client B
+  sf::TcpSocket   _socketA;  ///< La socket du client A
+  sf::TcpSocket   _socketB;  ///< La socket du client B
+  Mastermind      _game;     ///< L'instance de jeu
 };
 
 

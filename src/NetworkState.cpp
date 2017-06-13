@@ -2,6 +2,7 @@
 /// Headers
 ////////////////////////////////////////////////////////////
 #include "protocol.hpp"
+#include "AssetsDeclarations.hpp"
 #include "AssetManager.hpp"
 #include "GameStateManager.hpp"
 #include "GameContext.hpp"
@@ -21,6 +22,10 @@ NetworkState::NetworkState(GameContext* context) :
   _backToMenu.setCallback([this](){
     switchToMenuState();
   });
+
+  _statusText.setFont(_context->fontManager->get(Fonts::Arial));
+  _statusText.setCharacterSize(20);
+  _statusText.setString("En attente ...");
 }
 
 
@@ -87,6 +92,7 @@ void NetworkState::draw()
 {
   sf::RenderWindow* window = _context->window;
   window->draw(_backToMenu);
+  window->draw(_statusText);
 }
 
 
@@ -119,10 +125,11 @@ void NetworkState::handlePacket(sf::Int32 packetType, sf::Packet& packet)
     }
     
   } break;
-  
-  case ServerPacket::WaitingCodeur:
+
+
+  case ServerPacket::GameBegin:
   {
-    
+    _statusText.setString("La partie va commencer !");
   } break;
   
   }

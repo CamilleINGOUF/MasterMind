@@ -75,7 +75,7 @@ add_executable( client.out src/main_client.cpp
   src/NetworkState.cpp
   src/Button.cpp
   src/TextField.cpp
-  src/mastermind.cpp
+  src/Mastermind.cpp
   src/Pion.cpp
   src/Combinaison.cpp
   src/Plateau.cpp
@@ -87,7 +87,7 @@ add_executable( client.out src/main_client.cpp
 # Éxécutable serveur
 add_executable( server.out src/main_server.cpp
   src/Server.cpp
-  src/mastermind.cpp
+  src/Mastermind.cpp
   src/Pion.cpp
   src/Combinaison.cpp
   src/Plateau.cpp
@@ -95,7 +95,7 @@ add_executable( server.out src/main_server.cpp
 
 # TODO: Tests unitaires
 add_executable( main_test.out tests/main_test.cpp
-  src/mastermind.cpp
+  src/Mastermind.cpp
   src/Pion.cpp
   src/Combinaison.cpp
   src/Plateau.cpp

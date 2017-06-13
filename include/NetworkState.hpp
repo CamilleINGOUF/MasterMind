@@ -50,6 +50,7 @@ private:
   sf::TcpSocket _socket;       ///< Le lien entre le client et le serveur
   sf::Time      _timeoutTimer; ///< Timer pour le timeout 
   bool          _connected;    ///< Indique si on est connecté au serveur
+  sf::Text      _statusText;   ///< Texte sur le status du jeu
 };
 
 

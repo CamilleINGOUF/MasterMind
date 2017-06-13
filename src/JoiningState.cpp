@@ -84,6 +84,9 @@ bool JoiningState::validInput()
   std::string portStr = ipPort.substr(ipPort.find(':') + 1);
 
   unsigned short port;
+
+  if (name.empty() || ipPort.empty())
+    return false;
   
   try
   {

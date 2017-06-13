@@ -1,19 +1,12 @@
 ////////////////////////////////////////////////////////////
-//
-// Mastermind
-// Copyright (C) 2017 - CAFA
-//
-////////////////////////////////////////////////////////////
-
-
-////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "Server.hpp"
-#include "Plateau.hpp"
-#include "Combinaison.hpp"
-#include "Utils.hpp"
 #include "protocol.hpp"
+#include "Combinaison.hpp"
+#include "Plateau.hpp"
+#include "Server.hpp"
+#include "Utils.hpp"
+
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
@@ -45,7 +38,6 @@ void Server::priv_initServer()
   std::cout << "Adresse publique du serveur (" << publicIP << ")" << std::endl;
   
   // Écoute sur le port
-  // _pListener = std::make_unique<sf::TcpListener>();
   if (_listener.listen(_port) != sf::Socket::Done)
     throw std::runtime_error(" Impossible d'écouter sur le port: " + _port);
   
@@ -103,7 +95,15 @@ void Server::priv_initServer()
 
   std::cout << "Le client B (" << _nameB << ")" << std::endl;
 
-  
+  // Message la partie va commencer
+  packet.clear();
+  packet << static_cast<sf::Int32>(ServerPacket::GameBegin);
+
+  if (_socketA.send(packet) != sf::Socket::Done)
+    throw std::runtime_error("Requête GameBegin - Impossible à envoyer");
+
+  if (_socketB.send(packet) != sf::Socket::Done)
+    throw std::runtime_error("Requête GameBegin - Impossible à envoyer");
 }
 
 
