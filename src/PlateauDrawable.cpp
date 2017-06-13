@@ -1,5 +1,7 @@
 #include "PlateauDrawable.hpp"
 
+#include <algorithm>
+
 PlateauDrawable::PlateauDrawable(TextureManager* text, FontManager* font) :
   _textureManager(text),_fontManager(font), _panelPions(_textureManager),
   _backgroundChoosenCoins(sf::Vector2f(281,70)),
@@ -11,8 +13,12 @@ PlateauDrawable::PlateauDrawable(TextureManager* text, FontManager* font) :
   //choosen coins /////////////////////
   _backgroundChoosenCoins.setPosition(sf::Vector2f(400,690));
 
-  indexNextPion = 0;
-  _resetButton.setPosition(sf::Vector2f(670,690));
+  _indexNextPion = 0;
+  _resetButton.setPosition(sf::Vector2f(690,720));
+  _resetButton.setCallback([this]()
+			   {
+			     reset();
+			   });
 
   for(int i = 0; i < 4; i++)
     {
@@ -30,13 +36,16 @@ void PlateauDrawable::catchEvent(sf::Event& event)
   Pion p(_panelPions.catchEvent(event));
   if(p.getCouleur() != Couleur::vide)
     {
-      if(indexNextPion < 4)
+      if(_indexNextPion < 4 &&
+	 !(std::find(_pionsChoosen.begin(), _pionsChoosen.end(), p)
+	   != _pionsChoosen.end()))
 	{
-	  _pionsDChoosen[indexNextPion].setPion(p);
-	  _pionsChoosen[indexNextPion] = p;
-	  indexNextPion++;
+	  _pionsDChoosen[_indexNextPion].setPion(p);
+	  _pionsChoosen[_indexNextPion] = p;
+	  _indexNextPion++;
 	}
     }
+  _resetButton.catchEvent(event);
 }
 
 void PlateauDrawable::setPosition(const sf::Vector2f& pos)
@@ -52,4 +61,14 @@ void PlateauDrawable::draw(sf::RenderTarget& target, sf::RenderStates states)
     target.draw(p,states);
 
   target.draw(_resetButton,states);
+}
+
+void PlateauDrawable::reset()
+{
+  _indexNextPion = 0;
+  for(int i = 0; i < 4; i++)
+    {
+      _pionsDChoosen[i].setPion({Couleur::vide});
+      _pionsChoosen[i].setCouleur(Couleur::vide);
+    }
 }

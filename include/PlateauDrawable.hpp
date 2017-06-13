@@ -18,6 +18,8 @@ public:
   void catchEvent(sf::Event& event);
 
   void setPosition(const sf::Vector2f& pos);
+
+  void reset();
 private:
   virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -31,7 +33,7 @@ private:
   std::vector<PionDrawable> _pionsDChoosen;
   std::vector<Pion> _pionsChoosen;
 
-  int indexNextPion;
+  int _indexNextPion;
   
   sf::RectangleShape _backgroundChoosenCoins;
   //Button _validateButton;
