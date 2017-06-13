@@ -99,41 +99,23 @@ void Server::init()
   _game.setNomJoueurB(_nameB);
 
   // Message la partie va commencer
-  packet.clear();
-  packet << static_cast<sf::Int32>(ServerPacket::GameBegin);
-
-  if (_socketA.send(packet) != sf::Socket::Done)
-    throw std::runtime_error("Requête GameBegin - Impossible à envoyer");
-
-  if (_socketB.send(packet) != sf::Socket::Done)
-    throw std::runtime_error("Requête GameBegin - Impossible à envoyer");
+  broadcastMessage("La partie va commencer !");
 }
 
 
 ////////////////////////////////////////////////////////////
 void Server::updateTour()
 {
-  // sf::Packet packet;
+  sf::Packet packet;
   
   // // Début de partie
-  // if (_game.plateauVide())
-  // {
-  //   // Envoi de la confirmation au client
-  //   if (_game.getDecodeur() == Client)
-  //   {
-  //     Combinaison combinaison = Combinaison::fromInput();
-  //     _game.setCodeSecret(combinaison);
-
-  //     packet << static_cast<sf::Int32>(PacketType::Confirmation);
-      
-  //     if (_pSocket->send(packet) != sf::Socket::Done)
-  // 	throw std::string("Impossible d'envoyer la confirmation de sélection de combinaison");
-  //   }
-  //   else
-  //   {
-  //     _game.setCodeSecret(priv_requestCombinaison(true));
-  //   }
-  // }
+  if (_game.plateauVide())
+  {
+    if (_game.getDecodeur() == Joueur::A)
+      requestCombinaison(Joueur::B, true);
+    else
+      requestCombinaison(Joueur::A, true);
+  }
 
   // // Récupération de la combinaison
   // if (_game.getDecodeur() == Client)
@@ -297,9 +279,23 @@ void Server::mainLoop()
   if (_socketB.send(packet) != sf::Socket::Done)
     throw std::runtime_error("Impossible d'envoyer le paquet - PacketType::GameFinished");
 
-
   std::cout << "Le gagnant est " << _game.getGagnantNom() << std::endl
   	    << "La partie est terminée !" << std::endl;
+}
+
+
+////////////////////////////////////////////////////////////
+void Server::broadcastMessage(const std::string& message)
+{
+  sf::Packet packet;
+  packet << static_cast<sf::Int32>(ServerPacket::BroadcastMessage);
+  packet << message;
+  
+  if (_socketA.send(packet) != sf::Socket::Done)
+    throw std::runtime_error("Impossible d'envoyer un message au joueur " + _nameA);
+
+  if (_socketB.send(packet) != sf::Socket::Done)
+    throw std::runtime_error("Impossible d'envoyer un message au joueur " + _nameB);
 }
 
 
@@ -309,3 +305,4 @@ void Server::run()
   init();
   //mainLoop();
 }
+

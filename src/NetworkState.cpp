@@ -132,9 +132,17 @@ void NetworkState::handlePacket(sf::Int32 packetType, sf::Packet& packet)
   } break;
 
 
-  case ServerPacket::GameBegin:
+  case ServerPacket::BroadcastMessage:
   {
-    _statusText.setString("La partie va commencer !");
+    std::string msg;
+    if (!(packet >> msg))
+    {
+      std::cerr << "Impossible de décoder un message du serveur !" << std::endl;
+      switchToMenuState();
+      return;
+    }
+
+    _statusText.setString(msg);
   } break;
   
   }

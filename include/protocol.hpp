@@ -24,7 +24,7 @@ namespace ServerPacket
   enum ID
   {
     NameRequest,
-    GameBegin,
+    BroadcastMessage,
     WaitingCodeur,
     Confirmation,
     CombinaisonRequest,
