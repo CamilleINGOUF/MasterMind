@@ -61,6 +61,10 @@ private:
   sf::Text      _statusText;     ///< Texte sur le status du jeu
   Button        _validateButton; ///< Le bouton valider
   Board         _board;          ///< Le plateau de jeu
+  std::string   _clientName;     ///< Le pseudo du joueur courant
+  std::string   _opponentName;   ///< Le pseudo de l'adversaire
+  sf::Text      _clientText;     ///< Les infos du joueur courant
+  sf::Text      _opponentText;   ///< Les infos du de l'adversaire
 };
 
 

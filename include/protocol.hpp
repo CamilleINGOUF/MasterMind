@@ -25,6 +25,7 @@ namespace ServerPacket
   {
     NameRequest,
     BroadcastMessage,
+    GameBegin,
     CombinaisonRequest,
     TurnNotFinished,
     TurnFinished,

@@ -98,8 +98,22 @@ void Server::init()
   _game.setNomJoueurA(_nameA);
   _game.setNomJoueurB(_nameB);
 
-  // Message la partie va commencer
-  broadcastMessage("La partie va commencer !");
+
+  // Envoi du pseudo de l'adversaire
+  packet.clear();
+  packet << static_cast<sf::Int32>(ServerPacket::GameBegin);
+  packet << _nameB;
+  
+  if (_socketA.send(packet) != sf::Socket::Done)
+    throw std::runtime_error("Impossible d'envoyer un pseudo au joueur A");
+
+  packet.clear();
+  
+  packet << static_cast<sf::Int32>(ServerPacket::GameBegin);
+  packet << _nameA;
+  
+  if (_socketB.send(packet) != sf::Socket::Done)
+    throw std::runtime_error("Impossible d'envoyer un pseudo au joueur B");
 }
 
 

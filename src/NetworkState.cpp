@@ -21,19 +21,18 @@ NetworkState::NetworkState(GameContext* context) :
   _retryCount(0),
   _connected(false),
   _sendingAllowed(false),
+  _statusText("En attente...", _context->fontManager->get(Fonts::Arial), 20),
   _validateButton(_context->fontManager, "Validate"),
-  _board(_context->textureManager,_context->fontManager)
+  _board(_context->textureManager,_context->fontManager),
+  _clientText("", _context->fontManager->get(Fonts::Arial), 20),
+  _opponentText("? (0 Points)", _context->fontManager->get(Fonts::Arial), 20)
 {
-  _backToMenu.setPosition(sf::Vector2f(50,50));
+  _backToMenu.setPosition(sf::Vector2f(50, 50));
   _backToMenu.setCallback([this](){
     switchToMenuState();
   });
   
-  _statusText.setFont(_context->fontManager->get(Fonts::Arial));
-  _statusText.setCharacterSize(20);
-  _statusText.setString("En attente ...");
-
-  _validateButton.setPosition(sf::Vector2f(690,710));
+  _validateButton.setPosition(sf::Vector2f(690, 710));
   _validateButton.setCallback([this]() {
       if (!_sendingAllowed)
       {
@@ -59,6 +58,9 @@ NetworkState::NetworkState(GameContext* context) :
       
       _sendingAllowed = false;
   });
+
+  _clientText.setPosition(sf::Vector2f(0, 100));
+  _opponentText.setPosition(sf::Vector2f(0, 120));
 }
 
 
@@ -72,6 +74,12 @@ NetworkState::~NetworkState()
 ////////////////////////////////////////////////////////////
 void NetworkState::prepare()
 {
+  
+  if (_clientName.empty())
+    _clientName = _context->clientName;
+  
+  _clientText.setString(_clientName + " (0 Points)");
+  
   if (_socket.connect(_context->ip, _context->port) != sf::Socket::Done)
   {
     std::cerr << "Impossible de se connecter !" << std::endl;
@@ -153,10 +161,13 @@ void NetworkState::handleEvent(sf::Event& event)
 void NetworkState::draw()
 {
   sf::RenderWindow* window = _context->window;
+
   window->draw(_backToMenu);
-  window->draw(_statusText);
   window->draw(_board);
   window->draw(_validateButton);
+  window->draw(_statusText);
+  window->draw(_clientText);
+  window->draw(_opponentText);
 }
 
 
@@ -202,6 +213,21 @@ void NetworkState::handlePacket(sf::Int32 packetType, sf::Packet& packet)
     }
 
     _statusText.setString(msg);
+  } break;
+
+  case ServerPacket::GameBegin:
+  {
+    std::string msg;
+    if (!(packet >> msg))
+    {
+      std::cerr << "Impossible de décoder un message du serveur !" << std::endl;
+      switchToMenuState();
+      return;
+    }
+
+    _opponentName = msg;
+    _opponentText.setString(_opponentName + " (0 Points)");
+    _statusText.setString("La partie va commencer !");
   } break;
 
   case ServerPacket::CombinaisonRequest:
