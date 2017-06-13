@@ -1,13 +1,17 @@
 #ifndef _PANEL_PION_HPP
 #define _PANEL_PION_HPP
 
-#include <SFML/Graphics.hpp>
-#include <vector>
-
+////////////////////////////////////////////////////////////
+/// Headers
+////////////////////////////////////////////////////////////
 #include "AssetsDeclarations.hpp"
 #include "AssetManager.hpp"
 #include "Pion.hpp"
 #include "PionDrawable.hpp"
+
+
+#include <SFML/Graphics.hpp>
+#include <vector>
 
 class PanelPions : public sf::Drawable
 {

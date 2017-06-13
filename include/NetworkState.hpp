@@ -6,7 +6,7 @@
 ////////////////////////////////////////////////////////////
 #include "Button.hpp"
 #include "GameState.hpp"
-#include "PlateauDrawable.hpp"
+#include "Board.hpp"
 
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -27,12 +27,16 @@ public:
   virtual void draw() override;
 
   //////////////////////////////////////////////////////////
-  /// \brief Met en place les connexions
+  /// \brief Met en place la connexion
   ///
   //////////////////////////////////////////////////////////
   void prepare();
   
 private:
+  //////////////////////////////////////////////////////////
+  /// \brief On passe au menu principal
+  ///
+  //////////////////////////////////////////////////////////
   void switchToMenuState();
 
   ////////////////////////////////////////////////////////////
@@ -55,8 +59,8 @@ private:
   bool          _connected;      ///< Indique si on est connecté au serveur
   bool          _sendingAllowed; ///< Autorise l'envoi de la combinaison
   sf::Text      _statusText;     ///< Texte sur le status du jeu
-
-  PlateauDrawable _plateauD;
+  Button        _validateButton; ///< Le bouton valider
+  Board         _board;          ///< Le plateau de jeu
 };
 
 

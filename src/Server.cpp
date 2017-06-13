@@ -315,6 +315,6 @@ void Server::broadcastMessage(const std::string& message)
 void Server::run()
 {
   init();
-  //mainLoop();
+  mainLoop();
 }
 

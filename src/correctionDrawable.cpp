@@ -55,6 +55,8 @@ void CorrectionDrawable::updateSprite()
       rect.left = 112;
       rect.top = 16;
       break;
+    default:
+      return;
     }
   _sprite.setTextureRect(rect);
   _sprite.setScale(sf::Vector2f(4,4));

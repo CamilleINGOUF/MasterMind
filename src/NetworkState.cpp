@@ -21,16 +21,44 @@ NetworkState::NetworkState(GameContext* context) :
   _retryCount(0),
   _connected(false),
   _sendingAllowed(false),
-  _plateauD(_context->textureManager,_context->fontManager)
+  _validateButton(_context->fontManager, "Validate"),
+  _board(_context->textureManager,_context->fontManager)
 {
   _backToMenu.setPosition(sf::Vector2f(50,50));
   _backToMenu.setCallback([this](){
     switchToMenuState();
   });
-
+  
   _statusText.setFont(_context->fontManager->get(Fonts::Arial));
   _statusText.setCharacterSize(20);
   _statusText.setString("En attente ...");
+
+  _validateButton.setPosition(sf::Vector2f(690,710));
+  _validateButton.setCallback([this]() {
+      if (!_sendingAllowed)
+      {
+	std::cout << "Fonctionnalité non disponible pour le moment !"
+		  << std::endl;
+	return;
+      }
+
+      // Récupération de la combinaison du plateau
+      _board.validateCombi();
+      std::string combiStr = _board.getValidatedCombi();
+
+      // Envoi de la combinaison
+      sf::Packet packet;
+      packet << combiStr;
+
+      if (_socket.send(packet) != sf::Socket::Done)
+      {
+	_connected = false;
+	std::cerr << "Impossible d'envoyer la combinaison au serveur ! Déconnexion..."
+		  << std::endl;
+      }
+      
+      _sendingAllowed = false;
+  });
 }
 
 
@@ -81,13 +109,13 @@ void NetworkState::update(sf::Time dt)
     }
     else
     {
-      if (_timeoutTimer >= sf::seconds(5.f))
-      {
-	std::cout << "Timeout / Pas de données reçu du serveur " << std::endl;
-	switchToMenuState();
-      }
+      // if (_timeoutTimer >= sf::seconds(5.f)) TODO: Intervalle à définir
+      // {
+      // 	std::cout << "Timeout / Pas de données reçu du serveur " << std::endl;
+      // 	switchToMenuState();
+      // }
       
-      _timeoutTimer += dt;
+      // _timeoutTimer += dt;
     }
 
     return;
@@ -116,8 +144,8 @@ void NetworkState::update(sf::Time dt)
 void NetworkState::handleEvent(sf::Event& event)
 {
   _backToMenu.catchEvent(event);
-  _plateauD.catchEvent(event);
-  
+  _validateButton.catchEvent(event);
+  _board.catchEvent(event);
 }
 
 
@@ -127,7 +155,8 @@ void NetworkState::draw()
   sf::RenderWindow* window = _context->window;
   window->draw(_backToMenu);
   window->draw(_statusText);
-  window->draw(_plateauD);
+  window->draw(_board);
+  window->draw(_validateButton);
 }
 
 
