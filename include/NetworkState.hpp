@@ -6,6 +6,7 @@
 ////////////////////////////////////////////////////////////
 #include "Button.hpp"
 #include "GameState.hpp"
+#include "PanelPions.hpp"
 
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -51,6 +52,8 @@ private:
   sf::Time      _timeoutTimer; ///< Timer pour le timeout 
   bool          _connected;    ///< Indique si on est connecté au serveur
   sf::Text      _statusText;   ///< Texte sur le status du jeu
+
+  PanelPions _panelPions;
 };
 
 

@@ -81,7 +81,7 @@ add_executable( client.out src/main_client.cpp
   src/Plateau.cpp
   src/PionDrawable.cpp
   src/Utils.cpp
-  #src/PanelPions.cpp
+  src/PanelPions.cpp
 )
 
 # Éxécutable serveur
