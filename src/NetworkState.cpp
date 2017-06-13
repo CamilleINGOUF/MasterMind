@@ -20,7 +20,8 @@ NetworkState::NetworkState(GameContext* context) :
   _retryTimer(sf::Time::Zero),
   _retryCount(0),
   _connected(false),
-  _plateauD(_context->textureManager)
+  _plateauD(_context->textureManager),
+  _sendingAllowed(false)
 {
   _backToMenu.setPosition(sf::Vector2f(50,50));
   _backToMenu.setCallback([this](){
@@ -93,21 +94,21 @@ void NetworkState::update(sf::Time dt)
   }
 
   // Tentative de reconnection
-  _retryTimer += dt;
+  // _retryTimer += dt;
 
-  if (_retryTimer >= sf::seconds(1.f)) // TODO: Intervalle à redéfinir
-  {
-    _retryTimer = sf::Time::Zero;
-    _retryCount++;
+  // if (_retryTimer >= sf::seconds(1.f)) // TODO: Intervalle à redéfinir
+  // {
+  //   _retryTimer = sf::Time::Zero;
+  //   _retryCount++;
    
-    if (_retryCount == 5)
-    {
-      switchToMenuState();
-      return;
-    }
+  //   if (_retryCount == 5)
+  //   {
+  //     switchToMenuState();
+  //     return;
+  //   }
 
-    prepare();
-  }
+  //   prepare();
+  // }
 }
 
 
@@ -176,7 +177,8 @@ void NetworkState::handlePacket(sf::Int32 packetType, sf::Packet& packet)
 
   case ServerPacket::CombinaisonRequest:
   {
-    
+    _statusText.setString("Veuillez choisir une combinaison");
+    _sendingAllowed = true;
   } break;
 
   case ServerPacket::TurnNotFinished:

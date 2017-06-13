@@ -234,9 +234,7 @@ bool Mastermind::decodeurGagnant()
 ////////////////////////////////////////////////////////////
 void Mastermind::viderPlateau()
 {
-  // PAS PROPRE -> faire un clear sur le vecteur de combinaison...
-  Plateau p;
-  setPlateau(p);
+  _plateau.getCombinaisons().clear();
 }
 
 

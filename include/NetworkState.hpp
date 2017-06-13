@@ -56,6 +56,7 @@ private:
   sf::Text      _statusText;   ///< Texte sur le status du jeu
 
   PlateauDrawable _plateauD;
+  bool           _sendingAllowed; ///< Autorise l'envoi de la combinaison
 };
 
 
