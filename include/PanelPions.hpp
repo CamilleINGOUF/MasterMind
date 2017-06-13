@@ -9,31 +9,55 @@
 #include "Pion.hpp"
 #include "PionDrawable.hpp"
 
-
 #include <SFML/Graphics.hpp>
 #include <vector>
 
+////////////////////////////////////////////////////////////
+/// \brief L'ensemble des pions sélectionnables
+////////////////////////////////////////////////////////////
 class PanelPions : public sf::Drawable
 {
 public:
-  PanelPions(TextureManager* text);
+  ////////////////////////////////////////////////////////////
+  /// \brief Construit le panel
+  ///
+  /// \param textureManager le gestionnaire de textures
+  ///
+  ////////////////////////////////////////////////////////////
+  PanelPions(TextureManager* textureManager);
 
+  ////////////////////////////////////////////////////////////
+  /// \brief Gestion des événements
+  ///
+  /// \param event voir sf::Event
+  ///
+  ////////////////////////////////////////////////////////////
   Pion catchEvent(sf::Event& event);
 
+  ////////////////////////////////////////////////////////////
+  /// \brief Définit la position du panel
+  ///
+  /// \param pos la nouvelle position du panel
+  ///
+  ////////////////////////////////////////////////////////////
   void setPosition(const sf::Vector2f& pos);
-
-  void setTextureManager(TextureManager* text);
+  
 private:
   virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
+  ////////////////////////////////////////////////////////////
+  /// Définit la position des pions
+  ///
+  ////////////////////////////////////////////////////////////
   void setPositionPions();
-
-  std::vector<Pion> _pions;
-  std::vector<PionDrawable> _pionsD;
-
-  sf::RectangleShape _rectangle;
-
-  TextureManager* _textureManager;
+  
+  ////////////////////////////////////////////////////////////
+  /// Données membres
+  ////////////////////////////////////////////////////////////
+  TextureManager*           _textureManager; ///< Le gestionnaire de textures
+  sf::RectangleShape        _rectangle;      ///< Le fond du panel
+  std::vector<Pion>         _pions;          ///< Les pions
+  std::vector<PionDrawable> _pionsD;         ///< Le rendu graphique des pions
 };
 
 #endif
