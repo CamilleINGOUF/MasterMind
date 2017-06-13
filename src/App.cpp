@@ -15,7 +15,7 @@ const sf::Time App::FrameRate = sf::seconds(1.f / 60.f);
 
 ////////////////////////////////////////////////////////////
 App::App() :
-  _window(sf::VideoMode(1280,960), "MasterMind", sf::Style::Titlebar |
+  _window(sf::VideoMode(1024, 768), "MasterMind", sf::Style::Titlebar |
 	  sf::Style::Close),
   _stateManager(&_context)
 {
@@ -23,6 +23,8 @@ App::App() :
   _context.stateManager    = &_stateManager;
   _context.textureManager  = &_textureManager;
   _context.fontManager     = &_fontManager;
+
+  _window.setVerticalSyncEnabled(true);
     
   _stateManager.registerStates();
   _stateManager.setState(State::Menu);
