@@ -1,22 +1,30 @@
 #include "PanelPions.hpp"
 
 #include <iostream>
-PanelPions::PanelPions() :
+PanelPions::PanelPions(TextureManager* text) :
   _pions({rouge,jaune,marron,bleu,blanc,noir,vert,orange}),
-  _rectangle(sf::Vector2f(140,260))
+  _rectangle(sf::Vector2f(140,260)),
+  _textureManager(text)
 {
-  
   _rectangle.setFillColor(sf::Color::White);
+  for(Pion pion : _pions)
+    {
+      _pionsD.push_back(PionDrawable(pion,text));
+    }
+  setPositionPions();
 }
 
-void PanelPions::catchEvent(sf::Event& event)
+Pion PanelPions::catchEvent(sf::Event& event)
 {
   
   for(PionDrawable p : _pionsD)
     {
       if(p.catchEvent(event))
-	std::cout << (*p.getPion().getString()) << std::endl;
+	{
+	  return p.getPion();
+	}
     }
+  return Pion(Couleur::vide);
 }
 
 void PanelPions::setPosition(const sf::Vector2f& pos)
