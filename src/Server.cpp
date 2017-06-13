@@ -28,7 +28,7 @@ Server::~Server()
 
 
 ////////////////////////////////////////////////////////////
-void Server::priv_initServer()
+void Server::init()
 {  
   // Affichage de l'IP du serveur
   sf::IpAddress localIP  = sf::IpAddress::getLocalAddress();
@@ -108,7 +108,7 @@ void Server::priv_initServer()
 
 
 ////////////////////////////////////////////////////////////
-void Server::priv_updateTour()
+void Server::updateTour()
 {
   // sf::Packet packet;
   
@@ -200,7 +200,7 @@ void Server::priv_updateTour()
 
 
 ////////////////////////////////////////////////////////////
-Combinaison Server::priv_requestCombinaison(bool combiSecrete)
+Combinaison Server::requestCombinaison(bool combiSecrete)
 {  
   // Requête d'une combinaison
   // if (combiSecrete)
@@ -237,35 +237,41 @@ Combinaison Server::priv_requestCombinaison(bool combiSecrete)
 
 
 ////////////////////////////////////////////////////////////
-void Server::priv_mainLoop()
+void Server::mainLoop()
 {
-  // while (!_game.partieTerminee())
-  // {
-  //   while (!_game.mancheTerminee())
-  //   {
-  //     while (!_game.tourTermine())
-  //     {
-  // 	priv_updateTour();
-  //     }
-  //   }
-  // }
+  while (!_game.partieTerminee())
+  {
+    while (!_game.mancheTerminee())
+    {
+      while (!_game.tourTermine())
+      {
+  	updateTour();
+      }
+    }
+  }
 
-  // // Fin de partie
-  // sf::Packet packet;
-  // packet << static_cast<sf::Int32>(PacketType::GameFinished);
-  // packet << _game.getGagnantNom();
-  
-  // if (_pSocket->send(packet) != sf::Socket::Done)
-  //   throw std::string("Impossible d'envoyer le paquet - PacketType::GameFinished");
+  // Fin de partie
+  sf::Packet packet;
+  packet << static_cast<sf::Int32>(ServerPacket::GameFinished);
+  packet << _game.getGagnantNom();
 
-  // std::cout << "Le gagnant est " << _game.getGagnantNom() << std::endl
-  // 	    << "La partie est terminée !" << std::endl;
+
+  // Envoi de la notification aux clients
+  if (_socketA.send(packet) != sf::Socket::Done)
+    throw std::runtime_error("Impossible d'envoyer le paquet - PacketType::GameFinished");
+
+  if (_socketB.send(packet) != sf::Socket::Done)
+    throw std::runtime_error("Impossible d'envoyer le paquet - PacketType::GameFinished");
+
+
+  std::cout << "Le gagnant est " << _game.getGagnantNom() << std::endl
+  	    << "La partie est terminée !" << std::endl;
 }
 
 
 ////////////////////////////////////////////////////////////
 void Server::run()
 {
-  priv_initServer();
-  //priv_mainLoop();
+  init();
+  //mainLoop();
 }
