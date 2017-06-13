@@ -4,11 +4,8 @@
 ////////////////////////////////////////////////////////////
 /// Headers
 ////////////////////////////////////////////////////////////
-#include "GameState.hpp"
 #include "Button.hpp"
-#include "Client.hpp"
-#include "PionDrawable.hpp"
-#include "PanelPions.hpp" 
+#include "GameState.hpp"
 
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -27,25 +24,33 @@ public:
   virtual void update(sf::Time dt) override;
   virtual void handleEvent(sf::Event& event) override;
   virtual void draw() override;
+
+  //////////////////////////////////////////////////////////
+  /// \brief Met en place les connexions
+  ///
+  //////////////////////////////////////////////////////////
+  void prepare();
   
 private:
   void switchToMenuState();
+
+  ////////////////////////////////////////////////////////////
+  /// \brief Gestion des différents paquets reçu par le serveur
+  ///
+  /// \param packetType le type du paquet
+  /// \param packet les données
+  ///
+  ////////////////////////////////////////////////////////////
   void handlePacket(sf::Int32 packetType, sf::Packet& packet);
-  
+
   ////////////////////////////////////////////////////////////
   /// Données membres
   ////////////////////////////////////////////////////////////
-
-  Button _backToMenu;      //< Bouton retour au menu
-
-  PionDrawable _pionD;
-  // Partie graphique
-  sf::Font _font;        ///< Police du texte
-  PanelPions _panelPions;
-  
-  // Partie réseau
-  sf::TcpSocket _socket; ///< Le lien entre le client et le serveur
-  sf::Time      _timeoutTimer;
+  Button        _backToMenu;   ///< Bouton retour au menu
+  sf::TcpSocket _socket;       ///< Le lien entre le client et le serveur
+  sf::Time      _timeoutTimer; ///< Timer pour le timeout 
+  bool          _connected;    ///< Indique si on est connecté au serveur
+  sf::Text      _statusText;   ///< Texte sur le status du jeu
 };
 
 

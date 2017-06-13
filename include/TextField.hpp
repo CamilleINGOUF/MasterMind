@@ -4,6 +4,9 @@
 ////////////////////////////////////////////////////////////
 /// Headers
 ////////////////////////////////////////////////////////////
+#include "AssetsDeclarations.hpp"
+#include "AssetManager.hpp"
+
 #include <SFML/Graphics.hpp>
 
 
@@ -22,34 +25,25 @@ public:
   TextField();
   
   ////////////////////////////////////////////////////////////
-  /// \brief Construit le text field avec une police
+  /// \brief Construit un text field avec une chaîne de caractères
   ///
-  /// \param font la police du textfield
-  ///
-  ////////////////////////////////////////////////////////////
-  TextField(const sf::Font& font);
-
-  ////////////////////////////////////////////////////////////
-  /// \brief Construit un text field avec une police et
-  /// une taille maximale de caractère
-  ///
-  /// \param font la police du textfield
-  /// \param maxLength la taille maximale en termes de caractères
+  /// \param fontManager le gestionnaire de polices
+  /// \param text la police du textfield
   ///
   ////////////////////////////////////////////////////////////
-  TextField(const sf::Font& font, const unsigned maxLength);
+  TextField(FontManager* fontManager, const std::string& text);
 
   ////////////////////////////////////////////////////////////
   /// \brief Construit un text field avec une police, un nombre
   /// maximum de caractères et définit le texte par défaut
   ///
-  /// \param font la police du texte
-  /// \param maxLength le nombre maximal de caractère
+  /// \param fontManager le gestionnaire de polices
   /// \param text le texte par défaut du champ
+  /// \param maxLength le nombre maximal de caractère
   ///
   ////////////////////////////////////////////////////////////
-  TextField(const sf::Font& font, const unsigned maxLength,
-	    const std::string& text);
+  TextField(FontManager* fontManager, const std::string& text,
+	    const unsigned maxLength);
 
   ////////////////////////////////////////////////////////////
   /// \brief Retourne la chaîne de caractère contenue
@@ -74,15 +68,7 @@ public:
   /// \param event voir sf::Event
   ///
   ////////////////////////////////////////////////////////////
-  void catchEvent(sf::Event& event, const sf::RenderWindow& window);
-
-  ////////////////////////////////////////////////////////////
-  /// \brief Définit la nouvelle police utilisée par le textfield
-  ///
-  /// \param font la nouvelle police
-  ///
-  ////////////////////////////////////////////////////////////
-  void setFont(const sf::Font& font);
+  void catchEvent(sf::Event& event);
 
   ////////////////////////////////////////////////////////////
   /// \brief Définit la posiion du textfield
@@ -122,12 +108,13 @@ private:
   ////////////////////////////////////////////////////////////
   /// Données membres
   //////////////////////////////////////////////////////////// 
-  sf::Text _text;                 ///< Instance de texte
-  unsigned _maxLength;            ///< Le nombre maximum de caractères
-  sf::RectangleShape _background; ///< Le rectangle qui sert de background
-  sf::Color _backgroundColor;     ///< La couleur de fond
-  sf::Color _outlineColor;        ///< La couleur de contour du background
-  bool isActive;                  ///< Si on écrit dedans ou pas
+  FontManager*       _fontManager;     ///< Le gestionnaire de polices
+  sf::Text           _text;            ///< Instance de texte
+  unsigned           _maxLength;       ///< Le nombre maximum de caractères
+  sf::RectangleShape _background;      ///< Le rectangle qui sert de background
+  sf::Color          _backgroundColor; ///< La couleur de fond
+  sf::Color          _outlineColor;    ///< La couleur de contour du background
+  bool               _isActive;        ///< Si on écrit dedans ou pas
 };
 
 #endif

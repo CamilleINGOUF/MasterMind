@@ -2,20 +2,30 @@
 /// Headers
 ////////////////////////////////////////////////////////////
 #include "App.hpp"
+#include "AssetsDeclarations.hpp"
+#include "AssetManager.hpp"
 #include "GameState.hpp"
+
+
 #include <SFML/Window/WindowStyle.hpp>
 
 // Durée pour 60 FPS
-const sf::Time App::FrameRate = sf::Time(sf::seconds(1.f / 60.f));
+const sf::Time App::FrameRate = sf::seconds(1.f / 60.f);
 
 
 ////////////////////////////////////////////////////////////
 App::App() :
-  _window(sf::VideoMode(1280,960), "MasterMind",sf::Style::Titlebar | sf::Style::Close),
+  _window(sf::VideoMode(1024, 768), "MasterMind", sf::Style::Titlebar |
+	  sf::Style::Close),
   _stateManager(&_context)
 {
-  _context.window       = &_window;
-  _context.stateManager = &_stateManager;
+  _context.window          = &_window;
+  _context.stateManager    = &_stateManager;
+  _context.textureManager  = &_textureManager;
+  _context.fontManager     = &_fontManager;
+
+  _window.setVerticalSyncEnabled(true);
+    
   _stateManager.registerStates();
   _stateManager.setState(State::Menu);
 }
@@ -31,11 +41,12 @@ App::~App()
 ////////////////////////////////////////////////////////////
 void App::run()
 {
+  sf::Clock clock;
   sf::Time timeSinceLastUpdate = sf::Time::Zero;
   
   while (_window.isOpen())
   {
-    sf::Time timeElapsed = _clock.restart();
+    sf::Time timeElapsed = clock.restart();
     timeSinceLastUpdate += timeElapsed;
 
     while (timeSinceLastUpdate > FrameRate)

@@ -66,38 +66,36 @@ pkg_check_modules( PKG REQUIRED cpputest sfml-all )
 include_directories( ${PKG_INCLUDE_DIRS} )
 include_directories ( "${CMAKE_SOURCE_DIR}/include" )
 
-# Éxécutable
-add_executable( client_gui.out src/main_client.cpp
+# Éxécutable client
+add_executable( client.out src/main_client.cpp
   src/App.cpp
   src/GameStateManager.cpp
   src/MenuState.cpp
+  src/JoiningState.cpp
   src/NetworkState.cpp
   src/Button.cpp
   src/TextField.cpp
-  src/mastermind.cpp
+  src/Mastermind.cpp
   src/Pion.cpp
   src/Combinaison.cpp
   src/Plateau.cpp
   src/PionDrawable.cpp
   src/Utils.cpp
-  src/PanelPions.cpp
+  #src/PanelPions.cpp
 )
 
-add_executable( server.out src/Server.cpp
-  src/mastermind.cpp
+# Éxécutable serveur
+add_executable( server.out src/main_server.cpp
+  src/Server.cpp
+  src/Mastermind.cpp
   src/Pion.cpp
   src/Combinaison.cpp
   src/Plateau.cpp
 )
 
-# Édition des liens
-target_link_libraries( client_gui.out ${PKG_LIBRARIES} )
-target_link_libraries( server.out ${PKG_LIBRARIES} )
-
-
 # TODO: Tests unitaires
 add_executable( main_test.out tests/main_test.cpp
-  src/mastermind.cpp
+  src/Mastermind.cpp
   src/Pion.cpp
   src/Combinaison.cpp
   src/Plateau.cpp
@@ -108,4 +106,7 @@ add_executable( main_test.out tests/main_test.cpp
   tests/Combinaison_test.cpp
 )
 
+# Édition des liens
+target_link_libraries( client.out ${PKG_LIBRARIES} )
+target_link_libraries( server.out ${PKG_LIBRARIES} )
 target_link_libraries( main_test.out ${PKG_LIBRARIES} )

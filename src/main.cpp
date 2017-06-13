@@ -1,4 +1,4 @@
-#include "mastermind.hpp"
+#include "Mastermind.hpp"
 
 std::vector<Pion> codeSecretAleatoire()
 {
