@@ -5,10 +5,10 @@
 #include <string>
 
 enum Joueur
-  {
-    Client,
-    Serveur
-  };
+{
+  Client,
+  Serveur
+};
 
 //////////////////////////////////////////////////////////////////
 /// \brief La classe MasterMind est la classe principale du jeu.

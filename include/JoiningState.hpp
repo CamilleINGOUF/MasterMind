@@ -1,5 +1,5 @@
-#ifndef MENU_STATE_HPP_
-#define MENU_STATE_HPP_
+#ifndef JOINING_STATE_HPP_
+#define JOINING_STATE_HPP_
 
 ////////////////////////////////////////////////////////////
 /// Headers
@@ -15,23 +15,27 @@
 ////////////////////////////////////////////////////////////
 /// \brief Le menu principal
 ////////////////////////////////////////////////////////////
-class MenuState : public GameState
+class JoiningState : public GameState
 {
 public:
-  MenuState(GameContext* context);
-  virtual ~MenuState() override;
+  JoiningState(GameContext* context);
+  virtual ~JoiningState() override;
   virtual void update(sf::Time dt) override;
   virtual void handleEvent(sf::Event& event) override;
   virtual void draw() override;
-
+  
 private:
+  bool validInput();
   
   ////////////////////////////////////////////////////////////
   /// Données membres
   ////////////////////////////////////////////////////////////
-  Button _quit;
-  Button _joinServer;
+  Button _cancel;
+  Button _joinGame;
+
+  TextField _hostAddress;
+  TextField _nickname;
 };
 
 
-#endif // MENU_STATE_HPP_
+#endif // JOINING_STATE_HPP_

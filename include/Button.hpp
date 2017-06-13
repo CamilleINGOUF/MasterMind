@@ -4,10 +4,12 @@
 ////////////////////////////////////////////////////////////
 /// Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Graphics.hpp>
+#include "AssetsDeclarations.hpp"
+#include "AssetManager.hpp"
+
+
 #include <functional>
-
-
+#include <SFML/Graphics.hpp>
 
 typedef std::function<void()> Callback;
 
@@ -18,17 +20,21 @@ typedef std::function<void()> Callback;
 class Button : public sf::Drawable
 {
 public:
+  ////////////////////////////////////////////////////////////
+  /// \brief Constructeur par défaut
+  ///
+  ////////////////////////////////////////////////////////////
   Button();
   
   ////////////////////////////////////////////////////////////
   /// \brief Construit un bouton avec une police et un texte 
   /// par défaut
   ///
-  /// \param font la police du bouton
+  /// \param fontManager le gestionnaire de polices
   /// \param label le label du bouton
   ///
   ////////////////////////////////////////////////////////////
-  Button(const sf::Font& font, const std::string& label);
+  Button(FontManager* fontManager, const std::string& label);
 
   ////////////////////////////////////////////////////////////
   /// \brief Attrape les événements pour mettre à jour le bouton
@@ -77,15 +83,7 @@ public:
   ///
   ////////////////////////////////////////////////////////////
   void setCallback(Callback callback);
-
-  ////////////////////////////////////////////////////////////
-  /// \brief Définit la police du bouton
-  ///
-  /// \param police du bouton
-  ///
-  ///////////////////////////////////////////////////////////
-  void setFont(const sf::Font& font);
-
+  
 private:
   virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -94,32 +92,23 @@ private:
   /// par rapport au texte.
   ///
   ////////////////////////////////////////////////////////////  
-  void priv_updateGeometry();
+  void updateGeometry();
+
+  ////////////////////////////////////////////////////////////
+  /// \brief Un helper du constructeur
+  ///
+  ////////////////////////////////////////////////////////////  
+  void setup();
 
   ////////////////////////////////////////////////////////////  
   /// Données membres
-  ////////////////////////////////////////////////////////////  
-  sf::Text _text;            ///< Rendu du texte
-  sf::RectangleShape _shape; ///< Le background
-  sf::Color _background;     ///< Le couleur du background
-  sf::Color _textColor;      ///< La couleur du label
-  Callback _callback;        ///< L'event associé au bouton
-
-  sf::Font font;
+  ////////////////////////////////////////////////////////////
+  FontManager*       _fontManager; ///< Le gestionnaire de polices
+  sf::Text           _text;        ///< Rendu du texte
+  sf::RectangleShape _shape;       ///< Le background
+  sf::Color          _background;  ///< Le couleur du background
+  sf::Color          _textColor;   ///< La couleur du label
+  Callback           _callback;    ///< L'event associé au bouton
 };
 
 #endif // BUTTON_HPP_
-
-////////////////////////////////////////////////////////////
-/// \class Button
-///
-/// Exemple d'utilisation:
-/// \code
-/// Button button(font, "Mon bouton !");
-/// button.setPosition(sf::Vector2f(200, 200));
-/// button.setCallback([this](){...}); // A appeler dans une classe
-/// ...
-/// while(window.pollEvent(event)) { button.catchEvent(event); ... }
-/// \endcode
-///
-////////////////////////////////////////////////////////////

@@ -6,67 +6,64 @@
 #include <iostream>
 
 TextField::TextField() : 
-  _backgroundColor(sf::Color::Red),
-  _outlineColor(sf::Color::White)
-{
-  _background.setSize(sf::Vector2f(200, 25));
-  _background.setFillColor(_backgroundColor);
-  _background.setOutlineColor(_outlineColor);
-  _maxLength = 20;
-  _background.setOutlineThickness(1);
-  isActive = false;
-}
-
-
-////////////////////////////////////////////////////////////
-TextField::TextField(const sf::Font& font) :
-  TextField(font, 20, "")
+  TextField(nullptr, "", 20)
 {
 }
 
 
 ////////////////////////////////////////////////////////////
-TextField::TextField(const sf::Font& font, const unsigned maxLength) :
-  TextField(font, maxLength, "")
+TextField::TextField(FontManager* fontManager, const std::string& text) :
+  TextField(fontManager, text, 20)
 {
 }
 
 
 ////////////////////////////////////////////////////////////
-TextField::TextField(const sf::Font& font, const unsigned maxLength,
-		     const std::string& text) :
-  _text(text, font, 20),
+TextField::TextField(FontManager* fontManager, const std::string& text,
+		     const unsigned maxLength) :
+  _fontManager(fontManager),
   _maxLength(maxLength),
   _backgroundColor(sf::Color::Red),
-  _outlineColor(sf::Color::White)
+  _outlineColor(sf::Color::White),
+  _isActive(false)
 {
   _background.setSize(sf::Vector2f(200, 25));
   _background.setFillColor(_backgroundColor);
   _background.setOutlineColor(_outlineColor);
   _background.setOutlineThickness(1);
-  isActive = false;
+
+  _text.setFont(_fontManager->get(Fonts::Arial));
+  _text.setCharacterSize(20);
+  _text.setString(text);
 }
 
 
 ////////////////////////////////////////////////////////////
-void TextField::catchEvent(sf::Event& event, const sf::RenderWindow& window)
+void TextField::catchEvent(sf::Event& event)
 {
   // Catch seulement des saisies clavier
   if (event.type != sf::Event::TextEntered
       and event.type != sf::Event::MouseButtonPressed)
     return;
 
-  if(event.type == sf::Event::MouseButtonPressed)
-    {
-      if(sf::Mouse::getPosition(window).x >= _background.getPosition().x &&
-	 sf::Mouse::getPosition(window).y >= _background.getPosition().y &&
-	 sf::Mouse::getPosition(window).x <= _background.getPosition().x + _background.getSize().x &&
-	 sf::Mouse::getPosition(window).y <= _background.getPosition().y + _background.getSize().y)
-	  isActive = true;
+  // Check du focus
+  if (event.type == sf::Event::MouseButtonPressed)
+  {
+    int mouseX = event.mouseButton.x;
+    int mouseY = event.mouseButton.y;
+    
+    if (mouseX >= _background.getPosition().x &&
+	mouseY >= _background.getPosition().y &&
+	mouseX <= _background.getPosition().x + _background.getSize().x &&
+	mouseY <= _background.getPosition().y + _background.getSize().y)
+          _isActive = true;
       else
-	  isActive = false;
-      return;
-    }
+	  _isActive = false;
+
+    return;
+  }
+
+  if (!_isActive) return;
 
   // Accepte uniquement les caractères (pas d'accents)
   // Entrée ne fait rien !
@@ -74,7 +71,7 @@ void TextField::catchEvent(sf::Event& event, const sf::RenderWindow& window)
     return;
 
   // Backspace
-  if (event.text.unicode == 8 && isActive)
+  if (event.text.unicode == 8)
   {
     sf::String str   = _text.getString();
     std::size_t size = str.getSize();
@@ -90,7 +87,7 @@ void TextField::catchEvent(sf::Event& event, const sf::RenderWindow& window)
   }
   
   // Vérification de la limite
-  if (_text.getString().getSize() == _maxLength or !isActive)
+  if (_text.getString().getSize() == _maxLength)
     return;
   
   // Ajout de la lettre frappée
@@ -102,19 +99,9 @@ void TextField::catchEvent(sf::Event& event, const sf::RenderWindow& window)
 ////////////////////////////////////////////////////////////
 void TextField::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-  if (!_text.getFont())
-    throw std::runtime_error("TextField with invalid font !");
-
   target.draw(_background);
   target.draw(_text);
 }
-
-
-////////////////////////////////////////////////////////////
-void TextField::setFont(const sf::Font& font)
-{
-  _text.setFont(font);
-}  
 
 
 ////////////////////////////////////////////////////////////

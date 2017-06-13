@@ -19,15 +19,17 @@
 ////////////////////////////////////////////////////////////
 /// \brief Identifiants pour des paquets
 ////////////////////////////////////////////////////////////
-enum PacketType
+namespace ServerPacket
 {
-  Confirmation,
-  CombinaisonRequest,
-  GameFinished,
-  TurnFinished,
-  TurnNotFinished
-};
-
+  enum ID
+  {
+    NameRequest,
+    GameBegin,
+    WaitingCodeur,
+    Confirmation,
+    CombinaisonRequest,
+  };
+}
 
 ////////////////////////////////////////////////////////////
 sf::Packet& operator<<(sf::Packet& pkt, const Combinaison& combi)

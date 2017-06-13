@@ -3,8 +3,8 @@
 ////////////////////////////////////////////////////////////
 #include "App.hpp"
 
-#include <stdexcept>
 #include <iostream>
+#include <stdexcept>
 
 ////////////////////////////////////////////////////////////
 int main()
@@ -17,6 +17,7 @@ int main()
   catch (std::exception& e)
   {
     std::cerr << e.what() << std::endl;
+    return -1;
   }
   
   return 0;

@@ -1,42 +1,31 @@
 ////////////////////////////////////////////////////////////
 /// Headers
 ////////////////////////////////////////////////////////////
-#include "NetworkState.hpp"
+#include "protocol.hpp"
+#include "AssetsDeclarations.hpp"
+#include "AssetManager.hpp"
 #include "GameStateManager.hpp"
 #include "GameContext.hpp"
+#include "NetworkState.hpp"
 
+#include <iostream>
 #include <SFML/Network/IpAddress.hpp>
 
 
 ////////////////////////////////////////////////////////////
 NetworkState::NetworkState(GameContext* context) :
-  GameState(context)
+  GameState(context),
+  _backToMenu(_context->fontManager, "Retour au menu"),
+  _connected(false)
 {
-  if (!_font.loadFromFile("../media/fonts/arial.ttf"))
-    exit(-1);
-
-  _backToMenu.setFont(_font);
-  _backToMenu.setLabel("Retour au menu");
   _backToMenu.setPosition(sf::Vector2f(50,50));
-  _backToMenu.setCallback([this]()
-			  {
-			    switchToMenuState();
-			  });
-
-  
-  _pionD.setPion({rouge});
-  _pionD.setPosition(sf::Vector2f(0,0));
-  _pionD.setScale(sf::Vector2f(5,5));
   _backToMenu.setCallback([this](){
-      switchToMenuState();
-    });
-
-  _socket.setBlocking(false);
-
-  if(_socket.connect(_context->ip, _context->port) != sf::Socket::Done)
-  {
     switchToMenuState();
-  }
+  });
+
+  _statusText.setFont(_context->fontManager->get(Fonts::Arial));
+  _statusText.setCharacterSize(20);
+  _statusText.setString("En attente ...");
 }
 
 
@@ -48,27 +37,46 @@ NetworkState::~NetworkState()
 
 
 ////////////////////////////////////////////////////////////
+void NetworkState::prepare()
+{
+  if (_socket.connect(_context->ip, _context->port) != sf::Socket::Done)
+  {
+    std::cerr << "Impossible de se connecter !" << std::endl;
+    return;
+  }
+
+  _socket.setBlocking(false);
+  _connected = true;
+}
+
+
+////////////////////////////////////////////////////////////
 void NetworkState::update(sf::Time dt)
 {
-  sf::Packet packet;
-  if (_socket.receive(packet) == sf::Socket::Done)
+  // Logique du jeu (Anim etc.. ?)
+  
+  // Logique réseau
+  if (_connected)
   {
-    _timeoutTimer = sf::seconds(0);
-    sf::Int32 packetType;
-    if (packet >> packetType)
+    sf::Packet packet;
+    if (_socket.receive(packet) == sf::Socket::Done)
     {
-      handlePacket(packetType, packet);
+      _timeoutTimer = sf::seconds(0);
+
+      sf::Int32 packetType;
+      if (packet >> packetType)
+	handlePacket(packetType, packet);
     }
   }
 
   // TODO: Changer le timer à 1 - 2 Minutes !!
-  if (_timeoutTimer >= sf::Time(sf::seconds(10.f)))
+  /*if (_timeoutTimer >= sf::Time(sf::seconds(10.f)))
   {
     switchToMenuState();
     return;
   }
     
-  _timeoutTimer += dt;
+  _timeoutTimer += dt;*/
 }
 
 
@@ -84,7 +92,7 @@ void NetworkState::draw()
 {
   sf::RenderWindow* window = _context->window;
   window->draw(_backToMenu);
-  window->draw(_panelPions);
+  window->draw(_statusText);
 }
 
 
@@ -104,7 +112,25 @@ void NetworkState::handlePacket(sf::Int32 packetType, sf::Packet& packet)
 {
   switch (packetType)
   {
-  case 0:
-    break;
+  case ServerPacket::NameRequest:
+  {
+    sf::Packet pkt;
+    pkt << _context->clientName;
+
+    if (_socket.send(pkt) != sf::Socket::Done)
+    {
+      std::cerr << "Connexion perdu avec le serveur" << std::endl;
+      switchToMenuState();
+      return;
+    }
+    
+  } break;
+
+
+  case ServerPacket::GameBegin:
+  {
+    _statusText.setString("La partie va commencer !");
+  } break;
+  
   }
 }
