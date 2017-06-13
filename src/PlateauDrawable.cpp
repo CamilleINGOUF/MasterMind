@@ -3,9 +3,9 @@
 #include <algorithm>
 
 PlateauDrawable::PlateauDrawable(TextureManager* text, FontManager* font) :
-  _resetButton(_fontManager, "Reset"),_validateButton(_fontManager, "Valider"),
   _textureManager(text),_fontManager(font), _panelPions(_textureManager),
-  _backgroundChoosenCoins(sf::Vector2f(281,70))
+  _backgroundChoosenCoins(sf::Vector2f(281,70)),
+  _resetButton(_fontManager, "Reset"),_validateButton(_fontManager, "Valider")
 {
   //available coins
   _panelPions.setPosition(sf::Vector2f(877,500));
@@ -34,6 +34,10 @@ PlateauDrawable::PlateauDrawable(TextureManager* text, FontManager* font) :
 
   for(int i = 0; i < 4; i++)
     _pionsDChoosen[i].setPosition(sf::Vector2f(404 + (i * 68),694));
+  /////////////////////////////////////
+
+  // Correction ///////////////////////
+  
   /////////////////////////////////////
 }
 
@@ -69,6 +73,7 @@ void PlateauDrawable::draw(sf::RenderTarget& target, sf::RenderStates states)
 
   target.draw(_resetButton,states);
   target.draw(_validateButton,states);
+  
 }
 
 void PlateauDrawable::reset()
@@ -95,6 +100,7 @@ void PlateauDrawable::validateCombi()
 std::vector<Pion> PlateauDrawable::getValidatedCombi()
 {
   std::vector<Pion> tmp = _pionValidated;
-  _pionValidated = {{Couleur::vide},{Couleur::vide},{Couleur::vide},{Couleur::vide}};
+  _pionValidated = {{Couleur::vide},{Couleur::vide},
+		    {Couleur::vide},{Couleur::vide}};
   return tmp;
 }

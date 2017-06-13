@@ -7,6 +7,7 @@
 
 #include "AssetsDeclarations.hpp"
 #include "AssetManager.hpp"
+#include "correctionDrawable.hpp"
 #include "PanelPions.hpp"
 #include "Button.hpp"
 
@@ -27,8 +28,6 @@ private:
 
   void validateCombi();
   
-  Button _validateButton;
-  Button _resetButton;
   
   TextureManager* _textureManager;
   FontManager* _fontManager;
@@ -43,9 +42,17 @@ private:
   int _indexNextPion;
   
   sf::RectangleShape _backgroundChoosenCoins;
-
+  
+  Button _validateButton;
+  Button _resetButton;
+  
   std::vector<Pion> _pionValidated;
   ////////////////////////////
+
+  // Correction
+  std::vector<CorrectionDrawable> _correctionsD;
+  
+  /////////////
 };
 
 #endif
