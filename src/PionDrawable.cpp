@@ -89,6 +89,10 @@ void PionDrawable::updateSprite()
     case bleu:
       rect.left = 112;
       break;
+    case vide:
+      rect.left = 112;
+      rect.top = 16;
+      break;
     }
   _sprite.setTextureRect(rect);
   _sprite.setScale(sf::Vector2f(4,4));

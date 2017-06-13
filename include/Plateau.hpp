@@ -77,7 +77,7 @@ public:
 
   //////////////////////////////////////////////////////////
   /// \brief Accesseurs pour ajouter une correction sur le plateau
-  /// \param combinaison correction (noir/blanc/vide)
+  /// \param correction correction (noir/blanc/vide)
   ////////////////////////////////////////////////////////// 
   void addCorrection(const Combinaison correction);
 

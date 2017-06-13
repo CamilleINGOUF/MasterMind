@@ -41,6 +41,7 @@ MenuState::~MenuState()
 ////////////////////////////////////////////////////////////
 void MenuState::update(sf::Time dt)
 {
+  
 }
 
 

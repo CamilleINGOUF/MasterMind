@@ -12,9 +12,9 @@
 class PanelPions : public sf::Drawable
 {
 public:
-  PanelPions();
+  PanelPions(TextureManager* text);
 
-  void catchEvent(sf::Event& event);
+  Pion catchEvent(sf::Event& event);
 
   void setPosition(const sf::Vector2f& pos);
 

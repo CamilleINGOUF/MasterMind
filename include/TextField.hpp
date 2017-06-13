@@ -89,7 +89,7 @@ public:
   ////////////////////////////////////////////////////////////
   /// \brief Définit la couleur du contour du background
   ///
-  /// \param background la nouvelle couleur du contour du background
+  /// \param outline la nouvelle couleur du contour du background
   ///
   ////////////////////////////////////////////////////////////
   void setOutlineColor(const sf::Color& outline);
