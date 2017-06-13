@@ -26,6 +26,7 @@ NetworkState::NetworkState(GameContext* context) :
   _statusText.setFont(_context->fontManager->get(Fonts::Arial));
   _statusText.setCharacterSize(20);
   _statusText.setString("En attente ...");
+  
 }
 
 
