@@ -20,9 +20,13 @@ public:
   void setPosition(const sf::Vector2f& pos);
 
   void reset();
+
+  std::vector<Pion> getValidatedCombi();
 private:
   virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
+  void validateCombi();
+  
   TextureManager* _textureManager;
   FontManager* _fontManager;
 
@@ -36,8 +40,10 @@ private:
   int _indexNextPion;
   
   sf::RectangleShape _backgroundChoosenCoins;
-  //Button _validateButton;
+  Button _validateButton;
   Button _resetButton;
+
+  std::vector<Pion> _pionValidated;
   ////////////////////////////
 };
 
