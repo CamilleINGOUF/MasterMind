@@ -235,13 +235,14 @@ bool Mastermind::decodeurGagnant()
 void Mastermind::viderPlateau()
 {
   _plateau.getCombinaisons().clear();
+  _plateau.getCorrections().clear();
 }
 
 
 ////////////////////////////////////////////////////////////
 bool Mastermind::plateauVide()
 {
-  return _plateau.getCombinaisons().size() == 0;
+  return _plateau.getNbCombinaisons() == 0;
 }
 
 
@@ -265,7 +266,7 @@ void Mastermind::ajouterCombinaison(Combinaison& combi)
 ////////////////////////////////////////////////////////////
 unsigned Mastermind::getNombreEssais() const
 {
-  return _plateau.getCombinaisons().size();
+  return _plateau.getNbCombinaisons();
 }
 
 
@@ -275,7 +276,7 @@ void Mastermind::corrigerDerniereCombinaison()
   Combinaison correction;
   std::vector<Pion> pions;
 
-  for(int i = 0; i < 4;i++)
+  for (int i = 0; i < 4;i++)
   {
     if (_codeSecret.getPions()[i] == _plateau.getLastCombinaison().getPions()[i])
     {

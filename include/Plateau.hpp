@@ -31,7 +31,7 @@ public:
   /// \param combinaisons les combinaisons
   ///
   ////////////////////////////////////////////////////////////
-  Plateau(std::vector<Combinaison>);
+  Plateau(std::vector<Combinaison>& combinaisons);
   
   ////////////////////////////////////////////////////////////
   /// \brief Destructeur de Plateau
@@ -42,7 +42,7 @@ public:
   /// \brief Accesseurs pour récupérer une combinaison
   /// \return Vecteur de combinaisons
   //////////////////////////////////////////////////////////  
-  std::vector<Combinaison> getCombinaisons() const;
+  std::vector<Combinaison>& getCombinaisons();
 
   //////////////////////////////////////////////////////////
   /// \brief Accesseurs pour changer les combinaisons du plateau
@@ -60,7 +60,7 @@ public:
   /// \brief Récupères les corrections
   /// \return Combinaison de pions (noir/blanc/vide)
   //////////////////////////////////////////////////////////  
-  std::vector<Combinaison> getCorrections() const;
+  std::vector<Combinaison>& getCorrections();
 
   //////////////////////////////////////////////////////////
   /// \brief Accesseurs pour changer les corrections de plateau
@@ -86,6 +86,24 @@ public:
   ///
   ////////////////////////////////////////////////////////// 
   const std::string toString() const;
+
+  //////////////////////////////////////////////////////////
+  /// \brief Retourne le nombre de combinaisons
+  ///
+  /// \return le nombre de combinaisons
+  ///
+  ////////////////////////////////////////////////////////// 
+  unsigned getNbCombinaisons() const;
+
+  //////////////////////////////////////////////////////////
+  /// \brief Retourne la correction correspondant à l'index
+  ///
+  /// \param index un index
+  ///
+  /// \return la correction
+  ///
+  ////////////////////////////////////////////////////////// 
+  Combinaison getCorrection(unsigned index) const;
   
 private:
   

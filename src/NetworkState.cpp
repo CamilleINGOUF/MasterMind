@@ -45,7 +45,7 @@ NetworkState::NetworkState(GameContext* context) :
       // Récupération de la combinaison du plateau
       _board.validateCombi();
       std::string combiStr = _board.getValidatedCombi();
-
+      
       // Envoi de la combinaison
       sf::Packet packet;
       packet << combiStr;

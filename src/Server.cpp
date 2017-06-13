@@ -128,11 +128,13 @@ void Server::updateTour()
   // Récupération de la combinaison
   if (_game.getDecodeur() == Joueur::A)
   {
+    broadcastMessage("En attente de la combinaison de " + _nameA);
     Combinaison combinaison = requestCombinaison(Joueur::A, false);
     _game.ajouterCombinaison(combinaison);
   }
   else
   {
+    broadcastMessage("En attente de la combinaison de " + _nameB);
     Combinaison combinaison = requestCombinaison(Joueur::B, false);
     _game.ajouterCombinaison(combinaison);
   }
