@@ -47,7 +47,7 @@ void PanelPions::setPositionPions()
 {
   
 
-  for(int i = 0; i < _pionsD.size(); i++)
+  for (unsigned i = 0; i < _pionsD.size(); i++)
     {
       if(i % 2 == 0)
 	{

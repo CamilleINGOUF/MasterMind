@@ -20,8 +20,8 @@ NetworkState::NetworkState(GameContext* context) :
   _retryTimer(sf::Time::Zero),
   _retryCount(0),
   _connected(false),
-  _plateauD(_context->textureManager,_context->fontManager),
-  _sendingAllowed(false)
+  _sendingAllowed(false),
+  _plateauD(_context->textureManager,_context->fontManager)
 {
   _backToMenu.setPosition(sf::Vector2f(50,50));
   _backToMenu.setCallback([this](){

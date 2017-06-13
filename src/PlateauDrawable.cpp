@@ -5,7 +5,8 @@
 PlateauDrawable::PlateauDrawable(TextureManager* text, FontManager* font) :
   _textureManager(text),_fontManager(font), _panelPions(_textureManager),
   _backgroundChoosenCoins(sf::Vector2f(281,70)),
-  _resetButton(_fontManager, "Reset"),_validateButton(_fontManager, "Valider")
+  _validateButton(_fontManager, "Valider"),
+  _resetButton(_fontManager, "Reset")
 {
   //available coins
   _panelPions.setPosition(sf::Vector2f(877,500));
