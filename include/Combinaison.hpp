@@ -1,11 +1,3 @@
-////////////////////////////////////////////////////////////
-//
-// Mastermind
-// Copyright (C) 2017 - CAFA
-//
-////////////////////////////////////////////////////////////
-
-
 #ifndef COMBINAISON_HPP_
 #define COMBINAISON_HPP_
 
@@ -13,6 +5,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include "Pion.hpp"
+
 #include <vector>
 #include <string>
 
@@ -29,8 +22,13 @@ public:
   ////////////////////////////////////////////////////////////
   Combinaison();
 
-  ///Combinaison(std::string str);
-  Combinaison(std::vector<Pion> pions);
+  ////////////////////////////////////////////////////////////
+  /// \brief Construit la combinaison à partir de pions
+  ///
+  /// \param pions les pions constituant la combinaison
+  ///
+  ////////////////////////////////////////////////////////////
+  Combinaison(const std::vector<Pion>& pions);
 
   ////////////////////////////////////////////////////////////
   /// \brief Le destructeur de combinaison
@@ -52,24 +50,39 @@ public:
   /// \param pions les pions constituants la combinaison
   ///
   ////////////////////////////////////////////////////////////
-  void setPions(const std::vector<Pion> pions);
+  void setPions(const std::vector<Pion>& pions);
 
-  void setPions(const std::string pions);
+  ////////////////////////////////////////////////////////////
+  /// \brief Définit les composants de la combinaison
+  ///
+  /// \param pions les pions sous chaîne de caractères
+  ///
+  ////////////////////////////////////////////////////////////
+  void setPions(const std::string& pions);
   
   bool operator==(const Combinaison & that) const;
   Combinaison & operator=(const Combinaison & c);
 
   ////////////////////////////////////////////////////////////
-  /// \brief Retourne la combinaison en str
+  /// \brief Retourne la combinaison en string
   ///
   ////////////////////////////////////////////////////////////
   const std::string toString() const;
 
-
+  ////////////////////////////////////////////////////////////
+  /// \brief Check si le pion est présent dans la combinaison
+  ///
+  /// \param p Un pion
+  ///
+  /// \return True si le pion est dans la combinaison, false sinon
+  ///
+  ////////////////////////////////////////////////////////////
   bool pionDansLaCombinaison(Pion p);
   
   ////////////////////////////////////////////////////////////
-  /// \brief Retourne une combinaison précédément tapée
+  /// \brief Retourne une combinaison saisie au clavier
+  ///
+  /// \return Une combinaison saisie au clavier
   ///
   ////////////////////////////////////////////////////////////
   static Combinaison fromInput();
@@ -87,7 +100,7 @@ private:
   /// une combinaison à partir d'une châine de caractères
   ///
   ////////////////////////////////////////////////////////////
-  static bool priv_isValid(const std::string& input);
+  static bool isValid(const std::string& input);
 
   ////////////////////////////////////////////////////////////
   /// Données membres

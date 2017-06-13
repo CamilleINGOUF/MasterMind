@@ -14,7 +14,7 @@ Combinaison::Combinaison() :
 
 
 ////////////////////////////////////////////////////////////
-Combinaison::Combinaison(std::vector<Pion> pions) :
+Combinaison::Combinaison(const std::vector<Pion>& pions) :
   _pions(pions)
 {
 }
@@ -34,29 +34,29 @@ std::vector<Pion> Combinaison::getPions() const
 
 
 ////////////////////////////////////////////////////////////
-void Combinaison::setPions(const std::vector<Pion> pions)
+void Combinaison::setPions(const std::vector<Pion>& pions)
 {
   _pions = pions;
 }
 
 
 ////////////////////////////////////////////////////////////
-void Combinaison::setPions(const std::string str)
+void Combinaison::setPions(const std::string& str)
 {
   _pions.clear();
   
-  for(std::string::size_type i = 0; i < str.size(); i++)
+  for (std::string::size_type i = 0; i < str.size(); i++)
   {
-    if(i >= 8) break;
-    if(str[i] == 'r') _pions.push_back(rouge);
-    if(str[i] == 'v') _pions.push_back(vert);
-    if(str[i] == 'b') _pions.push_back(bleu);
-    if(str[i] == 'm') _pions.push_back(marron);
-    if(str[i] == 'o') _pions.push_back(orange);
-    if(str[i] == 'j') _pions.push_back(jaune);
-    if(str[i] == 'n') _pions.push_back(noir);
-    if(str[i] == 'B') _pions.push_back(blanc);
-    if(str[i] == '\n') break;
+    if (i >= 8) break;
+    if (str[i] == 'r') _pions.push_back(rouge);
+    if (str[i] == 'v') _pions.push_back(vert);
+    if (str[i] == 'b') _pions.push_back(bleu);
+    if (str[i] == 'm') _pions.push_back(marron);
+    if (str[i] == 'o') _pions.push_back(orange);
+    if (str[i] == 'j') _pions.push_back(jaune);
+    if (str[i] == 'n') _pions.push_back(noir);
+    if (str[i] == 'B') _pions.push_back(blanc);
+    if (str[i] == '\n') break;
   }
 }
 
@@ -65,9 +65,9 @@ void Combinaison::setPions(const std::string str)
 bool Combinaison::operator==(const Combinaison & that) const
 {
   bool toReturn = true;
-  for(unsigned i = 0; i < that._pions.size(); i++)
+  for (unsigned i = 0; i < that._pions.size(); i++)
   {
-    if(!(that._pions[i] == _pions[i]))
+    if (!(that._pions[i] == _pions[i]))
       toReturn = false;
   }
   return toReturn;
@@ -125,15 +125,15 @@ const std::string Combinaison::toString() const
   
   for(int i = 0; i < 4; i++)
   {
-    if(_pions[i].getCouleur() == blanc) sstream << 'B';
-    if(_pions[i].getCouleur() == bleu) sstream << 'b';
-    if(_pions[i].getCouleur() == marron) sstream << 'm';
-    if(_pions[i].getCouleur() == rouge) sstream << 'r';
-    if(_pions[i].getCouleur() == vert) sstream << 'v';
-    if(_pions[i].getCouleur() == orange) sstream << 'o';
-    if(_pions[i].getCouleur() == jaune) sstream << 'j';
-    if(_pions[i].getCouleur() == noir) sstream << 'n';
-    if(_pions[i].getCouleur() == vide) sstream << '.';
+    if (_pions[i].getCouleur() == blanc) sstream << 'B';
+    if (_pions[i].getCouleur() == bleu) sstream << 'b';
+    if (_pions[i].getCouleur() == marron) sstream << 'm';
+    if (_pions[i].getCouleur() == rouge) sstream << 'r';
+    if (_pions[i].getCouleur() == vert) sstream << 'v';
+    if (_pions[i].getCouleur() == orange) sstream << 'o';
+    if (_pions[i].getCouleur() == jaune) sstream << 'j';
+    if (_pions[i].getCouleur() == noir) sstream << 'n';
+    if (_pions[i].getCouleur() == vide) sstream << '.';
   }
 
   return sstream.str();
@@ -141,7 +141,7 @@ const std::string Combinaison::toString() const
 
 
 ////////////////////////////////////////////////////////////
-bool Combinaison::priv_isValid(const std::string& input)
+bool Combinaison::isValid(const std::string& input)
 {
   if (input.empty())
   {
@@ -190,7 +190,7 @@ Combinaison Combinaison::fromInput()
     std::cout << "Saisir une combinaison: ";
     std::getline(std::cin, input);
   }
-  while (!Combinaison::priv_isValid(input));
+  while (!Combinaison::isValid(input));
 
   Combinaison combi;
   combi.setPions(input);
