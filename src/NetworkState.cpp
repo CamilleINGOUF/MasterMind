@@ -18,7 +18,7 @@ NetworkState::NetworkState(GameContext* context) :
   GameState(context),
   _backToMenu(_context->fontManager, "Retour au menu"),
   _connected(false),
-  _plateauD(_context->textureManager)
+  _plateauD(_context->textureManager,_context->fontManager)
 {
   _backToMenu.setPosition(sf::Vector2f(50,50));
   _backToMenu.setCallback([this](){

@@ -1,8 +1,9 @@
 #include "PlateauDrawable.hpp"
 
-PlateauDrawable::PlateauDrawable(TextureManager* text) :
-  _textureManager(text), _panelPions(_textureManager),
-  _backgroundChoosenCoins(sf::Vector2f(281,70))
+PlateauDrawable::PlateauDrawable(TextureManager* text, FontManager* font) :
+  _textureManager(text),_fontManager(font), _panelPions(_textureManager),
+  _backgroundChoosenCoins(sf::Vector2f(281,70)),
+  _resetButton(_fontManager, "Reset")
 {
   //available coins
   _panelPions.setPosition(sf::Vector2f(877,500));
@@ -11,6 +12,7 @@ PlateauDrawable::PlateauDrawable(TextureManager* text) :
   _backgroundChoosenCoins.setPosition(sf::Vector2f(400,690));
 
   indexNextPion = 0;
+  _resetButton.setPosition(sf::Vector2f(670,690));
 
   for(int i = 0; i < 4; i++)
     {
@@ -48,4 +50,6 @@ void PlateauDrawable::draw(sf::RenderTarget& target, sf::RenderStates states)
 
   for(PionDrawable p : _pionsDChoosen)
     target.draw(p,states);
+
+  target.draw(_resetButton,states);
 }

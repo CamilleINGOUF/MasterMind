@@ -13,7 +13,7 @@
 class PlateauDrawable : public sf::Drawable
 {
 public:
-  PlateauDrawable(TextureManager* text);
+  PlateauDrawable(TextureManager* text, FontManager* font);
 
   void catchEvent(sf::Event& event);
 
@@ -22,6 +22,7 @@ private:
   virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
   TextureManager* _textureManager;
+  FontManager* _fontManager;
 
   //available coins
   PanelPions _panelPions;
@@ -34,7 +35,7 @@ private:
   
   sf::RectangleShape _backgroundChoosenCoins;
   //Button _validateButton;
-  //Button _resetButton;
+  Button _resetButton;
   ////////////////////////////
 };
 
