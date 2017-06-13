@@ -1,18 +1,16 @@
-#ifndef _PANEL_PION_HPP
-#define _PANEL_PION_HPP
+#ifndef _PLATEAU_DRAWABLE_HPP
+#define _PLATEAU_DRAWABLE_HPP
 
 #include <SFML/Graphics.hpp>
-#include <vector>
 
 #include "AssetsDeclarations.hpp"
 #include "AssetManager.hpp"
-#include "Pion.hpp"
-#include "PionDrawable.hpp"
+#include "PanelPions.hpp"
 
-class PanelPions : public sf::Drawable
+class PlateauDrawable : public sf::Drawable
 {
 public:
-  PanelPions();
+  PlateauDrawable(TextureManager* text);
 
   void catchEvent(sf::Event& event);
 
@@ -21,13 +19,6 @@ public:
   void setTextureManager(TextureManager* text);
 private:
   virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
-  void setPositionPions();
-
-  std::vector<Pion> _pions;
-  std::vector<PionDrawable> _pionsD;
-
-  sf::RectangleShape _rectangle;
 
   TextureManager* _textureManager;
 };

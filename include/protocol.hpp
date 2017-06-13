@@ -28,6 +28,7 @@ namespace ServerPacket
     WaitingCodeur,
     Confirmation,
     CombinaisonRequest,
+    GameFinished,
   };
 }
 

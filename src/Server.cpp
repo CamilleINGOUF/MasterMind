@@ -28,7 +28,7 @@ Server::~Server()
 
 
 ////////////////////////////////////////////////////////////
-void Server::priv_initServer()
+void Server::init()
 {  
   // Affichage de l'IP du serveur
   sf::IpAddress localIP  = sf::IpAddress::getLocalAddress();
@@ -95,6 +95,9 @@ void Server::priv_initServer()
 
   std::cout << "Le client B (" << _nameB << ")" << std::endl;
 
+  _game.setNomJoueurA(_nameA);
+  _game.setNomJoueurB(_nameB);
+
   // Message la partie va commencer
   packet.clear();
   packet << static_cast<sf::Int32>(ServerPacket::GameBegin);
@@ -108,7 +111,7 @@ void Server::priv_initServer()
 
 
 ////////////////////////////////////////////////////////////
-void Server::priv_updateTour()
+void Server::updateTour()
 {
   // sf::Packet packet;
   
@@ -200,72 +203,109 @@ void Server::priv_updateTour()
 
 
 ////////////////////////////////////////////////////////////
-Combinaison Server::priv_requestCombinaison(bool combiSecrete)
+Combinaison Server::requestCombinaison(Joueur joueur, bool combiSecrete)
 {  
-  // Requête d'une combinaison
-  // if (combiSecrete)
-  // {
-  //   std::cout << "En attente d'une combinaison secrète de "
-  // 	      << _nameA << "..." << std::endl;
-  // }
-  // else
-  // {     
-  //   std::cout << "En attente d'une combinaison de "
-  // 	    << _nameA << "..." << std::endl;
-  // }
+  // Log serveur
+  if (combiSecrete)
+  {
+    std::cout << "En attente d'une combinaison secrète de ";
+    
+    if (joueur == Joueur::A)
+      std::cout << _nameA << std::endl;
+    else
+      std::cout << _nameB << std::endl;
+  }
+  else
+  {     
+    std::cout << "En attente d'une combinaison de ";
+
+    if (joueur == Joueur::A)
+      std::cout << _nameA << std::endl;
+    else
+      std::cout << _nameB << std::endl;
+  }
+
+  // Envoi de la requête
+  sf::Packet packet;
+  packet << static_cast<sf::Int32>(ServerPacket::CombinaisonRequest);
+
+  if (joueur == Joueur::A)
+  {
+    if (_socketA.send(packet) != sf::Socket::Done)
+      throw std::runtime_error("Erreur de paquet: [CombinaisonRequest] -> "
+			       + _nameA);
+  }
+  else
+  {
+    if (_socketB.send(packet) != sf::Socket::Done)
+      throw std::runtime_error("Erreur de paquet: [CombinaisonRequest] -> "
+			       + _nameB);
+  }
+
+  // Réception de la combinaison
+  packet.clear();
+
+  if (joueur == Joueur::A)
+  {
+    if (_socketA.receive(packet) != sf::Socket::Done)
+      throw std::runtime_error("Erreur de paquet: " + _nameA +
+			       " -> [CombinaisonRequest]");
+  }
+  else
+  {
+    if (_socketB.receive(packet) != sf::Socket::Done)
+      throw std::runtime_error("Erreur de paquet: " + _nameB +
+			       " -> [CombinaisonRequest]");
+  }
   
-  // sf::Packet packet;
-  // packet << static_cast<sf::Int32>(PacketType::CombinaisonRequest);
-  // if (_pSocket->send(packet) != sf::Socket::Done)
-  //   throw std::string("Impossible d'envoyer une requête de combinaison");
-      
-  // // Réception de la combinaison
-  // packet.clear();
-  // if (_pSocket->receive(packet) != sf::Socket::Done)
-  //   throw std::string("Impossible de recevoir une combinaison");
+  // Extraction de la combinaison
+  std::string combiStr;	
+  if (!(packet >> combiStr))
+    throw std::string("Erreur d'extraction de la combinaison !");
 
-  // // Extraction de la combinaison
-  // std::string combiStr;	
-  // if (!(packet >> combiStr))
-  //   throw std::string("Erreur d'extraction de la combinaison !");
+  Combinaison combinaison;
+  combinaison.setPions(combiStr);
 
-  // Combinaison combinaison;
-  // combinaison.setPions(combiStr);
-
-  // return combinaison;
+  return combinaison;
 }
 
 
 ////////////////////////////////////////////////////////////
-void Server::priv_mainLoop()
+void Server::mainLoop()
 {
-  // while (!_game.partieTerminee())
-  // {
-  //   while (!_game.mancheTerminee())
-  //   {
-  //     while (!_game.tourTermine())
-  //     {
-  // 	priv_updateTour();
-  //     }
-  //   }
-  // }
+  while (!_game.partieTerminee())
+  {
+    while (!_game.mancheTerminee())
+    {
+      while (!_game.tourTermine())
+      {
+  	updateTour();
+      }
+    }
+  }
 
-  // // Fin de partie
-  // sf::Packet packet;
-  // packet << static_cast<sf::Int32>(PacketType::GameFinished);
-  // packet << _game.getGagnantNom();
-  
-  // if (_pSocket->send(packet) != sf::Socket::Done)
-  //   throw std::string("Impossible d'envoyer le paquet - PacketType::GameFinished");
+  // Fin de partie
+  sf::Packet packet;
+  packet << static_cast<sf::Int32>(ServerPacket::GameFinished);
+  packet << _game.getGagnantNom();
 
-  // std::cout << "Le gagnant est " << _game.getGagnantNom() << std::endl
-  // 	    << "La partie est terminée !" << std::endl;
+
+  // Envoi de la notification aux clients
+  if (_socketA.send(packet) != sf::Socket::Done)
+    throw std::runtime_error("Impossible d'envoyer le paquet - PacketType::GameFinished");
+
+  if (_socketB.send(packet) != sf::Socket::Done)
+    throw std::runtime_error("Impossible d'envoyer le paquet - PacketType::GameFinished");
+
+
+  std::cout << "Le gagnant est " << _game.getGagnantNom() << std::endl
+  	    << "La partie est terminée !" << std::endl;
 }
 
 
 ////////////////////////////////////////////////////////////
 void Server::run()
 {
-  priv_initServer();
-  //priv_mainLoop();
+  init();
+  //mainLoop();
 }

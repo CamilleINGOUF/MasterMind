@@ -1,186 +1,232 @@
 #ifndef MASTERMIND_HPP
 #define MASTERMIND_HPP
 
+////////////////////////////////////////////////////////////
+/// Headers
+////////////////////////////////////////////////////////////
 #include "Plateau.hpp"
+
 #include <string>
 
 enum Joueur
 {
-  Client,
-  Serveur
+  A, ///< Le premier joueur
+  B  ///< Le deuxième joueur
 };
 
-//////////////////////////////////////////////////////////////////
-/// \brief La classe MasterMind est la classe principale du jeu.
-/// \file      mastermind.hpp
-/// \author    Camille Ingouf
-/// \version   1.2
-/// \date 31 mai 2017
-/////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////
 /// \brief La classe du jeu de base
+///
 ////////////////////////////////////////////////////////////
 class Mastermind
 {
 public:
   ////////////////////////////////////////////////////////////
   /// \brief Constructeur par défaut
+  ///
   ////////////////////////////////////////////////////////////
   Mastermind();
 
   ////////////////////////////////////////////////////////////
-  /// \brief Permet de récupéré le nombre de manche de la partie
-  /// \return int
+  /// \brief Permet de récupérer le nombre de manche de la partie
+  ///
+  /// \return Le nombre de manches
+  ///
   ////////////////////////////////////////////////////////////
   int getNbManches() const;
 
   ////////////////////////////////////////////////////////////
   /// \brief Permet de saisir le nombre de manche de la partie
+  ///
   /// \param v nombre de manche à donner
+  ///
   ////////////////////////////////////////////////////////////
   void setNbManches(const int v);
 
   ////////////////////////////////////////////////////////////
   /// \brief Récupère le plateau actuel
-  /// \return Plateau
+  ///
+  /// \return le plateau de jeu
+  ///
   ////////////////////////////////////////////////////////////
   Plateau& getPlateau();
 
   ////////////////////////////////////////////////////////////
   /// \brief Récupère le numéro de la manche actuelle
-  /// \return int
+  ///
+  /// \return le nombre total de manches
+  ///
   ////////////////////////////////////////////////////////////
   int getCurrentNbManches() const;
 
   ////////////////////////////////////////////////////////////
   /// \brief Saisie le numéro de la manche actuelle
+  ///
   /// \param v numéro de la manche à saisir
+  ///
   ////////////////////////////////////////////////////////////
   void setCurrentNbManches(const int v);
 
   ////////////////////////////////////////////////////////////
   /// \brief Changer la référence du plateau
+  ///
   /// \param plateau le nouveau plateau
+  ///
   ////////////////////////////////////////////////////////////
-  void setPlateau(const Plateau plateau);
+  void setPlateau(const Plateau& plateau);
 
   ////////////////////////////////////////////////////////////
-  /// \brief Récupérer le pseudo du joueur hôte
-  /// \return String
+  /// \brief Récupére le nom du joueur A
+  ///
+  /// \return le nom du joueur A
   ///////////////////////////////////////////////////////////
-  std::string getNomJoueurServeur() const;
+  const std::string& getNomJoueurA() const;
 
   ////////////////////////////////////////////////////////////
-  /// \brief Récupérer le pseudo du joueur client
-  /// \return String
+  /// \brief Récupérer le nom du joueur B
+  ///
+  /// \return le nom du joueur B
+  ///
   ///////////////////////////////////////////////////////////
-  std::string getNomJoueurClient() const;
+  const std::string& getNomJoueurB() const;
 
   ////////////////////////////////////////////////////////////
-  /// \brief Saisi le nom du joueur hôte
-  /// \param nom nom du joueur hôte
+  /// \brief Saisi le nom du joueur A
+  ///
+  /// \param nom le nom du joueur A
+  ///
   ///////////////////////////////////////////////////////////
-  void setNomJoueurServeur(const std::string nom);
+  void setNomJoueurA(const std::string& nom);
 
   ////////////////////////////////////////////////////////////
   /// \brief Saisi le nom du joueur client
   /// \param nom nom du joueur client
   ///////////////////////////////////////////////////////////
-  void setNomJoueurClient(const std::string nom);
+  void setNomJoueurB(const std::string& nom);
 
   ////////////////////////////////////////////////////////////
   /// \brief Récupère le nom du gagnant
-  /// \return String
+  ///
+  /// \return le nom du gagnant
+  ///
   ///////////////////////////////////////////////////////////
-  std::string getGagnantNom() const;
+  const std::string& getGagnantNom() const;
 
   ////////////////////////////////////////////////////////////
-  /// \brief Change la référence du plateau
-  /// \param nom nom du gagnant
+  /// \brief Définit le nom du gagnant
+  ///
+  /// \param nom le nom du gagnant
+  ///
   ///////////////////////////////////////////////////////////
-  void setGagnantNom(const std::string nom);
+  void setGagnantNom(const std::string& nom);
 
   ////////////////////////////////////////////////////////////
-  /// \brief Récupére le score actuel sur le serveur
-  /// \return int
+  /// \brief Récupére le score du joueur A
+  ///
+  /// \return int le score du joueur A
+  ///
   ///////////////////////////////////////////////////////////
-  int getScoreServeur() const;
+  int getScoreJoueurA() const;
 
   ////////////////////////////////////////////////////////////
-  /// \brief Change le score actuel sur le serveuur
-  /// \param v score actuel
+  /// \brief Définit le score du joueur A
+  ///
+  /// \param v le score du joueur A
+  ///
   ///////////////////////////////////////////////////////////
-  void setScoreServeur(const int v);
+  void setScoreJoueurA(const int v);
 
   ////////////////////////////////////////////////////////////
   /// \brief Récupère le score actuel sur le client
-  /// \return int
+  ///
+  /// \return int le score du joueur B
+  ///
   ///////////////////////////////////////////////////////////
-  int getScoreClient() const;
+  int getScoreJoueurB() const;
 
   ////////////////////////////////////////////////////////////
-  /// \brief Change le score actuel sur le client
-  /// \param v score actuel
+  /// \brief Définit le score du joueur B
+  ///
+  /// \param v le score du joueur B
+  ///
   ///////////////////////////////////////////////////////////
-  void setScoreClient(const int v);
+  void setScoreJoueurB(const int v);
 
   ////////////////////////////////////////////////////////////
-  /// \brief détermine le gagnant et indique que la partie est fini par victoire et par coup max
-  /// \return bool
+  /// \brief Détermine le gagnant et indique que la partie est finie
+  /// par victoire et par coup max
+  ///
+  /// \return True si la partie est finie, faux sinon
+  ///
   ///////////////////////////////////////////////////////////
   bool decodeurGagnant();
 
   ////////////////////////////////////////////////////////////
   /// \brief Récupére la valeur du coup secret
-  /// \return Combinaison
+  ///
+  /// \return La combinaison secrète
+  ///
   ///////////////////////////////////////////////////////////
-  const Combinaison getCodeSecret();
+  const Combinaison& getCodeSecret();
 
   ////////////////////////////////////////////////////////////
-  /// \brief Saisi le code secret
-  /// \param combinaison
+  /// \brief Met à jour la combinaison secrète
+  ///
+  /// \param combinaison la combinaison secrète
+  ///
   ///////////////////////////////////////////////////////////
-  void setCodeSecret(const Combinaison combinaison);
+  void setCodeSecret(const Combinaison& combinaison);
 
   ////////////////////////////////////////////////////////////
-  /// \brief vide le plateau pour le prochain tour
-  /// \return bool
+  /// \brief Indique si le plateau est vide
+  ///
+  /// \return True si le plateau est vide, faux sinon
+  ///
   ///////////////////////////////////////////////////////////
   bool plateauVide();
 
   ////////////////////////////////////////////////////////////
   /// \brief Retourne le décodeur
-  /// \return Joueur
+  ///
+  /// \return Le décodeur
+  ///
   ///////////////////////////////////////////////////////////
   Joueur getDecodeur() const;
 
   ////////////////////////////////////////////////////////////
   /// \brief Lance le jeu
+  ///
   ////////////////////////////////////////////////////////////
   void run();
 
   ////////////////////////////////////////////////////////////
   /// \brief Inverser le rôle des joueurs
+  ///
   /// \note décodeur devient codeur et inversement
+  ///
   ///////////////////////////////////////////////////////////
   void inverserRoles();
 
   ////////////////////////////////////////////////////////////
   /// \brief démarre une nouvelle manche
+  ///
   ///////////////////////////////////////////////////////////
   void nouvelleManche();
 
   ////////////////////////////////////////////////////////////
-  /// \brief Vide le plteau
+  /// \brief Vide le plateau
+  ///
   ///////////////////////////////////////////////////////////
   void viderPlateau();
 
   ////////////////////////////////////////////////////////////
   /// \brief Ajout des points à joueurs
+  ///
   /// \param joueur joueur à qui donner le point
   /// \param v nombre de point à donner
   /// \note Le joueur est soit Client, soit le Serveur
+  ///
   ///////////////////////////////////////////////////////////
   void ajoutPoints(Joueur joueur, int v);
 
@@ -192,61 +238,70 @@ public:
   bool partieTerminee();
 
   ////////////////////////////////////////////////////////////
-  /// \brief indique si la manche est teminé
-  /// \return bool
+  /// \brief Indique si la manche est terminé
+  ///
   /// \note une manche est terminée lorsque tous les tours sont jouées
+  ///
+  /// \return True si la manche est terminée, false sinon
   ///////////////////////////////////////////////////////////
   bool mancheTerminee();
 
   ////////////////////////////////////////////////////////////
-  /// \brief indique si le tour est teminé
-  /// \return bool
+  /// \brief Indique si le tour est terminé
+  ///
+  /// \return True si la manche est terminée, false sinon
+  ///
   ///////////////////////////////////////////////////////////
   bool tourTermine();
 
   ////////////////////////////////////////////////////////////
-  /// \brief ajoute une combinaison au plateau de jeu
-  /// \param combi Combinaison à ajouter
+  /// \brief Ajoute une combinaison au plateau de jeu
+  ///
+  /// \param combi la combinaison à ajouter
+  ///
   ///////////////////////////////////////////////////////////
   void ajouterCombinaison(Combinaison& combi);
 
   ////////////////////////////////////////////////////////////
-  /// \brief Retourne le nombre d'essais pour trouver la combinaison secrète 
-  /// \return unsigned
+  /// \brief Retourne le nombre d'essais pour trouver la combinaison secrète
+  ///
+  /// \return le nombre d'essais
+  ///
   ///////////////////////////////////////////////////////////
   unsigned getNombreEssais() const;
 
   ////////////////////////////////////////////////////////////
-  /// \brief effectue la correction de la dernière combinaison ajoutée et l'affiche dans le plateau de jeu
+  /// \brief effectue la correction de la dernière combinaison
+  /// ajoutée et l'affiche dans le plateau de jeu
+  ///
   ///////////////////////////////////////////////////////////
   void corrigerDerniereCombinaison();
 
   ////////////////////////////////////////////////////////////
   /// \brief Retourne le joueur gagnant
-  /// \return Joueur
+  ///
+  /// \return le joueur gagnat
+  ///
   ///////////////////////////////////////////////////////////
   Joueur getGagnant() const;
 private:
-  int _nbManches;/// indique le numéro de la manche
-  int _currentNbManches;/// indique le numéro de la manche actuel
-
-  int _tourDansManche;/// tour 1, puis tour 2
+  ///////////////////////////////////////////////////////////
+  /// Données membres
+  ///////////////////////////////////////////////////////////
   
-  Plateau _plateau;/// état du plateau
-
-  Combinaison _codeSecret;///code a découvrir 
-
-  std::string _nomJoueurServeur;/// pseudo joueur hôte
-  std::string _nomJoueurClient;/// pseudo joueur client
-
-  Joueur _codeur;///joueur codeur
-  Joueur _decodeur;///joueur décodeur
-
-  int _scoreServeur;/// score du joueur serveur
-  int _scoreClient;/// score du joueur client
-
-  std::string _gagnantNom;/// Nom du joueur gagnant
-  Joueur _gagnantJoueur;/// Type du gagnant (Client ou Servepur)
+  int         _nbManches;        ///< Le nombre total de manches
+  int         _currentNbManches; ///< La manche courante
+  int         _tourDansManche;   ///< Le tour courant
+  Plateau     _plateau;          ///< Le plateau de jeu
+  Combinaison _codeSecret;       ///< La combinaison secrète
+  std::string _nomJoueurA;       ///< Le pseudo du joueur A
+  std::string _nomJoueurB;       ///< Le pseudo du joueur B
+  Joueur      _codeur;           ///< Le codeur du tour courant
+  Joueur      _decodeur;         ///< Le décodeur du tour courant
+  int         _scoreA;           ///< Le score du joueur A
+  int         _scoreB;           ///< Le score du joueur B
+  std::string _gagnantNom;       ///< Le nom du gagnant de la partie
+  Joueur      _gagnantJoueur;    ///< Le gagnant de la partie
 };
 
 #endif

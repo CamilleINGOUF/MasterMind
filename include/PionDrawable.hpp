@@ -28,7 +28,7 @@ public:
   /// 
   /// \param event voir sf::Event
   ////////////////////////////////////////////////////////////
-  void catchEvent(sf::Event& event);
+  bool catchEvent(sf::Event& event);
 
   ////////////////////////////////////////////////////////////
   /// \brief Définit la posiion du pion
@@ -37,6 +37,8 @@ public:
   ///
   /////////////////////////////////////////////////////////
   void setPosition(const sf::Vector2f& pos);
+
+  Pion getPion() const;
 
   void setScale(const sf::Vector2f& factors);
 

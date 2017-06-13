@@ -1,6 +1,5 @@
 #include "PionDrawable.hpp"
 
-
 ////////////////////////////////////////////////////////////
 PionDrawable::PionDrawable() :
 _pion(blanc)
@@ -27,9 +26,27 @@ void PionDrawable::draw(sf::RenderTarget& target, sf::RenderStates states) const
   target.draw(_sprite,states);
 }
 
+bool PionDrawable::catchEvent(sf::Event& event)
+{
+  if (event.type != sf::Event::MouseButtonPressed)
+    return false;
+
+  sf::FloatRect rect = _sprite.getGlobalBounds();
+  int mouseX = event.mouseButton.x;
+  int mouseY = event.mouseButton.y;
+
+  return mouseX >= rect.left && mouseY >= rect.top &&
+    mouseX <= rect.left + rect.width && mouseY <= rect.top + rect.height;
+}
+
 void PionDrawable::setPosition(const sf::Vector2f& pos)
 {
   _sprite.setPosition(pos);
+}
+
+Pion PionDrawable::getPion() const
+{
+  return _pion;
 }
 
 void PionDrawable::setScale(const sf::Vector2f& factors)
@@ -74,4 +91,5 @@ void PionDrawable::updateSprite()
       break;
     }
   _sprite.setTextureRect(rect);
+  _sprite.setScale(sf::Vector2f(4,4));
 }

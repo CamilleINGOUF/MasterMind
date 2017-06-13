@@ -17,10 +17,10 @@ TEST(GroupMastermind, test_mastermind_1) {
   Plateau p(vectC);
   m.setPlateau(p);
 
-  m.setNomJoueurServeur("max");
-  m.setNomJoueurClient("mix");
-  m.setScoreServeur(33);
-  m.setScoreClient(22);
+  m.setNomJoueurA("max");
+  m.setNomJoueurB("mix");
+  m.setScoreJoueurA(33);
+  m.setScoreJoueurB(22);
   m.setGagnantNom("mix");
   m.setCodeSecret(vectP);
   
@@ -32,10 +32,10 @@ TEST(GroupMastermind, test_mastermind_1) {
   CHECK(vectC2[0] == c);
   CHECK(vectC2[1] == c1);
 
-  CHECK(m.getNomJoueurServeur() == "max");
-  CHECK(m.getNomJoueurClient() == "mix");
-  CHECK(m.getScoreServeur() == 33);
-  CHECK(m.getScoreClient() == 22);
+  CHECK(m.getNomJoueurA() == "max");
+  CHECK(m.getNomJoueurB() == "mix");
+  CHECK(m.getScoreJoueurA() == 33);
+  CHECK(m.getScoreJoueurB() == 22);
   CHECK(m.getCodeSecret() == vectP);
   
 }
@@ -43,10 +43,10 @@ TEST(GroupMastermind, test_mastermind_1) {
 TEST(GroupMastermind, test_mastermind_2) {
 
     Mastermind m;
-    m.setScoreClient(22);
-    m.ajoutPoints(Client,2);
+    m.setScoreJoueurB(22);
+    m.ajoutPoints(Joueur::B,2);
 
-    CHECK(m.getScoreClient() == 24);
+    CHECK(m.getScoreJoueurB() == 24);
 }
 
 //test de la methode partieTerminee
@@ -57,29 +57,18 @@ TEST(GroupMastermind, test_mastermind_3) {
     CHECK(m.partieTerminee());
 }
 
-
-
-
 //test de la methode inverserRoles et getDecodeur
-
 TEST(GroupMastermind, test_mastermind_4) {
     Mastermind m;
   
-    CHECK(m.getDecodeur() == Client);
-
+    CHECK(m.getDecodeur() == Joueur::B);
     m.inverserRoles();
-
-    CHECK(m.getDecodeur() == Serveur);
-
+    CHECK(m.getDecodeur() == Joueur::A);
 }
 
 //test de la methode plateauVide
-TEST(GroupMastermind, test_mastermind_5) {
-
+TEST(GroupMastermind, test_mastermind_5)
+{
     Mastermind m;
     CHECK(m.plateauVide());
 }
-
-
-
-
