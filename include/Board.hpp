@@ -40,7 +40,7 @@ public:
   void catchEvent(sf::Event& event);
 
   ////////////////////////////////////////////////////////////
-  /// \brief Ré-initialise l'état du plateau
+  /// \brief Ré-initialise l'état du plateau (pions choisis)
   ///
   ////////////////////////////////////////////////////////////
   void reset();
@@ -53,18 +53,37 @@ public:
 
   ////////////////////////////////////////////////////////////
   /// \brief Retourne la combinaison validée en chaîne de
-  /// caractères
+  /// caractères et reset la sélection de pions
   ///
   /// \return la combinaison validée
   ///
   ////////////////////////////////////////////////////////////
   const std::string getValidatedCombi();
 
+  ////////////////////////////////////////////////////////////
+  /// \brief Convertit la plateau au format graphique
+  ///
+  /// \param board le plateau sous forme de chaîne de caractères
+  ///
+  /// \return True si le plateau est valide, false sinon
+  ///
+  ////////////////////////////////////////////////////////////
   bool doBoard(std::string board);
 
+  ////////////////////////////////////////////////////////////
+  /// \brief Vérifie que le caractère est autorisé pour créer une combinaison
+  ///
+  /// \return True si le caractère est valide, false sinon
+  ///
+  ////////////////////////////////////////////////////////////
   bool isValid(char ch);
 
+  ////////////////////////////////////////////////////////////
+  /// \brief Vide le plateau des pions dessinables
+  ///
+  ////////////////////////////////////////////////////////////
   void empty();
+  
 private:
   virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

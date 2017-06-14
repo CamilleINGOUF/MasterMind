@@ -80,15 +80,6 @@ public:
   bool pionDansLaCombinaison(Pion p);
   
   ////////////////////////////////////////////////////////////
-  /// \brief Retourne une combinaison saisie au clavier
-  ///
-  /// \return Une combinaison saisie au clavier
-  ///
-  ////////////////////////////////////////////////////////////
-  static Combinaison fromInput();
-
-
-  ////////////////////////////////////////////////////////////
   /// \brief Retourne true si le caractère est autorisé pour une combinaison
   ///
   ////////////////////////////////////////////////////////////
@@ -111,6 +102,4 @@ private:
 std::ostream & operator<<(std::ostream & os, const Combinaison & c);
 std::istream & operator>>(std::istream & is,  Combinaison & c);
 
-bool isCombinaisonValid(const std::string& input);
-
-#endif
+#endif // COMBINAISON_HPP_
