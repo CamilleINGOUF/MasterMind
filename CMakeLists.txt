@@ -80,7 +80,6 @@ add_executable( client.out src/main_client.cpp
   src/Combinaison.cpp
   src/Plateau.cpp
   src/PionDrawable.cpp
-  src/Utils.cpp
   src/PanelPions.cpp
   src/Board.cpp
   src/correctionDrawable.cpp

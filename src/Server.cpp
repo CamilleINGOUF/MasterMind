@@ -5,7 +5,6 @@
 #include "Combinaison.hpp"
 #include "Plateau.hpp"
 #include "Server.hpp"
-#include "Utils.hpp"
 
 #include <iostream>
 #include <sstream>
