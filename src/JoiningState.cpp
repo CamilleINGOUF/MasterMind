@@ -17,14 +17,14 @@ JoiningState::JoiningState(GameContext* context) :
   _hostAddress(_context->fontManager, "localhost:5555", 17), // TODO Changer par IP:PORT
   _nickname(_context->fontManager, "Pseudo", 20)
 {
-  _cancel.setPosition(sf::Vector2f(200,150));
+  _cancel.setPosition(sf::Vector2f(450,200));
   _cancel.setCallback([this]() {
       GameStateManager* stateManager = _context->stateManager;
       stateManager->setState(State::Menu);
   });
 
   //< Rejoindre la partie
-  _joinGame.setPosition(sf::Vector2f(200,100));
+  _joinGame.setPosition(sf::Vector2f(455,150));
   _joinGame.setCallback([this]() {
       if (!validInput())
 	return;
@@ -36,8 +36,10 @@ JoiningState::JoiningState(GameContext* context) :
     });
 
   
-  _hostAddress.setPosition(sf::Vector2f(200,50));
-  _nickname.setPosition(sf::Vector2f(200,0));
+  _hostAddress.setPosition(sf::Vector2f(400,100));
+  _nickname.setPosition(sf::Vector2f(400,50));
+
+  _background.setTexture(_context->textureManager->get(Textures::BoardBackground));
 }
 
 
@@ -76,7 +78,8 @@ void JoiningState::handleEvent(sf::Event& event)
 void JoiningState::draw()
 {
   sf::RenderWindow* window = _context->window;
-  
+
+  window->draw(_background);
   window->draw(_hostAddress);
   window->draw(_nickname);
   window->draw(_cancel);

@@ -201,8 +201,8 @@ void NetworkState::draw()
 {
   sf::RenderWindow* window = _context->window;
 
-  window->draw(_backToMenu);
   window->draw(_board);
+  window->draw(_backToMenu);
   window->draw(_validateButton);
   window->draw(_statusText);
   window->draw(_clientText);

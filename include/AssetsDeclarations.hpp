@@ -15,8 +15,10 @@ namespace Textures
     Coin,
     BoardCombinaisons,
     BoardCorrections,
+    BoardCoinsChoosen,
     PanelPions,
-    CoinHolder
+    CoinHolder,
+    BoardBackground
   };
 }
 

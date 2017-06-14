@@ -77,13 +77,14 @@ private:
   std::vector<PionDrawable> _pionsDChoosen;      ///< Réprésentation graphique de la sélection courante
   std::vector<Pion> _pionsChoosen;               ///< Représentation métier de la sélection courante
   int _indexNextPion;                            ///< L'index du pion suivant à placer  
-  sf::RectangleShape _backgroundChoosenCoins;    ///< Le fond de la sélection courante
+  sf::Sprite _spriteChoosenCoins;
   Button _resetButton;                           ///< Le bouton de reset
   std::vector<Pion> _pionValidated;              ///< La sélection validée
   std::vector<CorrectionDrawable> _correctionsD; ///< La correction sous forme graphique
   std::vector<PionDrawable> _combinaisonsD;      ///< Les combinaisons du plateau sour forme graphique
   sf::Sprite _spriteCombinaisons;
   sf::Sprite _spriteCorrections;
+  sf::Sprite _spriteBackground;
 };
 
 #endif // BOARD_HPP_

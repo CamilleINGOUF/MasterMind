@@ -18,7 +18,7 @@ Button::Button() :
 ////////////////////////////////////////////////////////////
 Button::Button(FontManager* fontManager, const std::string& label) :
   _fontManager(fontManager),
-  _background(sf::Color::Red),
+  _background(sf::Color(162,38,51)),
   _textColor(sf::Color::White)
 {
   _text.setFont(_fontManager->get(Fonts::Arial));
@@ -47,7 +47,7 @@ void Button::catchEvent(sf::Event &event)
   if (event.mouseButton.button != sf::Mouse::Left)
     return;
 
-  sf::FloatRect buttonRect = _text.getGlobalBounds();
+  sf::FloatRect buttonRect = _shape.getGlobalBounds();
 
   if (buttonRect.contains(event.mouseButton.x, event.mouseButton.y))
   {

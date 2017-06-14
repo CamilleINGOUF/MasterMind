@@ -11,15 +11,13 @@ Board::Board(TextureManager* text, FontManager* font) :
   _textureManager(text),
   _fontManager(font),
   _panelPions(_textureManager),
-  _backgroundChoosenCoins(sf::Vector2f(196,52)),
   _resetButton(_fontManager, "Reset")
 {
 
   _panelPions.setPosition(sf::Vector2f(842,500));
-  _backgroundChoosenCoins.setPosition(sf::Vector2f(440,614));
 
   _indexNextPion = 0;
-  _resetButton.setPosition(sf::Vector2f(890,450));
+  _resetButton.setPosition(sf::Vector2f(852,450));
   _resetButton.setCallback([this]()
 			   {
 			     reset();
@@ -38,7 +36,7 @@ Board::Board(TextureManager* text, FontManager* font) :
   int indexY = 0;
   for(int i = 0; i < 48; i++)
     {
-      _correctionsD.push_back(CorrectionDrawable({Couleur::noir},_textureManager));
+      _correctionsD.push_back(CorrectionDrawable({Couleur::vide},_textureManager));
       _correctionsD[i].setPosition(sf::Vector2f(indexX*20 + 270,indexY*48 + 2));
       
       _combinaisonsD.push_back(PionDrawable({Couleur::vide},_textureManager));
@@ -47,7 +45,13 @@ Board::Board(TextureManager* text, FontManager* font) :
       _spriteCombinaisons.setTexture(_textureManager->get(Textures::BoardCombinaisons));
       _spriteCorrections.setTexture(_textureManager->get(Textures::BoardCorrections));
       _spriteCombinaisons.setPosition(sf::Vector2f(440,10));
+      // 374 -> 440
       _spriteCorrections.setPosition(sf::Vector2f(290,18));
+
+      _spriteBackground.setTexture(_textureManager->get(Textures::BoardBackground));
+
+      _spriteChoosenCoins.setTexture(_textureManager->get(Textures::BoardCoinsChoosen));
+      _spriteChoosenCoins.setPosition(sf::Vector2f(440,614));
       
       if(indexX == 3)
 	{
@@ -86,8 +90,9 @@ void Board::catchEvent(sf::Event& event)
 void Board::draw(sf::RenderTarget& target, sf::RenderStates states)
   const
 {
+  target.draw(_spriteBackground,states);
   target.draw(_panelPions,states);
-  target.draw(_backgroundChoosenCoins,states);
+  target.draw(_spriteChoosenCoins,states);
   target.draw(_spriteCombinaisons,states);
   target.draw(_spriteCorrections,states);
   
