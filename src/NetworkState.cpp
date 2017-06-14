@@ -103,7 +103,6 @@ void NetworkState::init()
 ////////////////////////////////////////////////////////////
 void NetworkState::prepare()
 {
-  
   if (_clientName.empty())
     _clientName = _context->clientName;
   

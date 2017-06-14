@@ -25,11 +25,3 @@ void MusicPlayer::play(Musics::ID id)
   _music.setLoop(true);
   _music.play();
 }
-
-
-////////////////////////////////////////////////////////////
-void MusicPlayer::pause()
-{
-  if (_music.getStatus() == sf::SoundSource::Playing)
-    _music.pause();
-}

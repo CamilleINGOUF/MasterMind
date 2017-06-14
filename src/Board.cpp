@@ -196,7 +196,7 @@ bool Board::doBoard(std::string board)
 	    }
 	}
     }
-  std::cout << "Board.cpp->doBoard out" << std::endl;
+  
   return true;
 }
 
