@@ -82,6 +82,8 @@ private:
   std::vector<Pion> _pionValidated;              ///< La sélection validée
   std::vector<CorrectionDrawable> _correctionsD; ///< La correction sous forme graphique
   std::vector<PionDrawable> _combinaisonsD;      ///< Les combinaisons du plateau sour forme graphique
+  sf::RectangleShape _rectCombinaisons;          ///< Le background des combinaions
+  sf::RectangleShape _rectCorrections;           ///< Le background des correction
 };
 
 #endif // BOARD_HPP_
