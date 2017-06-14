@@ -5,6 +5,7 @@
 
 #include <sstream>
 #include <stdexcept>
+#include <cassert>
 
 
 ////////////////////////////////////////////////////////////
@@ -56,8 +57,7 @@ void Plateau::setCorrection(const std::vector<Combinaison> combinaisons)
 ////////////////////////////////////////////////////////////
 Combinaison Plateau::getLastCombinaison() const
 {
-  // TODO: DANGER: -> à supprimer au plus vite
-  // Comportement indéfini quand le vecteur est vide !!!!
+  assert(_combinaisons.size() > 0);
   return _combinaisons.back(); 
 }
 

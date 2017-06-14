@@ -192,6 +192,7 @@ bool Board::doBoard(std::string board)
 	    }
 	}
     }
+  
   return true;
 }
 
