@@ -11,13 +11,11 @@ Board::Board(TextureManager* text, FontManager* font) :
   _textureManager(text),
   _fontManager(font),
   _panelPions(_textureManager),
-  _backgroundChoosenCoins(sf::Vector2f(204, 52)),
   _resetButton(_fontManager, "Reset")
 {
 
   _panelPions.setPosition(sf::Vector2f(842, 500));
-  _backgroundChoosenCoins.setPosition(sf::Vector2f(436, 614));
-
+ 
   _indexNextPion = 0;
   _resetButton.setPosition(sf::Vector2f(890, 450));
   _resetButton.setCallback([this]() {
@@ -40,11 +38,21 @@ Board::Board(TextureManager* text, FontManager* font) :
   {
     _correctionsD.push_back(CorrectionDrawable({Couleur::vide}, _textureManager));
     _correctionsD[i].setPosition(sf::Vector2f(indexX*20 + 270, indexY * 48 + 50));
+
       
     _combinaisonsD.push_back(PionDrawable({Couleur::vide}, _textureManager));
-      
-    _combinaisonsD[i].setPosition(sf::Vector2f(indexX * 48 + 440, indexY * 48 + 50));
+     
+    _combinaisonsD[i].setPosition(sf::Vector2f(indexX*48 + 440,indexY*48 + 10));
+    _spriteCombinaisons.setTexture(_textureManager->get(Textures::BoardCombinaisons));
+    _spriteCorrections.setTexture(_textureManager->get(Textures::BoardCorrections));
+    _spriteCombinaisons.setPosition(sf::Vector2f(440,10));
+    // 374 -> 440
+    _spriteCorrections.setPosition(sf::Vector2f(290,18));
 
+    _spriteBackground.setTexture(_textureManager->get(Textures::BoardBackground));
+
+    _spriteChoosenCoins.setTexture(_textureManager->get(Textures::BoardCoinsChoosen));
+    _spriteChoosenCoins.setPosition(sf::Vector2f(440,614));
       
     if(indexX == 3)
       {
@@ -82,10 +90,13 @@ void Board::catchEvent(sf::Event& event)
 void Board::draw(sf::RenderTarget& target, sf::RenderStates states)
   const
 {
+  target.draw(_spriteBackground,states);
   target.draw(_panelPions,states);
-  target.draw(_backgroundChoosenCoins,states);
-
-  for (PionDrawable p : _pionsDChoosen)
+  target.draw(_spriteChoosenCoins,states);
+  target.draw(_spriteCombinaisons,states);
+  target.draw(_spriteCorrections,states);
+  
+  for(PionDrawable p : _pionsDChoosen)
     target.draw(p,states);
 
   target.draw(_resetButton,states);

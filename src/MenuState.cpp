@@ -18,17 +18,19 @@ MenuState::MenuState(GameContext* context) :
   _joinServer(context->fontManager, "Rejoindre")
 {
   //< Quitter
-  _quit.setPosition(sf::Vector2f(200,150));
+  _quit.setPosition(sf::Vector2f(450,150));
   _quit.setCallback([]() {
       exit(0);
   });
   
   //< Rejoindre un serveur
-  _joinServer.setPosition(sf::Vector2f(180,100));
+  _joinServer.setPosition(sf::Vector2f(430,100));
   _joinServer.setCallback([this](){
       GameStateManager* stateManager = _context->stateManager;
       stateManager->setState(State::Joining);
   });
+
+  _background.setTexture(_context->textureManager->get(Textures::BoardBackground));
 }
 
 
@@ -66,6 +68,7 @@ void MenuState::draw()
 {
   sf::RenderWindow* window = _context->window;
 
+  window->draw(_background);
   window->draw(_quit);
   window->draw(_joinServer);
 }
