@@ -142,7 +142,6 @@ const std::string Board::getValidatedCombi()
 
 bool Board::doBoard(std::string board)
 {
-  std::cout << "Board.cpp->doBoard data : " << board << std::endl;
   std::istringstream std(board);
   std::string line;
   int indexComb = 0;
