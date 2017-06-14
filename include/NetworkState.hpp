@@ -50,7 +50,7 @@ private:
   void handlePacket(sf::Int32 packetType, sf::Packet& packet);
 
   ////////////////////////////////////////////////////////////
-  /// \brief Mise à jour graphique des scoresx
+  /// \brief Mise à jour graphique des scores
   ///
   ////////////////////////////////////////////////////////////
   void refreshScores();
@@ -74,6 +74,8 @@ private:
   sf::Text      _opponentText;   ///< Les infos du de l'adversaire
   sf::Int32     _clientScore;    ///< Le score du joueur courant
   sf::Int32     _opponentScore;  ///< Le score de l'adversaire
+  bool          _gameFinished;
+  sf::Time      _gameFinishedTimer;
 };
 
 

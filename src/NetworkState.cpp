@@ -27,7 +27,9 @@ NetworkState::NetworkState(GameContext* context) :
   _validateButton(_context->fontManager, "Validate"),
   _board(_context->textureManager,_context->fontManager),
   _clientText("", _context->fontManager->get(Fonts::Arial), 20),
-  _opponentText("", _context->fontManager->get(Fonts::Arial), 20)
+  _opponentText("", _context->fontManager->get(Fonts::Arial), 20),
+  _gameFinished(false),
+  _gameFinishedTimer(sf::Time::Zero)
 {
   _backToMenu.setPosition(sf::Vector2f(50, 50));
   _backToMenu.setCallback([this](){
@@ -88,7 +90,12 @@ void NetworkState::init()
   _clientScore    = 0;
   _opponentScore  = 0;
   _opponentName   = "?";
-
+  _gameFinished   = false;
+  _gameFinishedTimer = sf::Time::Zero;
+  _retryTimer        = sf::Time::Zero;
+  _retryCount        = 0;
+  _timeoutTimer = sf::seconds(0);
+  
   refreshScores();
 }
 
@@ -134,8 +141,19 @@ void NetworkState::update(sf::Time dt)
     }
     else if (status == sf::Socket::Disconnected)
     {
-      std::cout << "Déconnexion du serveur" << std::endl;
-      //switchToMenuState();
+      if (!_gameFinished)
+      {
+	std::cout << "Le serveur s'est déconnecté [partie non finie]" << std::endl;
+	_connected = false;
+      }
+      else
+      {
+	// TODO: Définir l'intervalle
+	if (_gameFinishedTimer >= sf::seconds(5.f))
+	  switchToMenuState();
+	
+	_gameFinishedTimer += dt;
+      }
     }
     else
     {
@@ -197,7 +215,6 @@ void NetworkState::draw()
 void NetworkState::switchToMenuState()
 {
   _socket.disconnect();
-  _timeoutTimer = sf::seconds(0);
   
   GameStateManager* stateManager = _context->stateManager;
   stateManager->setState(State::Menu);
@@ -309,6 +326,7 @@ void NetworkState::handlePacket(sf::Int32 packetType, sf::Packet& packet)
       return;
     }
 
+    _gameFinished = true;
     _statusText.setString("Le gagnant est: " + msg);
   } break;
   

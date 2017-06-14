@@ -158,6 +158,8 @@ bool Board::doBoard(std::string board)
 		    _correctionsD[indexCorr].setPion({blanc});
 		  else if(line[i] == 'n')
 		    _correctionsD[indexCorr].setPion({noir});
+		  else if (line[i] == '.')
+		    _correctionsD[indexCorr].setPion({vide});
 		  indexCorr++;
 		}
 	      else if(i > 4)
