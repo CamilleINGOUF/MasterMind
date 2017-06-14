@@ -14,6 +14,7 @@ namespace Textures
   {
     Coin,
     Board,
+    PanelPions,
     CoinHolder
   };
 }

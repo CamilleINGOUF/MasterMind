@@ -34,7 +34,7 @@ NetworkState::NetworkState(GameContext* context) :
     switchToMenuState();
   });
   
-  _validateButton.setPosition(sf::Vector2f(690, 710));
+  _validateButton.setPosition(sf::Vector2f(690, 630));
   _validateButton.setCallback([this]() {
       if (!_sendingAllowed)
       {

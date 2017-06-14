@@ -11,18 +11,19 @@ Board::Board(TextureManager* text, FontManager* font) :
   _textureManager(text),
   _fontManager(font),
   _panelPions(_textureManager),
-  _backgroundChoosenCoins(sf::Vector2f(212,56)),
+  _backgroundChoosenCoins(sf::Vector2f(204,52)),
   _resetButton(_fontManager, "Reset")
 {
 
-  _panelPions.setPosition(sf::Vector2f(877,500));
-  _backgroundChoosenCoins.setPosition(sf::Vector2f(436,690));
+  _panelPions.setPosition(sf::Vector2f(842,500));
+  _backgroundChoosenCoins.setPosition(sf::Vector2f(436,614));
 
   _indexNextPion = 0;
   _resetButton.setPosition(sf::Vector2f(890,450));
-  _resetButton.setCallback([this]() {
-      reset();
-    });
+  _resetButton.setCallback([this]()
+			   {
+			     reset();
+			   });
   
   for (int i = 0; i < 4; i++)
   {
@@ -31,7 +32,7 @@ Board::Board(TextureManager* text, FontManager* font) :
   }
 
   for (int i = 0; i < 4; i++)
-    _pionsDChoosen[i].setPosition(sf::Vector2f(440 + (i * 48),694));
+    _pionsDChoosen[i].setPosition(sf::Vector2f(440 + (i * 48),616));
 
   int indexX = 0;
   int indexY = 0;
@@ -61,7 +62,7 @@ Board::Board(TextureManager* text, FontManager* font) :
 void Board::catchEvent(sf::Event& event)
 {
   Pion p(_panelPions.catchEvent(event));
-
+  
   if (p.getCouleur() != Couleur::vide)
   {
     if (_indexNextPion < 4 &&
@@ -76,11 +77,6 @@ void Board::catchEvent(sf::Event& event)
   
   _resetButton.catchEvent(event);
 }
-
-
-////////////////////////////////////////////////////////////
-void Board::setPosition(const sf::Vector2f& pos)
-{}
 
 
 ////////////////////////////////////////////////////////////
@@ -194,7 +190,6 @@ bool Board::doBoard(std::string board)
 	    }
 	}
     }
-  std::cout << "Board.cpp->doBoard out" << std::endl;
   return true;
 }
 
