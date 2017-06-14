@@ -8,7 +8,7 @@
 ////////////////////////////////////////////////////////////
 PanelPions::PanelPions(TextureManager* textureManager) :
   _textureManager(textureManager),
-  _rectangle(sf::Vector2f(140, 260)),
+  _rectangle(sf::Vector2f(108, 170)),
   _pions({rouge, jaune, marron, bleu, blanc, noir, vert, orange})
 {
   _rectangle.setFillColor(sf::Color::White);
@@ -52,15 +52,15 @@ void PanelPions::setPositionPions()
     if (i % 2 == 0)
     {
       sf::Vector2f pos(_rectangle.getPosition().x + 4,
-		       _rectangle.getPosition().y + 4 +
-		       (i * 32));
+		       _rectangle.getPosition().y +
+		       (i * 20));
       _pionsD[i].setPosition(pos);
     }
     else
     {
-      sf::Vector2f pos(_rectangle.getPosition().x + 72,
-		       _rectangle.getPosition().y + 4 +
-		       ((i-1) * 32));
+      sf::Vector2f pos(_rectangle.getPosition().x + 52,
+		       _rectangle.getPosition().y +
+		       ((i-1) * 20));
       _pionsD[i].setPosition(pos);
     }
   }

@@ -15,6 +15,7 @@ CorrectionDrawable::CorrectionDrawable(Pion p, TextureManager* text) :
 
 void CorrectionDrawable::setPion(const Pion& p)
 {
+  _pion = p;
   updateSprite();
 }
 
