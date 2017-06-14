@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Network/IpAddress.hpp>
 #include <SFML/System/Vector2.hpp>
 
@@ -29,7 +30,9 @@ NetworkState::NetworkState(GameContext* context) :
   _clientText("", _context->fontManager->get(Fonts::Arial), 20),
   _opponentText("", _context->fontManager->get(Fonts::Arial), 20),
   _gameFinished(false),
-  _gameFinishedTimer(sf::Time::Zero)
+  _gameFinishedTimer(sf::Time::Zero),
+  _speakerButton(sf::Sprite(_context->textureManager->get(Textures::SpeakerOff)),
+		 sf::Sprite(_context->textureManager->get(Textures::SpeakerOn)))
 {
   _backToMenu.setPosition(sf::Vector2f(700, 20));
   _backToMenu.setCallback([this](){
@@ -70,6 +73,16 @@ NetworkState::NetworkState(GameContext* context) :
 
   _clientText.setPosition(sf::Vector2f(0, 100));
   _opponentText.setPosition(sf::Vector2f(0, 120));
+
+  _speakerButton.setPosition(sf::Vector2f(10, 5));
+  _speakerButton.setCallback([this](){
+      if (_speakerButton.isActive())
+	_context->musicPlayer->unmute();
+      else
+	_context->musicPlayer->mute();
+  });
+
+  _statusText.setPosition(sf::Vector2f(5, 650));
 }
 
 
@@ -95,6 +108,7 @@ void NetworkState::init()
   _retryTimer        = sf::Time::Zero;
   _retryCount        = 0;
   _timeoutTimer = sf::seconds(0);
+  _speakerButton.activate();
   
   refreshScores();
 }
@@ -111,7 +125,6 @@ void NetworkState::prepare()
   if (_socket.connect(_context->ip, _context->port) != sf::Socket::Done)
   {
     std::cerr << "Impossible de se connecter !" << std::endl;
-    _statusText.setString("Erreur de connexion");
     return;
   }
 
@@ -175,6 +188,9 @@ void NetworkState::update(sf::Time dt)
   {
     _retryTimer = sf::Time::Zero;
     _retryCount++;
+    std::stringstream sstream;
+    sstream << "Retry (" << _retryCount << ")";
+    _statusText.setString(sstream.str());
    
     if (_retryCount == 5)
     {
@@ -190,6 +206,7 @@ void NetworkState::update(sf::Time dt)
 ////////////////////////////////////////////////////////////
 void NetworkState::handleEvent(sf::Event& event)
 {
+  _speakerButton.catchEvent(event);
   _backToMenu.catchEvent(event);
   _validateButton.catchEvent(event);
   _board.catchEvent(event);
@@ -207,6 +224,7 @@ void NetworkState::draw()
   window->draw(_statusText);
   window->draw(_clientText);
   window->draw(_opponentText);
+  window->draw(_speakerButton);
 }
 
 

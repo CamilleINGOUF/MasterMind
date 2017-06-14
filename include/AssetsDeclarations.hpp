@@ -19,7 +19,9 @@ namespace Textures
     PanelPions,
     CoinHolder,
     BoardBackground,
-    Title
+    Title,
+    SpeakerOn,
+    SpeakerOff
   };
 }
 

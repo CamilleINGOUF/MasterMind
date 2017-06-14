@@ -84,6 +84,7 @@ add_executable( client.out src/main_client.cpp
   src/Board.cpp
   src/correctionDrawable.cpp
   src/MusicPlayer.cpp
+  src/IconButton.cpp
 )
 
 # Éxécutable serveur

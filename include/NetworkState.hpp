@@ -7,6 +7,7 @@
 #include "Button.hpp"
 #include "GameState.hpp"
 #include "Board.hpp"
+#include "IconButton.hpp"
 
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -76,6 +77,7 @@ private:
   sf::Int32     _opponentScore;  ///< Le score de l'adversaire
   bool          _gameFinished;
   sf::Time      _gameFinishedTimer;
+  IconButton    _speakerButton;
 };
 
 
