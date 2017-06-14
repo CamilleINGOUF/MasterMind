@@ -47,6 +47,9 @@ void GameStateManager::setState(State state)
     _currentState = _gameStates[State::InGame].get();
   else
     _currentState = nullptr;
+
+  if (_currentState)
+    _currentState->init();
 }
 
 

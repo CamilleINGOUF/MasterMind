@@ -20,6 +20,7 @@ class JoiningState : public GameState
 public:
   JoiningState(GameContext* context);
   virtual ~JoiningState() override;
+  virtual void init() override; 
   virtual void update(sf::Time dt) override;
   virtual void handleEvent(sf::Event& event) override;
   virtual void draw() override;

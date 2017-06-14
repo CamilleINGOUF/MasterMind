@@ -62,8 +62,6 @@ NetworkState::NetworkState(GameContext* context) :
 
   _clientText.setPosition(sf::Vector2f(0, 100));
   _opponentText.setPosition(sf::Vector2f(0, 120));
-
-  _context->musicPlayer->play(Musics::InGame);
 }
 
 
@@ -71,6 +69,18 @@ NetworkState::NetworkState(GameContext* context) :
 NetworkState::~NetworkState()
 {
   
+}
+
+
+////////////////////////////////////////////////////////////
+void NetworkState::init()
+{
+  _context->musicPlayer->play(Musics::InGame);
+  _statusText.setString("En attente...");
+  _clientText.setString(_clientName + " (0 Points)");
+  _opponentText.setString("? (0 Points)");
+  _connected = false;
+  _sendingAllowed = false;
 }
 
 

@@ -48,6 +48,14 @@ JoiningState::~JoiningState()
 
 
 ////////////////////////////////////////////////////////////
+void JoiningState::init()
+{
+  _nickname.setText("Pseudo");
+  _hostAddress.setText("IP:Port");
+}
+
+
+////////////////////////////////////////////////////////////
 void JoiningState::update(sf::Time dt)
 {
 }
