@@ -10,6 +10,7 @@
 #include "NetworkState.hpp"
 
 #include <iostream>
+#include <sstream>
 #include <SFML/Network/IpAddress.hpp>
 #include <SFML/System/Vector2.hpp>
 
@@ -26,7 +27,7 @@ NetworkState::NetworkState(GameContext* context) :
   _validateButton(_context->fontManager, "Validate"),
   _board(_context->textureManager,_context->fontManager),
   _clientText("", _context->fontManager->get(Fonts::Arial), 20),
-  _opponentText("? (0 Points)", _context->fontManager->get(Fonts::Arial), 20)
+  _opponentText("", _context->fontManager->get(Fonts::Arial), 20)
 {
   _backToMenu.setPosition(sf::Vector2f(50, 50));
   _backToMenu.setCallback([this](){
@@ -77,10 +78,13 @@ void NetworkState::init()
 {
   _context->musicPlayer->play(Musics::InGame);
   _statusText.setString("En attente...");
-  _clientText.setString(_clientName + " (0 Points)");
-  _opponentText.setString("? (0 Points)");
-  _connected = false;
+  _connected      = false;
   _sendingAllowed = false;
+  _clientScore    = 0;
+  _opponentScore  = 0;
+  _opponentName   = "?";
+
+  refreshScores();
 }
 
 
@@ -256,7 +260,7 @@ void NetworkState::handlePacket(sf::Int32 packetType, sf::Packet& packet)
 
   case ServerPacket::TurnFinished:
   {
-    
+    refreshScores();
   } break;
   
   case ServerPacket::GameFinished:
@@ -265,4 +269,17 @@ void NetworkState::handlePacket(sf::Int32 packetType, sf::Packet& packet)
   } break;
   
   }
+}
+
+
+////////////////////////////////////////////////////////////
+void NetworkState::refreshScores()
+{
+  std::stringstream sstream;
+  sstream << _clientName << " (" << _clientScore << " Points)";
+
+  _clientText.setString(sstream.str());
+  sstream.str("");
+  sstream << _opponentName << " (" << _opponentScore << " Points)";
+  _opponentText.setString(sstream.str());
 }
