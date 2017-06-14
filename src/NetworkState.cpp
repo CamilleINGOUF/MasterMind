@@ -63,6 +63,24 @@ NetworkState::NetworkState(GameContext* context) :
 
   _clientText.setPosition(sf::Vector2f(0, 100));
   _opponentText.setPosition(sf::Vector2f(0, 120));
+
+  /////////////////////// TEST BOARD ///////////////////////////
+
+  std::string strBoard(".... ....\n\
+.... ....\n\
+.... ....\n\
+.... ....\n\
+.... ....\n\
+.... ....\n\
+.... ....\n\
+.... ....\n\
+.... ....\n\
+.... ....\n\
+.... ....\n\
+Bn.B jvmr\n");
+
+  _board.doBoard(strBoard);
+  //////////////////////////////////////////////////////////////
 }
 
 
