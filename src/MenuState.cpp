@@ -4,6 +4,7 @@
 #include "GameContext.hpp"
 #include "GameStateManager.hpp"
 #include "MenuState.hpp"
+#include "MusicPlayer.hpp"
 
 #include <iostream>
 #include <stdexcept>
@@ -28,6 +29,8 @@ MenuState::MenuState(GameContext* context) :
       GameStateManager* stateManager = _context->stateManager;
       stateManager->setState(State::Joining);
   });
+
+  _context->musicPlayer->play(Musics::Menu);
 }
 
 
