@@ -9,7 +9,6 @@
 #include <string>
 
 class GameStateManager;
-class Client;
 namespace sf { class RenderWindow; }
 class MusicPlayer;
 
@@ -28,11 +27,9 @@ struct GameContext
   MusicPlayer*      musicPlayer;
   
   // Partie réseau
-  Client*           client;
   std::string       ip;
   unsigned short    port;
   std::string       clientName;
-  std::string       serverName;
 };
 
 #endif // GAME_CONTEXT_HPP_

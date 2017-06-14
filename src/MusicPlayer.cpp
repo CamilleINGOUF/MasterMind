@@ -9,7 +9,6 @@
 ////////////////////////////////////////////////////////////
 MusicPlayer::MusicPlayer()
 {
-  // TODO: Chargement des musiques
   _playlist[Musics::Menu]   = "../media/musics/awesomeness.wav";
   _playlist[Musics::InGame] = "../media/musics/drumbeat.ogg";
 }

@@ -111,6 +111,7 @@ void NetworkState::prepare()
   if (_socket.connect(_context->ip, _context->port) != sf::Socket::Done)
   {
     std::cerr << "Impossible de se connecter !" << std::endl;
+    _statusText.setString("Erreur de connexion");
     return;
   }
 
@@ -147,7 +148,6 @@ void NetworkState::update(sf::Time dt)
       }
       else
       {
-	// TODO: Définir l'intervalle
 	if (_gameFinishedTimer >= sf::seconds(5.f))
 	  switchToMenuState();
 	
@@ -156,34 +156,34 @@ void NetworkState::update(sf::Time dt)
     }
     else
     {
-      // if (_timeoutTimer >= sf::seconds(5.f)) TODO: Intervalle à définir
-      // {
-      // 	std::cout << "Timeout / Pas de données reçu du serveur " << std::endl;
-      // 	switchToMenuState();
-      // }
+      if (_timeoutTimer >= sf::seconds(120.f))
+      {
+      	std::cout << "Timeout / Pas de données reçu du serveur " << std::endl;
+      	switchToMenuState();
+      }
       
-      // _timeoutTimer += dt;
+      _timeoutTimer += dt;
     }
 
     return;
   }
 
   // Tentative de reconnection
-  // _retryTimer += dt;
+  _retryTimer += dt;
 
-  // if (_retryTimer >= sf::seconds(1.f)) // TODO: Intervalle à redéfinir
-  // {
-  //   _retryTimer = sf::Time::Zero;
-  //   _retryCount++;
+  if (_retryTimer >= sf::seconds(5.f)) 
+  {
+    _retryTimer = sf::Time::Zero;
+    _retryCount++;
    
-  //   if (_retryCount == 5)
-  //   {
-  //     switchToMenuState();
-  //     return;
-  //   }
+    if (_retryCount == 5)
+    {
+      switchToMenuState();
+      return;
+    }
 
-  //   prepare();
-  // }
+    prepare();
+  }
 }
 
 

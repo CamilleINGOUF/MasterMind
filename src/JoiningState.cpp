@@ -14,7 +14,7 @@ JoiningState::JoiningState(GameContext* context) :
   GameState(context),
   _cancel(_context->fontManager, "Retour"),
   _joinGame(_context->fontManager, "Jouer"),
-  _hostAddress(_context->fontManager, "localhost:5555", 17),
+  _hostAddress(_context->fontManager, "localhost:5555", 17), // TODO Changer par IP:PORT
   _nickname(_context->fontManager, "Pseudo", 20)
 {
   _cancel.setPosition(sf::Vector2f(200,150));
@@ -51,6 +51,7 @@ JoiningState::~JoiningState()
 void JoiningState::init()
 {
   _nickname.setText("Pseudo");
+  //_hostAddress.setText("IP:Port"); // TODO Change
   _hostAddress.setText("localhost:5555");
 }
 
