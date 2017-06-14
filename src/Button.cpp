@@ -33,8 +33,8 @@ Button::Button(FontManager* fontManager, const std::string& label) :
 void Button::updateGeometry()
 {
   sf::FloatRect bounds = _text.getGlobalBounds();
-  _shape.setSize(sf::Vector2f(bounds.width, bounds.height));
-  _shape.setPosition(bounds.left, bounds.top);
+  _shape.setSize(sf::Vector2f(bounds.width + 10, bounds.height + 10));
+  _shape.setPosition(bounds.left - 5, bounds.top - 5);
 }
 
 
