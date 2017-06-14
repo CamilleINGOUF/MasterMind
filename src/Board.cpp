@@ -12,9 +12,7 @@ Board::Board(TextureManager* text, FontManager* font) :
   _fontManager(font),
   _panelPions(_textureManager),
   _backgroundChoosenCoins(sf::Vector2f(196,52)),
-  _resetButton(_fontManager, "Reset"),
-  _rectCombinaisons(sf::Vector2f(192,576)),
-  _rectCorrections(sf::Vector2f(84,560))
+  _resetButton(_fontManager, "Reset")
 {
 
   _panelPions.setPosition(sf::Vector2f(842,500));
@@ -41,14 +39,15 @@ Board::Board(TextureManager* text, FontManager* font) :
   for(int i = 0; i < 48; i++)
     {
       _correctionsD.push_back(CorrectionDrawable({Couleur::noir},_textureManager));
-      _correctionsD[i].setPosition(sf::Vector2f(indexX*20 + 270,indexY*48 + 10));
+      _correctionsD[i].setPosition(sf::Vector2f(indexX*20 + 270,indexY*48 + 2));
       
-      _combinaisonsD.push_back(PionDrawable({Couleur::blanc},_textureManager));
+      _combinaisonsD.push_back(PionDrawable({Couleur::vide},_textureManager));
       
       _combinaisonsD[i].setPosition(sf::Vector2f(indexX*48 + 440,indexY*48 + 10));
-
-      _rectCombinaisons.setPosition(sf::Vector2f(440,10));
-      _rectCorrections.setPosition(sf::Vector2f(290,26));
+      _spriteCombinaisons.setTexture(_textureManager->get(Textures::BoardCombinaisons));
+      _spriteCorrections.setTexture(_textureManager->get(Textures::BoardCorrections));
+      _spriteCombinaisons.setPosition(sf::Vector2f(440,10));
+      _spriteCorrections.setPosition(sf::Vector2f(290,18));
       
       if(indexX == 3)
 	{
@@ -89,8 +88,8 @@ void Board::draw(sf::RenderTarget& target, sf::RenderStates states)
 {
   target.draw(_panelPions,states);
   target.draw(_backgroundChoosenCoins,states);
-  target.draw(_rectCombinaisons,states);
-  target.draw(_rectCorrections,states);
+  target.draw(_spriteCombinaisons,states);
+  target.draw(_spriteCorrections,states);
   
   for(PionDrawable p : _pionsDChoosen)
     target.draw(p,states);
