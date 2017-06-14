@@ -13,7 +13,7 @@ Board::Board(TextureManager* text, FontManager* font) :
   _panelPions(_textureManager),
   _backgroundChoosenCoins(sf::Vector2f(196,52)),
   _resetButton(_fontManager, "Reset"),
-  _rectCombinaisons(sf::Vector2f(196,576)),
+  _rectCombinaisons(sf::Vector2f(192,576)),
   _rectCorrections(sf::Vector2f(84,560))
 {
 

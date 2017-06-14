@@ -13,7 +13,7 @@ namespace Textures
   enum ID
   {
     Coin,
-    Board,
+    BoardCombinaisons,
     PanelPions,
     CoinHolder
   };
