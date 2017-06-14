@@ -67,7 +67,8 @@ public:
   ///
   ////////////////////////////////////////////////////////////
   const std::string getValidatedCombi();
-  
+
+  bool doBoard(std::string board);
 private:
   virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

@@ -4,6 +4,7 @@
 #include "Board.hpp"
 
 #include <algorithm>
+#include <sstream>
 
 ////////////////////////////////////////////////////////////
 Board::Board(TextureManager* text, FontManager* font) :
@@ -107,4 +108,19 @@ const std::string Board::getValidatedCombi()
 		    {Couleur::vide},{Couleur::vide}};
   Combinaison combi(tmp);
   return combi.toString();
+}
+
+
+
+bool CorrectionDrawable::doBoard(std::string board)
+{
+  std::istringstream std(board);
+  std::string line;
+  while(std::getline(std, line))
+    {
+      for(unsigned i = 0; i < line.length(); i++)
+	{
+	  
+	}
+    }
 }
