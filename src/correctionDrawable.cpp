@@ -15,6 +15,7 @@ CorrectionDrawable::CorrectionDrawable(Pion p, TextureManager* text) :
 
 void CorrectionDrawable::setPion(const Pion& p)
 {
+  _pion = p;
   updateSprite();
 }
 
@@ -26,11 +27,6 @@ void CorrectionDrawable::setPosition(const sf::Vector2f& pos)
 Pion CorrectionDrawable::getPion() const
 {
   return _pion;
-}
-
-bool CorrectionDrawable::doBoard(std::string board)
-{
-  
 }
 
 void CorrectionDrawable::draw(sf::RenderTarget& target, sf::RenderStates states) const

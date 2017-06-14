@@ -111,5 +111,5 @@ void PionDrawable::updateSprite()
     }
   
   _sprite.setTextureRect(rect);
-  _sprite.setScale(sf::Vector2f(4, 4));
+  _sprite.setScale(sf::Vector2f(3, 3));
 }

@@ -14,6 +14,7 @@ namespace Textures
   {
     Coin,
     Board,
+    PanelPions,
     CoinHolder
   };
 }
@@ -30,7 +31,8 @@ namespace Musics
 {
   enum ID
   {
-    Background
+    Menu,
+    InGame
   };
 }
 
@@ -48,6 +50,4 @@ class AssetManager;
 typedef AssetManager<sf::Texture, Textures::ID> TextureManager;
 typedef AssetManager<sf::Font, Fonts::ID> FontManager;
 
-// TODO: Sound ? Music ?
-
-#endif // AssetsDeclarations
+#endif // ASSETS_DECLARATIONS_HPP_

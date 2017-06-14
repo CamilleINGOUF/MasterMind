@@ -4,10 +4,11 @@
 ////////////////////////////////////////////////////////////
 /// Headers
 ////////////////////////////////////////////////////////////
-#include "GameContext.hpp"
-#include "GameStateManager.hpp"
 #include "AssetManager.hpp"
 #include "AssetsDeclarations.hpp"
+#include "GameContext.hpp"
+#include "GameStateManager.hpp"
+#include "MusicPlayer.hpp"
 
 #include <SFML/Graphics.hpp>
 
@@ -75,6 +76,7 @@ private:
   TextureManager   _textureManager; ///< Le gestionnaire des textures
   FontManager      _fontManager;    ///< Le gestionnaire des polices
   GameContext      _context;        ///< Le contexte de jeu
+  MusicPlayer      _musicPlayer;    ///< Le jukebox !!!
 };
 
 #endif // APP_HPP_

@@ -104,6 +104,16 @@ public:
   ///
   ////////////////////////////////////////////////////////// 
   Combinaison getCorrection(unsigned index) const;
+
+  //////////////////////////////////////////////////////////
+  /// \brief Retourne la combinaison correspondant à l'index
+  ///
+  /// \param index un index
+  ///
+  /// \return la combinaison
+  ///
+  ////////////////////////////////////////////////////////// 
+  Combinaison getCombinaison(unsigned index) const;
   
 private:
   

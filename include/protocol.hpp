@@ -30,6 +30,7 @@ namespace ServerPacket
     TurnNotFinished,
     TurnFinished,
     GameFinished,
+    PlayerDisconnected
   };
 }
 

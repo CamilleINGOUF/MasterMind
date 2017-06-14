@@ -6,9 +6,11 @@
 #include "AssetManager.hpp"
 #include "GameStateManager.hpp"
 #include "GameContext.hpp"
+#include "MusicPlayer.hpp"
 #include "NetworkState.hpp"
 
 #include <iostream>
+#include <sstream>
 #include <SFML/Network/IpAddress.hpp>
 #include <SFML/System/Vector2.hpp>
 
@@ -25,14 +27,16 @@ NetworkState::NetworkState(GameContext* context) :
   _validateButton(_context->fontManager, "Validate"),
   _board(_context->textureManager,_context->fontManager),
   _clientText("", _context->fontManager->get(Fonts::Arial), 20),
-  _opponentText("? (0 Points)", _context->fontManager->get(Fonts::Arial), 20)
+  _opponentText("", _context->fontManager->get(Fonts::Arial), 20),
+  _gameFinished(false),
+  _gameFinishedTimer(sf::Time::Zero)
 {
   _backToMenu.setPosition(sf::Vector2f(50, 50));
   _backToMenu.setCallback([this](){
     switchToMenuState();
   });
   
-  _validateButton.setPosition(sf::Vector2f(690, 710));
+  _validateButton.setPosition(sf::Vector2f(690, 630));
   _validateButton.setCallback([this]() {
       if (!_sendingAllowed)
       {
@@ -42,7 +46,12 @@ NetworkState::NetworkState(GameContext* context) :
       }
 
       // Récupération de la combinaison du plateau
-      _board.validateCombi();
+      if(!_board.validateCombi())
+      {
+	std::cerr << "Combinaison incorrecte !" << std::endl;
+	return;
+      }
+      
       std::string combiStr = _board.getValidatedCombi();
       
       // Envoi de la combinaison
@@ -72,9 +81,28 @@ NetworkState::~NetworkState()
 
 
 ////////////////////////////////////////////////////////////
+void NetworkState::init()
+{
+  _context->musicPlayer->play(Musics::InGame);
+  _statusText.setString("En attente...");
+  _connected      = false;
+  _sendingAllowed = false;
+  _clientScore    = 0;
+  _opponentScore  = 0;
+  _opponentName   = "?";
+  _gameFinished   = false;
+  _gameFinishedTimer = sf::Time::Zero;
+  _retryTimer        = sf::Time::Zero;
+  _retryCount        = 0;
+  _timeoutTimer = sf::seconds(0);
+  
+  refreshScores();
+}
+
+
+////////////////////////////////////////////////////////////
 void NetworkState::prepare()
 {
-  
   if (_clientName.empty())
     _clientName = _context->clientName;
   
@@ -83,6 +111,7 @@ void NetworkState::prepare()
   if (_socket.connect(_context->ip, _context->port) != sf::Socket::Done)
   {
     std::cerr << "Impossible de se connecter !" << std::endl;
+    _statusText.setString("Erreur de connexion");
     return;
   }
 
@@ -112,39 +141,49 @@ void NetworkState::update(sf::Time dt)
     }
     else if (status == sf::Socket::Disconnected)
     {
-      std::cout << "Déconnexion du serveur" << std::endl;
-      switchToMenuState();
+      if (!_gameFinished)
+      {
+	std::cout << "Le serveur s'est déconnecté [partie non finie]" << std::endl;
+	_connected = false;
+      }
+      else
+      {
+	if (_gameFinishedTimer >= sf::seconds(5.f))
+	  switchToMenuState();
+	
+	_gameFinishedTimer += dt;
+      }
     }
     else
     {
-      // if (_timeoutTimer >= sf::seconds(5.f)) TODO: Intervalle à définir
-      // {
-      // 	std::cout << "Timeout / Pas de données reçu du serveur " << std::endl;
-      // 	switchToMenuState();
-      // }
+      if (_timeoutTimer >= sf::seconds(120.f))
+      {
+      	std::cout << "Timeout / Pas de données reçu du serveur " << std::endl;
+      	switchToMenuState();
+      }
       
-      // _timeoutTimer += dt;
+      _timeoutTimer += dt;
     }
 
     return;
   }
 
   // Tentative de reconnection
-  // _retryTimer += dt;
+  _retryTimer += dt;
 
-  // if (_retryTimer >= sf::seconds(1.f)) // TODO: Intervalle à redéfinir
-  // {
-  //   _retryTimer = sf::Time::Zero;
-  //   _retryCount++;
+  if (_retryTimer >= sf::seconds(5.f)) 
+  {
+    _retryTimer = sf::Time::Zero;
+    _retryCount++;
    
-  //   if (_retryCount == 5)
-  //   {
-  //     switchToMenuState();
-  //     return;
-  //   }
+    if (_retryCount == 5)
+    {
+      switchToMenuState();
+      return;
+    }
 
-  //   prepare();
-  // }
+    prepare();
+  }
 }
 
 
@@ -175,7 +214,6 @@ void NetworkState::draw()
 void NetworkState::switchToMenuState()
 {
   _socket.disconnect();
-  _timeoutTimer = sf::seconds(0);
   
   GameStateManager* stateManager = _context->stateManager;
   stateManager->setState(State::Menu);
@@ -238,18 +276,71 @@ void NetworkState::handlePacket(sf::Int32 packetType, sf::Packet& packet)
 
   case ServerPacket::TurnNotFinished:
   {
-    
+    std::string board;
+    if (!(packet >> board))
+    {
+      std::cerr << "Impossible de recevoir le plateau" << std::endl;
+      switchToMenuState();
+      return;
+    }
+
+    _board.doBoard(board);
   } break;
 
   case ServerPacket::TurnFinished:
   {
+    sf::Int32 clientScore;
+    sf::Int32 opponentScore;
+
+    if (!(packet >> clientScore))
+    {
+      std::cerr << "Impossible de recevoir le score depuis le serveur"
+		<< std::endl;
+      switchToMenuState();
+      return;
+    }
+
+    if (!(packet >> opponentScore))
+    {
+      std::cerr << "Impossible de recevoir le score depuis le serveur"
+		<< std::endl;
+      switchToMenuState();
+      return;
+    }
+
+    _clientScore   = clientScore;
+    _opponentScore = opponentScore;
     
+    refreshScores();
+    _board.empty();
   } break;
   
   case ServerPacket::GameFinished:
   {
-    
+    std::string msg;
+    if (!(packet >> msg))
+    {
+      std::cerr << "Impossible de décoder un message du serveur !" << std::endl;
+      switchToMenuState();
+      return;
+    }
+
+    _gameFinished = true;
+    _statusText.setString("Le gagnant est: " + msg);
   } break;
   
   }
+}
+
+
+////////////////////////////////////////////////////////////
+void NetworkState::refreshScores()
+{
+  std::stringstream sstream;
+  sstream << _clientName << " (" << _clientScore << " Points)";
+
+  _clientText.setString(sstream.str());
+  sstream.str("");
+  sstream << _opponentName << " (" << _opponentScore << " Points)";
+  _opponentText.setString(sstream.str());
 }

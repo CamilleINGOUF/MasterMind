@@ -22,6 +22,7 @@ class NetworkState : public GameState
 public:
   NetworkState(GameContext* context);
   virtual ~NetworkState() override;
+  virtual void init() override;
   virtual void update(sf::Time dt) override;
   virtual void handleEvent(sf::Event& event) override;
   virtual void draw() override;
@@ -49,6 +50,12 @@ private:
   void handlePacket(sf::Int32 packetType, sf::Packet& packet);
 
   ////////////////////////////////////////////////////////////
+  /// \brief Mise à jour graphique des scores
+  ///
+  ////////////////////////////////////////////////////////////
+  void refreshScores();
+
+  ////////////////////////////////////////////////////////////
   /// Données membres
   ////////////////////////////////////////////////////////////
   Button        _backToMenu;     ///< Bouton retour au menu
@@ -65,6 +72,10 @@ private:
   std::string   _opponentName;   ///< Le pseudo de l'adversaire
   sf::Text      _clientText;     ///< Les infos du joueur courant
   sf::Text      _opponentText;   ///< Les infos du de l'adversaire
+  sf::Int32     _clientScore;    ///< Le score du joueur courant
+  sf::Int32     _opponentScore;  ///< Le score de l'adversaire
+  bool          _gameFinished;
+  sf::Time      _gameFinishedTimer;
 };
 
 

@@ -93,14 +93,6 @@ public:
   
   //Pion  & operator=(const Pion & p);
 
-  ////////////////////////////////////////////////////////////
-  /// \brief Retourne la couleur du pion sous forme de caractère
-  /// TODO: FIX le pointeur par un char !!!
-  /// \return le couleur du pion sous forme de caractère
-  ///
-  ////////////////////////////////////////////////////////////
-  std::string* getString() const;
-  
 private:
   ////////////////////////////////////////////////////////////
   /// Données membres
