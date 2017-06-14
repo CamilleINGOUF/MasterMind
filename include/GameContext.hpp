@@ -11,7 +11,7 @@
 class GameStateManager;
 class Client;
 namespace sf { class RenderWindow; }
-
+class MusicPlayer;
 
 ////////////////////////////////////////////////////////////
 /// \brief Le contexte du jeu. Il permet un accès plus simple
@@ -24,7 +24,8 @@ struct GameContext
   sf::RenderWindow* window;
   GameStateManager* stateManager;
   TextureManager*   textureManager;
-  FontManager*      fontManager;   
+  FontManager*      fontManager;
+  MusicPlayer*      musicPlayer;
   
   // Partie réseau
   Client*           client;

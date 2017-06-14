@@ -6,6 +6,7 @@
 #include "AssetManager.hpp"
 #include "GameStateManager.hpp"
 #include "GameContext.hpp"
+#include "MusicPlayer.hpp"
 #include "NetworkState.hpp"
 
 #include <iostream>
@@ -86,6 +87,18 @@ Bn.B jvmr\n");
 NetworkState::~NetworkState()
 {
   
+}
+
+
+////////////////////////////////////////////////////////////
+void NetworkState::init()
+{
+  _context->musicPlayer->play(Musics::InGame);
+  _statusText.setString("En attente...");
+  _clientText.setString(_clientName + " (0 Points)");
+  _opponentText.setString("? (0 Points)");
+  _connected = false;
+  _sendingAllowed = false;
 }
 
 

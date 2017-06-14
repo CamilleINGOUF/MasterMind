@@ -22,6 +22,7 @@ class NetworkState : public GameState
 public:
   NetworkState(GameContext* context);
   virtual ~NetworkState() override;
+  virtual void init() override;
   virtual void update(sf::Time dt) override;
   virtual void handleEvent(sf::Event& event) override;
   virtual void draw() override;

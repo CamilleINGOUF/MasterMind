@@ -30,7 +30,8 @@ namespace Musics
 {
   enum ID
   {
-    Background
+    Menu,
+    InGame
   };
 }
 

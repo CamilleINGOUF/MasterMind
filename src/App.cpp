@@ -23,6 +23,7 @@ App::App() :
   _context.stateManager    = &_stateManager;
   _context.textureManager  = &_textureManager;
   _context.fontManager     = &_fontManager;
+  _context.musicPlayer     = &_musicPlayer;
 
   _window.setVerticalSyncEnabled(true);
     
