@@ -58,6 +58,7 @@ private:
   sf::RectangleShape        _rectangle;      ///< Le fond du panel
   std::vector<Pion>         _pions;          ///< Les pions
   std::vector<PionDrawable> _pionsD;         ///< Le rendu graphique des pions
+  sf::Sprite                _sprite;         ///< Le sprite du fond     
 };
 
 #endif

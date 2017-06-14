@@ -5,6 +5,7 @@
 
 #include <sstream>
 #include <stdexcept>
+#include <cassert>
 
 
 ////////////////////////////////////////////////////////////
@@ -56,8 +57,7 @@ void Plateau::setCorrection(const std::vector<Combinaison> combinaisons)
 ////////////////////////////////////////////////////////////
 Combinaison Plateau::getLastCombinaison() const
 {
-  // TODO: DANGER: -> à supprimer au plus vite
-  // Comportement indéfini quand le vecteur est vide !!!!
+  assert(_combinaisons.size() > 0);
   return _combinaisons.back(); 
 }
 
@@ -98,7 +98,7 @@ const std::string Plateau::toString() const
   
   for(unsigned i = 0; i < _combinaisons.size(); i++)
   {
-    sstream << _corrections[i] << " " << _corrections[i] << "\n";
+    sstream << _corrections[i] << " " << _combinaisons[i] << "\n";
   }
   
   return sstream.str();
@@ -111,8 +111,19 @@ unsigned Plateau::getNbCombinaisons() const
   return _combinaisons.size();
 }
 
+
 ////////////////////////////////////////////////////////////
 Combinaison Plateau::getCorrection(unsigned index) const
+{
+  if (index >= _corrections.size())
+    throw std::runtime_error("Invalid index " + index);
+
+  return _corrections[index];
+}
+
+
+////////////////////////////////////////////////////////////
+Combinaison Plateau::getCombinaison(unsigned index) const
 {
   if (index >= _combinaisons.size())
     throw std::runtime_error("Invalid index " + index);
@@ -137,7 +148,7 @@ std::ostream & operator<<(std::ostream & os, const Plateau & p)
   }
   
   for (unsigned i = 0; i < p.getNbCombinaisons(); i++) 
-    os << p.getCorrection(i)  << " " << p.getCorrection(i) << std::endl;
+    os << p.getCorrection(i)  << " " << p.getCombinaison(i) << std::endl;
     
   return os;
 }

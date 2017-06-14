@@ -40,14 +40,6 @@ public:
   void catchEvent(sf::Event& event);
 
   ////////////////////////////////////////////////////////////
-  /// \brief Définit la position du plateau
-  /// 
-  /// \param pos la nouvelle position du plateau
-  ///
-  ////////////////////////////////////////////////////////////
-  void setPosition(const sf::Vector2f& pos);
-
-  ////////////////////////////////////////////////////////////
   /// \brief Ré-initialise l'état du plateau
   ///
   ////////////////////////////////////////////////////////////
@@ -57,7 +49,7 @@ public:
   /// \brief Valide la combinaison sélectionnée
   ///
   ////////////////////////////////////////////////////////////
-  void validateCombi();
+  bool validateCombi();
 
   ////////////////////////////////////////////////////////////
   /// \brief Retourne la combinaison validée en chaîne de
@@ -67,7 +59,12 @@ public:
   ///
   ////////////////////////////////////////////////////////////
   const std::string getValidatedCombi();
-  
+
+  bool doBoard(std::string board);
+
+  bool isValid(char ch);
+
+  void empty();
 private:
   virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -84,6 +81,7 @@ private:
   Button _resetButton;                           ///< Le bouton de reset
   std::vector<Pion> _pionValidated;              ///< La sélection validée
   std::vector<CorrectionDrawable> _correctionsD; ///< La correction sous forme graphique
+  std::vector<PionDrawable> _combinaisonsD;      ///< Les combinaisons du plateau sour forme graphique
 };
 
 #endif // BOARD_HPP_

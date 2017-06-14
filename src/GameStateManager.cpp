@@ -29,6 +29,7 @@ void GameStateManager::registerStates()
 {
   _context->fontManager->load(Fonts::Arial, "../media/fonts/arial.ttf");
   _context->textureManager->load(Textures::Coin, "../media/images/tileset.png");
+  _context->textureManager->load(Textures::PanelPions, "../media/images/mastermind_menu.png");
   
   _gameStates[State::Menu]    = std::make_unique<MenuState>(_context);
   _gameStates[State::Joining] = std::make_unique<JoiningState>(_context);
@@ -47,6 +48,9 @@ void GameStateManager::setState(State state)
     _currentState = _gameStates[State::InGame].get();
   else
     _currentState = nullptr;
+
+  if (_currentState)
+    _currentState->init();
 }
 
 

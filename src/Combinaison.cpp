@@ -47,7 +47,7 @@ void Combinaison::setPions(const std::string& str)
   
   for (std::string::size_type i = 0; i < str.size(); i++)
   {
-    if (i >= 8) break;
+    if (i >= 4) break;
     if (str[i] == 'r') _pions.push_back(rouge);
     if (str[i] == 'v') _pions.push_back(vert);
     if (str[i] == 'b') _pions.push_back(bleu);

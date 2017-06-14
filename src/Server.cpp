@@ -184,23 +184,32 @@ void Server::updateTour()
   	      << " points" << std::endl;
 
     // Envoi des informations de fin de tour
-    packet << static_cast<sf::Int32>(ServerPacket::TurnFinished);
+    packet << static_cast<sf::Int32>(ServerPacket::TurnFinished)
+	   << static_cast<sf::Int32>(_game.getScoreJoueurA())
+	   << static_cast<sf::Int32>(_game.getScoreJoueurB())
+	   << _game.getPlateau().toString();
 
-    if (_game.getDecodeur() == Joueur::A)
-      packet << static_cast<sf::Int32>(_game.getScoreJoueurA());
-    else
-      packet << static_cast<sf::Int32>(_game.getScoreJoueurB());
+    if (_socketA.send(packet) != sf::Socket::Done)
+      throw std::runtime_error("Impossible d'envoyer le paquet de refresh !");
 
-    packet << _game.getPlateau().toString();
+    packet.clear();
+
+    packet << static_cast<sf::Int32>(ServerPacket::TurnFinished)
+	   << static_cast<sf::Int32>(_game.getScoreJoueurB())
+	   << static_cast<sf::Int32>(_game.getScoreJoueurA())
+	   << _game.getPlateau().toString();
+    
+    if (_socketB.send(packet) != sf::Socket::Done)
+      throw std::runtime_error("Impossible d'envoyer le paquet de refresh !");
+
 
     _game.inverserRoles();
     std::cout << "Inversion des rôles" << std::endl;
+    return;
   }
-  else
-  {
-    packet << static_cast<sf::Int32>(ServerPacket::TurnNotFinished)
-  	   << _game.getPlateau().toString();
-  }
+
+  packet << static_cast<sf::Int32>(ServerPacket::TurnNotFinished)
+	 << _game.getPlateau().toString();
 
   if (_socketA.send(packet) != sf::Socket::Done)
     throw std::runtime_error("Impossible d'envoyer le paquet de refresh !");
@@ -271,6 +280,8 @@ Combinaison Server::requestCombinaison(Joueur joueur, bool combiSecrete)
   std::string combiStr;	
   if (!(packet >> combiStr))
     throw std::string("Erreur d'extraction de la combinaison !");
+
+  std::cout << "Combinaison reçu " << combiStr << std::endl;
 
   Combinaison combinaison;
   combinaison.setPions(combiStr);
