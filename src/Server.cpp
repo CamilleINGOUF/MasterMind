@@ -272,6 +272,8 @@ Combinaison Server::requestCombinaison(Joueur joueur, bool combiSecrete)
   if (!(packet >> combiStr))
     throw std::string("Erreur d'extraction de la combinaison !");
 
+  std::cout << "Combinaison reçu " << combiStr << std::endl;
+
   Combinaison combinaison;
   combinaison.setPions(combiStr);
 

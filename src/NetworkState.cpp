@@ -44,7 +44,12 @@ NetworkState::NetworkState(GameContext* context) :
       }
 
       // Récupération de la combinaison du plateau
-      _board.validateCombi();
+      if(!_board.validateCombi())
+      {
+	std::cerr << "Combinaison incorrecte !" << std::endl;
+	return;
+      }
+      
       std::string combiStr = _board.getValidatedCombi();
       
       // Envoi de la combinaison
@@ -63,24 +68,6 @@ NetworkState::NetworkState(GameContext* context) :
 
   _clientText.setPosition(sf::Vector2f(0, 100));
   _opponentText.setPosition(sf::Vector2f(0, 120));
-
-  /////////////////////// TEST BOARD ///////////////////////////
-
-  std::string strBoard(".... ....\n\
-.... ....\n\
-.... ....\n\
-.... ....\n\
-.... ....\n\
-.... ....\n\
-.... ....\n\
-.... ....\n\
-.... ....\n\
-.... ....\n\
-.... ....\n\
-Bn.B jvmr\n");
-
-  _board.doBoard(strBoard);
-  //////////////////////////////////////////////////////////////
 }
 
 
@@ -273,7 +260,15 @@ void NetworkState::handlePacket(sf::Int32 packetType, sf::Packet& packet)
 
   case ServerPacket::TurnNotFinished:
   {
-    
+    std::string board;
+    if (!(packet >> board))
+    {
+      std::cerr << "Impossible de recevoir le plateau" << std::endl;
+      switchToMenuState();
+      return;
+    }
+
+    _board.doBoard(board);
   } break;
 
   case ServerPacket::TurnFinished:

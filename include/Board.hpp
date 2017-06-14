@@ -57,7 +57,7 @@ public:
   /// \brief Valide la combinaison sélectionnée
   ///
   ////////////////////////////////////////////////////////////
-  void validateCombi();
+  bool validateCombi();
 
   ////////////////////////////////////////////////////////////
   /// \brief Retourne la combinaison validée en chaîne de

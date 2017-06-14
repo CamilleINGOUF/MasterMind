@@ -117,14 +117,17 @@ void Board::reset()
 
 
 ////////////////////////////////////////////////////////////
-void Board::validateCombi()
+bool Board::validateCombi()
 {
   if(!(std::find(_pionsChoosen.begin(), _pionsChoosen.end(),
 		 Pion({Couleur::vide})) != _pionsChoosen.end()))
   {
     _pionValidated = _pionsChoosen;
     reset();
+    return true;
   }
+
+  return false;
 }
 
 
