@@ -276,10 +276,7 @@ void Mastermind::corrigerDerniereCombinaison()
   Combinaison correction;
   std::vector<Pion> pions;
 
-  std::cout << "CORRECTION DERNIERE COMBINAISON" << std::endl;
-  std::cout << _codeSecret.toString() << std::endl;
-  std::cout << _plateau.getLastCombinaison() << std::endl;
-  
+ 
   for (int i = 0; i < 4;i++)
   {
     if (_codeSecret.getPions()[i] == _plateau.getLastCombinaison().getPions()[i])
@@ -298,10 +295,8 @@ void Mastermind::corrigerDerniereCombinaison()
     }
   }
 
-  std::cout << "Correction[pions]: " << pions << std::endl;
   correction.setPions(pions);
   _plateau.addCorrection(correction);
-  std::cout << "Correction: " << correction.toString() << std::endl;
 }
 
 
