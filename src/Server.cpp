@@ -187,10 +187,16 @@ void Server::updateTour()
     packet << static_cast<sf::Int32>(ServerPacket::TurnFinished);
 
     if (_game.getDecodeur() == Joueur::A)
+    {
       packet << static_cast<sf::Int32>(_game.getScoreJoueurA());
-    else
       packet << static_cast<sf::Int32>(_game.getScoreJoueurB());
-
+    }
+    else
+    {
+      packet << static_cast<sf::Int32>(_game.getScoreJoueurB());
+      packet << static_cast<sf::Int32>(_game.getScoreJoueurA());
+    }
+      
     packet << _game.getPlateau().toString();
 
     _game.inverserRoles();

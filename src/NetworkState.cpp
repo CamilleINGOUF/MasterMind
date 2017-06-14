@@ -135,7 +135,7 @@ void NetworkState::update(sf::Time dt)
     else if (status == sf::Socket::Disconnected)
     {
       std::cout << "Déconnexion du serveur" << std::endl;
-      switchToMenuState();
+      //switchToMenuState();
     }
     else
     {
@@ -273,12 +273,43 @@ void NetworkState::handlePacket(sf::Int32 packetType, sf::Packet& packet)
 
   case ServerPacket::TurnFinished:
   {
+    sf::Int32 clientScore;
+    sf::Int32 opponentScore;
+
+    if (!(packet >> clientScore))
+    {
+      std::cerr << "Impossible de recevoir le score depuis le serveur"
+		<< std::endl;
+      switchToMenuState();
+      return;
+    }
+
+    if (!(packet >> opponentScore))
+    {
+      std::cerr << "Impossible de recevoir le score depuis le serveur"
+		<< std::endl;
+      switchToMenuState();
+      return;
+    }
+
+    _clientScore   = clientScore;
+    _opponentScore = opponentScore;
+    
     refreshScores();
+    _board.empty();
   } break;
   
   case ServerPacket::GameFinished:
   {
-    
+    std::string msg;
+    if (!(packet >> msg))
+    {
+      std::cerr << "Impossible de décoder un message du serveur !" << std::endl;
+      switchToMenuState();
+      return;
+    }
+
+    _statusText.setString("Le gagnant est: " + msg);
   } break;
   
   }
