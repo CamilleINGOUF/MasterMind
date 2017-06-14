@@ -24,14 +24,14 @@ NetworkState::NetworkState(GameContext* context) :
   _connected(false),
   _sendingAllowed(false),
   _statusText("En attente...", _context->fontManager->get(Fonts::Arial), 20),
-  _validateButton(_context->fontManager, "Validate"),
+  _validateButton(_context->fontManager, "Valider"),
   _board(_context->textureManager,_context->fontManager),
   _clientText("", _context->fontManager->get(Fonts::Arial), 20),
   _opponentText("", _context->fontManager->get(Fonts::Arial), 20),
   _gameFinished(false),
   _gameFinishedTimer(sf::Time::Zero)
 {
-  _backToMenu.setPosition(sf::Vector2f(50, 50));
+  _backToMenu.setPosition(sf::Vector2f(700, 20));
   _backToMenu.setCallback([this](){
     switchToMenuState();
   });

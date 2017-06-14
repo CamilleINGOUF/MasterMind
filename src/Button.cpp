@@ -63,8 +63,8 @@ void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const
   if (!_text.getFont())
     throw std::runtime_error("Button with invalid font !");
 
-  target.draw(_shape);
-  target.draw(_text);
+  target.draw(_shape, states);
+  target.draw(_text, states);
 }
 
 

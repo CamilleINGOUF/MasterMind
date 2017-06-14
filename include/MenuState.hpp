@@ -34,6 +34,7 @@ private:
   Button _quit;
   Button _joinServer;
   sf::Sprite _background;
+  sf::Sprite _title;
 };
 
 

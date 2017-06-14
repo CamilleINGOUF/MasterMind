@@ -18,7 +18,8 @@ namespace Textures
     BoardCoinsChoosen,
     PanelPions,
     CoinHolder,
-    BoardBackground
+    BoardBackground,
+    Title
   };
 }
 

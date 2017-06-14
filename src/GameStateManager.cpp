@@ -34,6 +34,7 @@ void GameStateManager::registerStates()
   _context->textureManager->load(Textures::BoardCorrections, "../media/images/backgroundCorrections.png");
   _context->textureManager->load(Textures::BoardBackground, "../media/images/backgroundMastermind.png");
   _context->textureManager->load(Textures::BoardCoinsChoosen, "../media/images/backgroundCombiChoosen.png");
+  _context->textureManager->load(Textures::Title, "../media/images/title.png");
   
   _gameStates[State::Menu]    = std::make_unique<MenuState>(_context);
   _gameStates[State::Joining] = std::make_unique<JoiningState>(_context);

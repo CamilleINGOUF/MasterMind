@@ -17,7 +17,7 @@ Board::Board(TextureManager* text, FontManager* font) :
   _panelPions.setPosition(sf::Vector2f(842, 500));
  
   _indexNextPion = 0;
-  _resetButton.setPosition(sf::Vector2f(890, 450));
+  _resetButton.setPosition(sf::Vector2f(855, 450));
   _resetButton.setCallback([this]() {
       reset();
   });
@@ -96,10 +96,10 @@ void Board::draw(sf::RenderTarget& target, sf::RenderStates states)
   target.draw(_spriteCombinaisons,states);
   target.draw(_spriteCorrections,states);
   
-  for(PionDrawable p : _pionsDChoosen)
+  for (PionDrawable p : _pionsDChoosen)
     target.draw(p,states);
 
-  target.draw(_resetButton,states);
+  target.draw(_resetButton, states);
 
   for (int i = 0; i < 48; i++)
   {
