@@ -95,7 +95,7 @@ add_executable( server.out src/main_server.cpp
   src/Plateau.cpp
 )
 
-# TODO: Tests unitaires
+# Tests unitaires
 add_executable( main_test.out tests/main_test.cpp
   src/Mastermind.cpp
   src/Pion.cpp

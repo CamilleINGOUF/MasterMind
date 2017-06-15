@@ -123,9 +123,7 @@ void NetworkState::init()
 ////////////////////////////////////////////////////////////
 void NetworkState::prepare()
 {
-  if (_clientName.empty())
-    _clientName = _context->clientName;
-  
+  _clientName = _context->clientName;
   _clientText.setString(_clientName + " (0 Points)");
   
   if (_socket.connect(_context->ip, _context->port) != sf::Socket::Done)
@@ -134,6 +132,7 @@ void NetworkState::prepare()
     return;
   }
 
+  _statusText.setString("En attente...");
   _socket.setBlocking(false);
   _connected = true;
 }
