@@ -60,8 +60,11 @@ void Server::init()
   packet.clear();
 
   if (_socketA.receive(packet) != sf::Socket::Done)
+  {
+    notifyDisconnection();
     throw std::runtime_error("Impossible de recevoir le pseudo du joueur A");
-
+  }
+  
   if (!(packet >> _nameA))
     throw std::runtime_error("Impossible de lire le pseudo du joueur A");
 
@@ -81,14 +84,20 @@ void Server::init()
   packet << static_cast<sf::Int32>(ServerPacket::NameRequest);
   
   if (_socketB.send(packet) != sf::Socket::Done)
+  {
+    notifyDisconnection();
     throw std::runtime_error("Requête Pseudo - Joueur B Impossible");
-
+  }
+    
   // Réception du pseudo du joueur B
   packet.clear();
 
   if (_socketB.receive(packet) != sf::Socket::Done)
+  {
+    notifyDisconnection();
     throw std::runtime_error("Impossible de recevoir le pseudo du joueur A");
-
+  }
+    
   if (!(packet >> _nameB))
     throw std::runtime_error("Impossible de lire le pseudo du joueur A");
 
@@ -104,15 +113,21 @@ void Server::init()
   packet << _nameB;
   
   if (_socketA.send(packet) != sf::Socket::Done)
+  {
+    notifyDisconnection();
     throw std::runtime_error("Impossible d'envoyer un pseudo au joueur A");
-
+  }
+    
   packet.clear();
   
   packet << static_cast<sf::Int32>(ServerPacket::GameBegin);
   packet << _nameA;
   
   if (_socketB.send(packet) != sf::Socket::Done)
+  {
+    notifyDisconnection();
     throw std::runtime_error("Impossible d'envoyer un pseudo au joueur B");
+  }
 }
 
 
@@ -191,8 +206,11 @@ void Server::updateTour()
 	   << _game.getPlateau().toString();
 
     if (_socketA.send(packet) != sf::Socket::Done)
+    {
+      notifyDisconnection();
       throw std::runtime_error("Impossible d'envoyer le paquet de refresh !");
-
+    }
+      
     packet.clear();
 
     packet << static_cast<sf::Int32>(ServerPacket::TurnFinished)
@@ -201,8 +219,10 @@ void Server::updateTour()
 	   << _game.getPlateau().toString();
     
     if (_socketB.send(packet) != sf::Socket::Done)
+    {
+      notifyDisconnection();
       throw std::runtime_error("Impossible d'envoyer le paquet de refresh !");
-
+    }
 
     _game.inverserRoles();
     std::cout << "Inversion des rôles" << std::endl;
@@ -213,11 +233,16 @@ void Server::updateTour()
 	 << _game.getPlateau().toString();
 
   if (_socketA.send(packet) != sf::Socket::Done)
+  {
+    notifyDisconnection();
     throw std::runtime_error("Impossible d'envoyer le paquet de refresh !");
-
+  }
   
   if (_socketB.send(packet) != sf::Socket::Done)
+  {
+    notifyDisconnection();
     throw std::runtime_error("Impossible d'envoyer le paquet de refresh !");
+  }
 }
 
 
@@ -251,14 +276,20 @@ Combinaison Server::requestCombinaison(Joueur joueur, bool combiSecrete)
   if (joueur == Joueur::A)
   {
     if (_socketA.send(packet) != sf::Socket::Done)
+    {
+      notifyDisconnection();
       throw std::runtime_error("Erreur de paquet: [CombinaisonRequest] -> "
 			       + _nameA);
+    }
   }
   else
   {
     if (_socketB.send(packet) != sf::Socket::Done)
+    {
+      notifyDisconnection();
       throw std::runtime_error("Erreur de paquet: [CombinaisonRequest] -> "
 			       + _nameB);
+    }
   }
 
   // Réception de la combinaison
@@ -267,14 +298,20 @@ Combinaison Server::requestCombinaison(Joueur joueur, bool combiSecrete)
   if (joueur == Joueur::A)
   {
     if (_socketA.receive(packet) != sf::Socket::Done)
+    {
+      notifyDisconnection();
       throw std::runtime_error("Erreur de paquet: " + _nameA +
 			       " -> [CombinaisonRequest]");
+    }
   }
   else
   {
     if (_socketB.receive(packet) != sf::Socket::Done)
+    {
+      notifyDisconnection();
       throw std::runtime_error("Erreur de paquet: " + _nameB +
 			       " -> [CombinaisonRequest]");
+    }
   }
   
   // Extraction de la combinaison
@@ -314,11 +351,17 @@ void Server::mainLoop()
   
   // Envoi de la notification aux clients
   if (_socketA.send(packet) != sf::Socket::Done)
+  {
+    notifyDisconnection();
     throw std::runtime_error("Impossible d'envoyer le paquet - PacketType::GameFinished");
-
+  }
+    
   if (_socketB.send(packet) != sf::Socket::Done)
+  {
+    notifyDisconnection();
     throw std::runtime_error("Impossible d'envoyer le paquet - PacketType::GameFinished");
-
+  }
+    
   std::cout << "Le gagnant est " << _game.getGagnantNom() << std::endl
   	    << "La partie est terminée !" << std::endl;
 }
@@ -332,12 +375,29 @@ void Server::broadcastMessage(const std::string& message)
   packet << message;
   
   if (_socketA.send(packet) != sf::Socket::Done)
+  {
+    notifyDisconnection();
     throw std::runtime_error("Impossible d'envoyer un message au joueur " + _nameA);
-
+  }
+    
   if (_socketB.send(packet) != sf::Socket::Done)
+  {
+    notifyDisconnection();
     throw std::runtime_error("Impossible d'envoyer un message au joueur " + _nameB);
+  }
 }
 
+
+////////////////////////////////////////////////////////////
+void Server::notifyDisconnection()
+{
+  sf::Packet packet;
+  packet << static_cast<sf::Int32>(ServerPacket::PlayerDisconnected);
+
+  // Envoi incertain
+  _socketA.send(packet);
+  _socketB.send(packet);
+}
 
 ////////////////////////////////////////////////////////////
 void Server::run()

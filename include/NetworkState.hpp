@@ -78,6 +78,8 @@ private:
   bool          _gameFinished;
   sf::Time      _gameFinishedTimer;
   IconButton    _speakerButton;
+  bool          _playerDisconnected;
+  sf::Time      _disconnectionTimer;
 };
 
 
