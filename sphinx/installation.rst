@@ -4,10 +4,11 @@ Installation
 
 Prérequis
 +++++++++
- * :download: `SFML 2.4.2 <https://www.sfml-dev.org/download/sfml/2.4.2/index-fr.php>`_
-	   
-* cmake
+
+* :download: `SFML 2.4.2 <https://www.sfml-dev.org/download/sfml/2.4.2/index-fr.php>`_
 * gcc
+* cmake
+
   
 Étapes
 ++++++
@@ -17,6 +18,7 @@ Prérequis
 * Placez-vous dans le répertoire mastermind
 * Ouvrez un terminal
 * Tapez les commandes suivantes
+    
 .. code-block:: Bash
 		
    mkdir build
