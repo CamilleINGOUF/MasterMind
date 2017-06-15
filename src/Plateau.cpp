@@ -58,24 +58,24 @@ void Plateau::setCorrection(const std::vector<Combinaison> combinaisons)
 Combinaison Plateau::getLastCombinaison() const
 {
   assert(_combinaisons.size() > 0);
-  return _combinaisons.back(); 
+  return _combinaisons.front(); 
 }
 
 ////////////////////////////////////////////////////////////
 void Plateau::addCombinaison(const Combinaison combinaison)
 {
-  // dans le cli, la combinaison la plus récente se trouvera en bas du plateau
+
   if (_combinaisons.size() < 12)
-    _combinaisons.push_back(combinaison);
+    _combinaisons.insert(_combinaisons.begin(),combinaison);
 }
 
 
 ////////////////////////////////////////////////////////////
 void Plateau::addCorrection(const Combinaison combinaison)
 {
-  // dans le cli, la corretion la plus récente se trouvera en bas du plateau
+
   if (_corrections.size() < 12)
-    _corrections.push_back(combinaison);
+    _corrections.insert(_corrections.begin(),combinaison);
 }
 
 
@@ -134,7 +134,7 @@ Combinaison Plateau::getCombinaison(unsigned index) const
 ////////////////////////////////////////////////////////////
 std::ostream & operator<<(std::ostream & os, const Plateau & p)
 {
-  for (unsigned i = 0; i < (12 - p.getNbCombinaisons()); i++)
+  for (unsigned i = 12; i < (12 - p.getNbCombinaisons()); i++)
   {
     for (int j = 0; j < 4; j++)
 	std::cout << ".";
@@ -147,7 +147,7 @@ std::ostream & operator<<(std::ostream & os, const Plateau & p)
     std::cout << std::endl;
   }
   
-  for (unsigned i = 0; i < p.getNbCombinaisons(); i++) 
+  for (unsigned i = p.getNbCombinaisons() - 1; i > 0; i--) 
     os << p.getCorrection(i)  << " " << p.getCombinaison(i) << std::endl;
     
   return os;

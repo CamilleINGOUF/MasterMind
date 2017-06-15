@@ -15,6 +15,16 @@ MusicPlayer::MusicPlayer()
 
 
 ////////////////////////////////////////////////////////////
+MusicPlayer::~MusicPlayer()
+{
+  if (_music.getStatus() != sf::SoundSource::Playing)
+    return;
+
+  _music.stop();
+}
+
+
+////////////////////////////////////////////////////////////
 void MusicPlayer::play(Musics::ID id)
 {
   if (!_music.openFromFile(_playlist[id]))
@@ -23,4 +33,24 @@ void MusicPlayer::play(Musics::ID id)
   _music.setVolume(100.f);
   _music.setLoop(true);
   _music.play();
+}
+
+
+////////////////////////////////////////////////////////////
+void MusicPlayer::mute()
+{
+  if (_music.getStatus() != sf::SoundSource::Playing)
+    return;
+
+  _music.setVolume(0.f);
+}
+
+
+////////////////////////////////////////////////////////////
+void MusicPlayer::unmute()
+{
+  if (_music.getStatus() != sf::SoundSource::Playing)
+    return;
+
+  _music.setVolume(100.f);
 }

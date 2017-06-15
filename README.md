@@ -10,10 +10,15 @@ Comment compiler et lancer le programme :
 - cd build
 - cmake .. && make
 - Lancement :
-  * Serveur : ./serveur.out <port>
+  * Server : ./server.out <port> <nbManches>
   * Client : ./client.out
 
-Le client doit renseigner l'adresse locale du serveur.
+Les DEUX clients doivent renseigner l'adresse locale du serveur et le port comme ceci : 192.162.XX.XXX:XXXX
+
+Une fois en jeu, chaque client reçoit une instruction en bas à gauche de son écran de jeu.
+Celui-ci doit soit :
+	 - Choisir une combinaison occulte pour le tour en cours;
+	 - Essayer de décoder la combinaison occulte.
 
 
 Spécifications :

@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Network/IpAddress.hpp>
 #include <SFML/System/Vector2.hpp>
 
@@ -24,14 +25,18 @@ NetworkState::NetworkState(GameContext* context) :
   _connected(false),
   _sendingAllowed(false),
   _statusText("En attente...", _context->fontManager->get(Fonts::Arial), 20),
-  _validateButton(_context->fontManager, "Validate"),
+  _validateButton(_context->fontManager, "Valider"),
   _board(_context->textureManager,_context->fontManager),
   _clientText("", _context->fontManager->get(Fonts::Arial), 20),
   _opponentText("", _context->fontManager->get(Fonts::Arial), 20),
   _gameFinished(false),
-  _gameFinishedTimer(sf::Time::Zero)
+  _gameFinishedTimer(sf::Time::Zero),
+  _speakerButton(sf::Sprite(_context->textureManager->get(Textures::SpeakerOff)),
+		 sf::Sprite(_context->textureManager->get(Textures::SpeakerOn))),
+  _playerDisconnected(false),
+  _disconnectionTimer(sf::Time::Zero)
 {
-  _backToMenu.setPosition(sf::Vector2f(50, 50));
+  _backToMenu.setPosition(sf::Vector2f(700, 20));
   _backToMenu.setCallback([this](){
     switchToMenuState();
   });
@@ -70,6 +75,17 @@ NetworkState::NetworkState(GameContext* context) :
 
   _clientText.setPosition(sf::Vector2f(0, 100));
   _opponentText.setPosition(sf::Vector2f(0, 120));
+
+  _speakerButton.setPosition(sf::Vector2f(10, 5));
+  _speakerButton.setCallback([this](){
+      if (_speakerButton.isActive())
+	_context->musicPlayer->unmute();
+      else
+	_context->musicPlayer->mute();
+  });
+
+  _statusText.setPosition(sf::Vector2f(5, 650));
+  _statusText.setStyle(sf::Text::Italic);
 }
 
 
@@ -85,18 +101,22 @@ void NetworkState::init()
 {
   _context->musicPlayer->play(Musics::InGame);
   _statusText.setString("En attente...");
-  _connected      = false;
-  _sendingAllowed = false;
-  _clientScore    = 0;
-  _opponentScore  = 0;
-  _opponentName   = "?";
-  _gameFinished   = false;
-  _gameFinishedTimer = sf::Time::Zero;
-  _retryTimer        = sf::Time::Zero;
-  _retryCount        = 0;
-  _timeoutTimer = sf::seconds(0);
+  _connected          = false;
+  _sendingAllowed     = false;
+  _clientScore        = 0;
+  _opponentScore      = 0;
+  _opponentName       = "?";
+  _gameFinished       = false;
+  _gameFinishedTimer  = sf::Time::Zero;
+  _retryTimer         = sf::Time::Zero;
+  _retryCount         = 0;
+  _timeoutTimer       = sf::seconds(0);
+  _playerDisconnected = false;
+  _disconnectionTimer  = sf::seconds(0);
   
+  _speakerButton.activate();
   refreshScores();
+  _board.empty();
 }
 
 
@@ -111,7 +131,6 @@ void NetworkState::prepare()
   if (_socket.connect(_context->ip, _context->port) != sf::Socket::Done)
   {
     std::cerr << "Impossible de se connecter !" << std::endl;
-    _statusText.setString("Erreur de connexion");
     return;
   }
 
@@ -168,6 +187,18 @@ void NetworkState::update(sf::Time dt)
     return;
   }
 
+  if (_playerDisconnected)
+  {
+    if (_disconnectionTimer >= sf::seconds(10.f))
+    {
+      switchToMenuState();
+      return;
+    }
+    
+    _disconnectionTimer += dt;
+    return;
+  }
+
   // Tentative de reconnection
   _retryTimer += dt;
 
@@ -175,6 +206,9 @@ void NetworkState::update(sf::Time dt)
   {
     _retryTimer = sf::Time::Zero;
     _retryCount++;
+    std::stringstream sstream;
+    sstream << "Retry (" << _retryCount << ")";
+    _statusText.setString(sstream.str());
    
     if (_retryCount == 5)
     {
@@ -190,6 +224,7 @@ void NetworkState::update(sf::Time dt)
 ////////////////////////////////////////////////////////////
 void NetworkState::handleEvent(sf::Event& event)
 {
+  _speakerButton.catchEvent(event);
   _backToMenu.catchEvent(event);
   _validateButton.catchEvent(event);
   _board.catchEvent(event);
@@ -201,12 +236,13 @@ void NetworkState::draw()
 {
   sf::RenderWindow* window = _context->window;
 
-  window->draw(_backToMenu);
   window->draw(_board);
+  window->draw(_backToMenu);
   window->draw(_validateButton);
   window->draw(_statusText);
   window->draw(_clientText);
   window->draw(_opponentText);
+  window->draw(_speakerButton);
 }
 
 
@@ -328,7 +364,12 @@ void NetworkState::handlePacket(sf::Int32 packetType, sf::Packet& packet)
     _gameFinished = true;
     _statusText.setString("Le gagnant est: " + msg);
   } break;
-  
+
+  case ServerPacket::PlayerDisconnected :
+  {
+    _playerDisconnected = true;
+    _statusText.setString("Un joueur est parti ! Fin de la partie...");
+  } break;
   }
 }
 

@@ -18,7 +18,7 @@ Button::Button() :
 ////////////////////////////////////////////////////////////
 Button::Button(FontManager* fontManager, const std::string& label) :
   _fontManager(fontManager),
-  _background(sf::Color::Red),
+  _background(sf::Color(162,38,51)),
   _textColor(sf::Color::White)
 {
   _text.setFont(_fontManager->get(Fonts::Arial));
@@ -33,8 +33,8 @@ Button::Button(FontManager* fontManager, const std::string& label) :
 void Button::updateGeometry()
 {
   sf::FloatRect bounds = _text.getGlobalBounds();
-  _shape.setSize(sf::Vector2f(bounds.width, bounds.height));
-  _shape.setPosition(bounds.left, bounds.top);
+  _shape.setSize(sf::Vector2f(bounds.width + 10, bounds.height + 10));
+  _shape.setPosition(bounds.left - 5, bounds.top - 5);
 }
 
 
@@ -47,7 +47,7 @@ void Button::catchEvent(sf::Event &event)
   if (event.mouseButton.button != sf::Mouse::Left)
     return;
 
-  sf::FloatRect buttonRect = _text.getGlobalBounds();
+  sf::FloatRect buttonRect = _shape.getGlobalBounds();
 
   if (buttonRect.contains(event.mouseButton.x, event.mouseButton.y))
   {
@@ -63,8 +63,8 @@ void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const
   if (!_text.getFont())
     throw std::runtime_error("Button with invalid font !");
 
-  target.draw(_shape);
-  target.draw(_text);
+  target.draw(_shape, states);
+  target.draw(_text, states);
 }
 
 

@@ -181,24 +181,6 @@ bool Combinaison::isValid(const std::string& input)
 
 
 ////////////////////////////////////////////////////////////
-Combinaison Combinaison::fromInput()
-{
-  std::string input;
-
-  do
-  {
-    std::cout << "Saisir une combinaison: ";
-    std::getline(std::cin, input);
-  }
-  while (!Combinaison::isValid(input));
-
-  Combinaison combi;
-  combi.setPions(input);
-  return combi;
-}
-
-
-////////////////////////////////////////////////////////////
 bool Combinaison::isColor(const char c)
 { 
   return c == 'r' or c == 'v' or c == 'b' or c == 'm' or c == 'o' or

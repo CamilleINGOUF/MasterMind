@@ -6,7 +6,6 @@
 #include "AssetManager.hpp"
 #include "GameState.hpp"
 
-
 #include <SFML/Window/WindowStyle.hpp>
 
 // Durée pour 60 FPS
@@ -29,13 +28,6 @@ App::App() :
     
   _stateManager.registerStates();
   _stateManager.setState(State::Menu);
-}
-
-
-////////////////////////////////////////////////////////////
-App::~App()
-{
-  
 }
 
 

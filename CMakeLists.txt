@@ -2,7 +2,6 @@
 cmake_minimum_required(VERSION 3.0)
 project(MASTERMIND)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra")
-set(CMAKE_BUILD_TYPE Debug) # TODO: À enlever
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 # Documentation (Doxygen)
@@ -80,11 +79,11 @@ add_executable( client.out src/main_client.cpp
   src/Combinaison.cpp
   src/Plateau.cpp
   src/PionDrawable.cpp
-  src/Utils.cpp
   src/PanelPions.cpp
   src/Board.cpp
   src/correctionDrawable.cpp
   src/MusicPlayer.cpp
+  src/IconButton.cpp
 )
 
 # Éxécutable serveur

@@ -30,6 +30,14 @@ void GameStateManager::registerStates()
   _context->fontManager->load(Fonts::Arial, "../media/fonts/arial.ttf");
   _context->textureManager->load(Textures::Coin, "../media/images/tileset.png");
   _context->textureManager->load(Textures::PanelPions, "../media/images/mastermind_menu.png");
+  _context->textureManager->load(Textures::BoardCombinaisons, "../media/images/backgroundCombinaisons.png");
+  _context->textureManager->load(Textures::BoardCorrections, "../media/images/backgroundCorrections.png");
+  _context->textureManager->load(Textures::BoardBackground, "../media/images/backgroundMastermind.png");
+  _context->textureManager->load(Textures::BoardCoinsChoosen, "../media/images/backgroundCombiChoosen.png");
+  _context->textureManager->load(Textures::Title, "../media/images/title.png");
+  _context->textureManager->load(Textures::SpeakerOn, "../media/images/unmute.png");
+  _context->textureManager->load(Textures::SpeakerOff, "../media/images/mute.png");
+  
   
   _gameStates[State::Menu]    = std::make_unique<MenuState>(_context);
   _gameStates[State::Joining] = std::make_unique<JoiningState>(_context);

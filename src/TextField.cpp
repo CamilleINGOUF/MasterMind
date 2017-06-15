@@ -23,8 +23,8 @@ TextField::TextField(FontManager* fontManager, const std::string& text,
 		     const unsigned maxLength) :
   _fontManager(fontManager),
   _maxLength(maxLength),
-  _backgroundColor(sf::Color::Red),
-  _outlineColor(sf::Color::White),
+  _backgroundColor(sf::Color(162,38,51)),
+  _outlineColor(sf::Color(139,155,180)),
   _isActive(false)
 {
   _background.setSize(sf::Vector2f(200, 25));
@@ -45,6 +45,8 @@ void TextField::catchEvent(sf::Event& event)
   if (event.type != sf::Event::TextEntered
       and event.type != sf::Event::MouseButtonPressed)
     return;
+  
+    
 
   // Check du focus
   if (event.type == sf::Event::MouseButtonPressed)
@@ -56,10 +58,15 @@ void TextField::catchEvent(sf::Event& event)
 	mouseY >= _background.getPosition().y &&
 	mouseX <= _background.getPosition().x + _background.getSize().x &&
 	mouseY <= _background.getPosition().y + _background.getSize().y)
+      {
           _isActive = true;
-      else
+	  _background.setOutlineColor(sf::Color::White);
+      }
+    else
+      {
 	  _isActive = false;
-
+	  _background.setOutlineColor(_outlineColor);
+      }
     return;
   }
 

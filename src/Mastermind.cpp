@@ -87,9 +87,20 @@ void Mastermind::setNomJoueurB(const std::string& nom)
 
 
 ////////////////////////////////////////////////////////////
-const std::string& Mastermind::getGagnantNom() const
+const std::string Mastermind::getGagnantNom()
 {
-  return _gagnantNom;
+  if(_scoreA < _scoreB)
+    {
+      _gagnantJoueur = Joueur::A;
+      return _nomJoueurA;
+    }
+  else if(_scoreA > _scoreB)
+    {
+      _gagnantJoueur = Joueur::B;
+      return _nomJoueurB;
+    }
+  return _nomJoueurB + " et " + _nomJoueurA; 
+  
 }
 
 
@@ -213,17 +224,6 @@ bool Mastermind::decodeurGagnant()
   
   if (_codeSecret == _plateau.getLastCombinaison())
   {
-    if (_decodeur == Joueur::A)
-    {
-      _gagnantNom    = _nomJoueurA;
-      _gagnantJoueur = Joueur::A;
-    }
-    else
-    {
-      _gagnantNom    = _nomJoueurB;
-      _gagnantJoueur = Joueur::B;
-    }
-
     return true;
   }
 
@@ -276,10 +276,7 @@ void Mastermind::corrigerDerniereCombinaison()
   Combinaison correction;
   std::vector<Pion> pions;
 
-  std::cout << "CORRECTION DERNIERE COMBINAISON" << std::endl;
-  std::cout << _codeSecret.toString() << std::endl;
-  std::cout << _plateau.getLastCombinaison() << std::endl;
-  
+ 
   for (int i = 0; i < 4;i++)
   {
     if (_codeSecret.getPions()[i] == _plateau.getLastCombinaison().getPions()[i])
@@ -298,10 +295,8 @@ void Mastermind::corrigerDerniereCombinaison()
     }
   }
 
-  std::cout << "Correction[pions]: " << pions << std::endl;
   correction.setPions(pions);
   _plateau.addCorrection(correction);
-  std::cout << "Correction: " << correction.toString() << std::endl;
 }
 
 
