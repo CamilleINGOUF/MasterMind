@@ -126,14 +126,14 @@ void Server::updateTour()
   {
     if (_game.getDecodeur() == Joueur::A)
     {
-      broadcastMessage(_nameB + " choisit la combinaison secrète !");
+      broadcastMessage(_nameB + " choisit la combinaison occulte !");
       Combinaison combi = requestCombinaison(Joueur::B, true);
       _game.setCodeSecret(combi);
       broadcastMessage(_nameB + " a choisit le code secret !");
     }
     else
     {
-      broadcastMessage(_nameA + " choisit la combinaison secrète !");
+      broadcastMessage(_nameA + " choisit la combinaison occulte !");
       Combinaison combi = requestCombinaison(Joueur::A, true);
       _game.setCodeSecret(combi);
       broadcastMessage(_nameA + " a choisit le code secret !");

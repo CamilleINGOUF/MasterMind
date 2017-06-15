@@ -37,7 +37,7 @@ Board::Board(TextureManager* text, FontManager* font) :
   for (int i = 0; i < 48; i++)
   {
     _correctionsD.push_back(CorrectionDrawable({Couleur::vide}, _textureManager));
-    _correctionsD[i].setPosition(sf::Vector2f(indexX*20 + 270, indexY * 48 + 50));
+    _correctionsD[i].setPosition(sf::Vector2f(indexX*20 + 270, (indexY - 1) * 48 + 50));
 
       
     _combinaisonsD.push_back(PionDrawable({Couleur::vide}, _textureManager));
