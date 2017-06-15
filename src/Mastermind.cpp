@@ -87,9 +87,20 @@ void Mastermind::setNomJoueurB(const std::string& nom)
 
 
 ////////////////////////////////////////////////////////////
-const std::string& Mastermind::getGagnantNom() const
+const std::string Mastermind::getGagnantNom()
 {
-  return _gagnantNom;
+  if(_scoreA > _scoreB)
+    {
+      _gagnantJoueur = Joueur::A;
+      return _nomJoueurA;
+    }
+  else if(_scoreA < _scoreB)
+    {
+      _gagnantJoueur = Joueur::B;
+      return _nomJoueurB;
+    }
+  return _nomJoueurB + " et " + _nomJoueurA; 
+  
 }
 
 
@@ -213,17 +224,6 @@ bool Mastermind::decodeurGagnant()
   
   if (_codeSecret == _plateau.getLastCombinaison())
   {
-    if (_decodeur == Joueur::A)
-    {
-      _gagnantNom    = _nomJoueurA;
-      _gagnantJoueur = Joueur::A;
-    }
-    else
-    {
-      _gagnantNom    = _nomJoueurB;
-      _gagnantJoueur = Joueur::B;
-    }
-
     return true;
   }
 

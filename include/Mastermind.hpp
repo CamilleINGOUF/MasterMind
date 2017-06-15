@@ -111,7 +111,7 @@ public:
   /// \return le nom du gagnant
   ///
   ///////////////////////////////////////////////////////////
-  const std::string& getGagnantNom() const;
+  const std::string getGagnantNom();
 
   ////////////////////////////////////////////////////////////
   /// \brief Définit le nom du gagnant
