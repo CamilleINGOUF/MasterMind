@@ -54,7 +54,7 @@ void MenuState::init()
 ////////////////////////////////////////////////////////////
 void MenuState::update(sf::Time dt)
 {
-  
+  (void)dt;
 }
 
 

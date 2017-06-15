@@ -15,6 +15,16 @@ MusicPlayer::MusicPlayer()
 
 
 ////////////////////////////////////////////////////////////
+MusicPlayer::~MusicPlayer()
+{
+  if (_music.getStatus() != sf::SoundSource::Playing)
+    return;
+
+  _music.stop();
+}
+
+
+////////////////////////////////////////////////////////////
 void MusicPlayer::play(Musics::ID id)
 {
   if (!_music.openFromFile(_playlist[id]))
