@@ -58,22 +58,22 @@ void Plateau::setCorrection(const std::vector<Combinaison> combinaisons)
 Combinaison Plateau::getLastCombinaison() const
 {
   assert(_combinaisons.size() > 0);
-  return _combinaisons.back(); 
+  return _combinaisons.front(); 
 }
 
 ////////////////////////////////////////////////////////////
 void Plateau::addCombinaison(const Combinaison combinaison)
 {
-  // dans le cli, la combinaison la plus récente se trouvera en bas du plateau
+
   if (_combinaisons.size() < 12)
-    _combinaisons.push_back(combinaison);
+    _combinaisons.insert(_combinaisons.begin(),combinaison);
 }
 
 
 ////////////////////////////////////////////////////////////
 void Plateau::addCorrection(const Combinaison combinaison)
 {
-  // dans le cli, la corretion la plus récente se trouvera en bas du plateau
+
   if (_corrections.size() < 12)
     _corrections.insert(_corrections.begin(),combinaison);
 }
