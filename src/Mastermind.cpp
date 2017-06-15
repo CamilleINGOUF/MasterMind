@@ -89,12 +89,12 @@ void Mastermind::setNomJoueurB(const std::string& nom)
 ////////////////////////////////////////////////////////////
 const std::string Mastermind::getGagnantNom()
 {
-  if(_scoreA > _scoreB)
+  if(_scoreA < _scoreB)
     {
       _gagnantJoueur = Joueur::A;
       return _nomJoueurA;
     }
-  else if(_scoreA < _scoreB)
+  else if(_scoreA > _scoreB)
     {
       _gagnantJoueur = Joueur::B;
       return _nomJoueurB;
