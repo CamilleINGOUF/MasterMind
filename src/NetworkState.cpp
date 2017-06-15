@@ -32,7 +32,9 @@ NetworkState::NetworkState(GameContext* context) :
   _gameFinished(false),
   _gameFinishedTimer(sf::Time::Zero),
   _speakerButton(sf::Sprite(_context->textureManager->get(Textures::SpeakerOff)),
-		 sf::Sprite(_context->textureManager->get(Textures::SpeakerOn)))
+		 sf::Sprite(_context->textureManager->get(Textures::SpeakerOn))),
+  _playerDisconnected(false),
+  _disconnectionTimer(sf::Time::Zero)
 {
   _backToMenu.setPosition(sf::Vector2f(700, 20));
   _backToMenu.setCallback([this](){
@@ -83,6 +85,7 @@ NetworkState::NetworkState(GameContext* context) :
   });
 
   _statusText.setPosition(sf::Vector2f(5, 650));
+  _statusText.setStyle(sf::Text::Italic);
 }
 
 
@@ -98,18 +101,20 @@ void NetworkState::init()
 {
   _context->musicPlayer->play(Musics::InGame);
   _statusText.setString("En attente...");
-  _connected      = false;
-  _sendingAllowed = false;
-  _clientScore    = 0;
-  _opponentScore  = 0;
-  _opponentName   = "?";
-  _gameFinished   = false;
-  _gameFinishedTimer = sf::Time::Zero;
-  _retryTimer        = sf::Time::Zero;
-  _retryCount        = 0;
-  _timeoutTimer = sf::seconds(0);
-  _speakerButton.activate();
+  _connected          = false;
+  _sendingAllowed     = false;
+  _clientScore        = 0;
+  _opponentScore      = 0;
+  _opponentName       = "?";
+  _gameFinished       = false;
+  _gameFinishedTimer  = sf::Time::Zero;
+  _retryTimer         = sf::Time::Zero;
+  _retryCount         = 0;
+  _timeoutTimer       = sf::seconds(0);
+  _playerDisconnected = false;
+  _disconnectionTimer  = sf::seconds(0);
   
+  _speakerButton.activate();
   refreshScores();
 }
 
@@ -178,6 +183,18 @@ void NetworkState::update(sf::Time dt)
       _timeoutTimer += dt;
     }
 
+    return;
+  }
+
+  if (_playerDisconnected)
+  {
+    if (_disconnectionTimer >= sf::seconds(10.f))
+    {
+      switchToMenuState();
+      return;
+    }
+    
+    _disconnectionTimer += dt;
     return;
   }
 
@@ -346,7 +363,12 @@ void NetworkState::handlePacket(sf::Int32 packetType, sf::Packet& packet)
     _gameFinished = true;
     _statusText.setString("Le gagnant est: " + msg);
   } break;
-  
+
+  case ServerPacket::PlayerDisconnected :
+  {
+    _playerDisconnected = true;
+    _statusText.setString("Un joueur est parti ! Fin de la partie...");
+  } break;
   }
 }
 
