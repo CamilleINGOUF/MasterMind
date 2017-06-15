@@ -116,6 +116,7 @@ void NetworkState::init()
   
   _speakerButton.activate();
   refreshScores();
+  _board.empty();
 }
 
 
